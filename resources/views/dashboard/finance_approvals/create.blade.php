@@ -134,7 +134,7 @@
                                     <h5 id="financing_entity_inp" class="mb-0">
                                     </h5>
                                 </div>
-                                
+
                                 <div id="car_name_section" class="mb-3 d-flex">
                                     <h4 class="fw-bold">{{ __('Car name') }} : </h4>
                                     <h5 id="car_name_inp" class="mb-0"></h5>
@@ -153,7 +153,7 @@
                                 <!--    <h4 class="fw-bold">{{ __('Car color') }} : </h4>-->
                                 <!--    <h5 id="car_color_inp" class="mb-0"></h5>-->
                                 <!--</div>-->
-                            
+
                                 <div class="mb-3 d-flex">
                                     <h4 class="fw-bold d-flex">{{ __('Order Type') }} :</h4>
                                     <h5 id="order_type" class="mb-0"></h5>
@@ -233,7 +233,7 @@
                         <hr>
                         <div class="row mb-10">
                             <!-- begin :: Column -->
-                            <div class="col-md-12 fv-row text-center">
+                            <div class="col-md-4 fv-row">
                                 <label class="fs-5 fw-bold mb-2 ">{{ __('Approval date') }}</label>
                                 <div class="form-floating">
                                     <div class="form-floating">
@@ -246,6 +246,36 @@
                                 <p class="invalid-feedback" id="approval_date"></p>
 
                             </div>
+                            <!-- begin :: Column -->
+                            <div class="col-md-4 fv-row">
+
+                                <label class="fs-5 fw-bold mb-2">{{ __('Bank') }}</label>
+                                <select class="form-select" data-control="select2" name="bank_id" id="bank-sp"
+                                    data-placeholder="{{ __('Choose the bank') }}"
+                                    data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}">
+                                    <option selected></option>
+                                    @foreach ($banks as $bank)
+                                        <option value="{{ $bank->id }}"> {{ $bank->name }} </option>
+                                    @endforeach
+                                </select>
+                                <p class="invalid-feedback" id="bank_id"></p>
+
+                            </div>
+                            <!-- end   :: Column -->
+                              <!-- begin :: Column -->
+                        <div class="col-md-4 fv-row">
+
+                            <label class="fs-5 fw-bold mb-2">{{ __('The agency') }}</label>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="agency"
+                                    placeholder="example" />
+                                <label for="name_ar_inp">{{ __('Enter the agency name') }}</label>
+                            </div>
+                            <p class="invalid-feedback" id="agency"></p>
+
+
+                        </div>
+                        <!-- end   :: Column -->
                         </div>
                         <hr style="border-top: 2px solid #000; font-weight: bold;">
                         <div class="d-flex">
@@ -280,7 +310,7 @@
                                     </div>
 
                                     <!-- begin :: Column -->
-                                    <div class="col-md-4 fv-row">
+                                    {{-- <div class="col-md-4 fv-row">
 
                                         <label class="fs-5 fw-bold mb-2">{{ __('Plate no cost') }}</label>
                                         <div class="form-floating">
@@ -290,7 +320,7 @@
                                         </div>
                                         <p class="invalid-feedback" id="plate_no_cost"></p>
 
-                                    </div>
+                                    </div> --}}
 
 
 
@@ -387,13 +417,12 @@
                                         <!-- begin :: Column -->
                                         <div class="col-md-4 fv-row">
 
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Insurance cost') }}</label>
+                                            <label class="fs-5 fw-bold mb-2">{{ __('traffic cost') }}</label>
                                             <div class="form-floating">
                                                 <input type="number" class="form-control calculate-profit"
                                                     id="insurance_cost_inp" name="insurance_cost"
                                                     placeholder="example" />
-                                                <label
-                                                    for="insurance_cost_inp">{{ __('Enter the insurance cost') }}</label>
+                                                <label for="insurance_cost_inp">{{ __('Enter the traffic cost') }}</label>
                                             </div>
                                             <p class="invalid-feedback" id="insurance_cost"></p>
 
@@ -441,7 +470,7 @@
                                         <!-- end   :: Column -->
 
                                         <!-- begin :: Column -->
-                                        <div  style='display:none;' class="col-md-4 fv-row">
+                                        <div style='display:none;' class="col-md-4 fv-row">
 
                                             <label class="fs-5 fw-bold mb-2">{{ __('Extra details') }}</label>
                                             <div class="form-floating">

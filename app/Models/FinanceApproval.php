@@ -27,6 +27,8 @@ class FinanceApproval extends Model
         'extra_details',
         'delegate_id',
         'order_id',
+        'bank_id',
+        'agency'
     ];
 
     protected $casts   = [

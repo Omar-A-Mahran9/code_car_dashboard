@@ -83,23 +83,22 @@
                                         {{ $financeApproval->order['orderDetailsCar']->bank->name ?? __($financeApproval->order['orderDetailsCar']->payment_type) }}
                                     </h5>
                                 </div>
-                                @if($financeApproval->order->car)
-                                <div class="mb-3 d-flex">
-                                    <h4 class="fw-bold">{{ __('Car name') }} : </h4>
-                                    <h5 id="car_name_inp" class="mb-0">
-                                        {{ $financeApproval->order->car->name }}
-                                    </h5>
-                                </div>
+                                @if ($financeApproval->order->car)
+                                    <div class="mb-3 d-flex">
+                                        <h4 class="fw-bold">{{ __('Car name') }} : </h4>
+                                        <h5 id="car_name_inp" class="mb-0">
+                                            {{ $financeApproval->order->car->name }}
+                                        </h5>
+                                    </div>
                                 @endif
-                             @if($financeApproval->order->color)
-
-                                <div class="mb-3 d-flex">
-                                    <h4 class="fw-bold">{{ __('Car color') }} : </h4>
-                                    <h5 id="car_color_inp" class="mb-0">
-                                        {{ $financeApproval->order->color->name}}
-                                    </h5>
-                                </div>
-                             @endif
+                                @if ($financeApproval->order->color)
+                                    <div class="mb-3 d-flex">
+                                        <h4 class="fw-bold">{{ __('Car color') }} : </h4>
+                                        <h5 id="car_color_inp" class="mb-0">
+                                            {{ $financeApproval->order->color->name }}
+                                        </h5>
+                                    </div>
+                                @endif
 
                                 <div class="mb-3 d-flex">
                                     <h4 class="fw-bold d-flex">{{ __('Order Type') }} :</h4>
@@ -158,19 +157,18 @@
                             <!-- end   :: Column -->
 
                             <!-- begin :: Column -->
-                         @if($financeApproval->order->car)
+                            @if ($financeApproval->order->car)
+                                <div class="col-md-2 fv-row">
 
-                            <div class="col-md-2 fv-row">
+                                    {{-- <label class="fs-5 fw-bold mb-2">{{ __('Car name') }}</label> --}}
+                                    <div class="form-floating">
+                                        <input type="text" hidden class="form-control form-control-solid" id="car_name"
+                                            name="" value="{{ $financeApproval->order->car->name }}"
+                                            placeholder="example" disabled readonly>
+                                    </div>
 
-                                {{-- <label class="fs-5 fw-bold mb-2">{{ __('Car name') }}</label> --}}
-                                <div class="form-floating">
-                                    <input type="text" hidden class="form-control form-control-solid" id="car_name"
-                                        name="" value="{{ $financeApproval->order->car->name }}"
-                                        placeholder="example" disabled readonly>
                                 </div>
-
-                            </div>
-                            <!-- end   :: Column -->
+                                <!-- end   :: Column -->
                             @endif
                             <!-- begin :: Column -->
                             <div class="col-md-2 fv-row">
@@ -189,7 +187,7 @@
                         <hr>
                         <div class="row mb-10">
                             <!-- begin :: Column -->
-                            <div class="col-md-12 fv-row text-center">
+                            <div class="col-md-4 fv-row text-center">
 
                                 <label class="fs-5 fw-bold mb-2">{{ __('Approval date') }}</label>
                                 <div class="form-floating">
@@ -203,6 +201,41 @@
                                 </div>
                                 <p class="invalid-feedback" id="approval_date"></p>
                             </div>
+                            <!-- begin :: Column -->
+                            <div class="col-md-4 fv-row">
+
+                                <label class="fs-5 fw-bold mb-2">{{ __('Bank') }}</label>
+                                <select class="form-select" data-control="select2" name="bank_id" id="banks-sp"
+                                    data-placeholder="{{ __('Select bank') }}"
+                                    data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}">
+                                    <option selected></option>
+                                    @foreach ($banks as $bank)
+                                        <option value="{{ $bank->id }}"
+                                            {{ $bank->id == $financeApproval->bank_id ? 'selected' : '' }}>
+                                            {{ $bank->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                <p class="invalid-feedback" id="bank_id"></p>
+
+                            </div>
+                            <!-- end   :: Column -->
+
+                                        <!-- begin :: Column -->
+                             <div class="col-md-4 fv-row">
+
+                            <label class="fs-5 fw-bold mb-2">{{ __('The agency') }}</label>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="agency"
+                                    placeholder="example"   value="{{ $financeApproval->agency }}"/>
+                                <label for="name_ar_inp">{{ __('Enter the agency name') }}</label>
+                            </div>
+                            <p class="invalid-feedback" id="agency"></p>
+
+
+                        </div>
+                        <!-- end   :: Column -->
                         </div>
                         <hr style="border-top: 2px solid #000; font-weight: bold;">
                         <div class="d-flex">
@@ -230,7 +263,7 @@
 
 
                                     <!-- end   :
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        : Column -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            : Column -->
                                     <div class="col-md-4 fv-row">
 
                                         <label class="fs-5 fw-bold mb-2">{{ __('Tax discount') }}
@@ -246,7 +279,7 @@
 
                                     </div>
 
-                                    <div class="col-md-4 fv-row">
+                                    {{-- <div class="col-md-4 fv-row">
 
                                         <label class="fs-5 fw-bold mb-2">{{ __('Plate no cost') }}</label>
                                         <div class="form-floating">
@@ -257,7 +290,7 @@
                                         </div>
                                         <p class="invalid-feedback" id="plate_no_cost"></p>
 
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                                 <!-- end   :: Row -->
@@ -433,18 +466,19 @@
                                     <!--    <p class="invalid-feedback" id="extra_details"></p>-->
                                     <!--</div>-->
                                     <!-- end   :: Column -->
-                                     <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
 
-                                            <label class="fs-5 fw-bold mb-2">{{ __('IBAN') }}</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control calculate-profit"
-                                                    id="IBAN-inp" name="IBAN" value="{{ $financeApproval->IBAN }}" placeholder="example" />
-                                                <label for="IBAN">{{ __('IBAN') }}</label>
-                                            </div>
-                                            <p class="invalid-feedback" id="IBAN"></p>
+                                        <label class="fs-5 fw-bold mb-2">{{ __('IBAN') }}</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control calculate-profit" id="IBAN-inp"
+                                                name="IBAN" value="{{ $financeApproval->IBAN }}"
+                                                placeholder="example" />
+                                            <label for="IBAN">{{ __('IBAN') }}</label>
                                         </div>
-                                        <!-- end   :: Column -->
+                                        <p class="invalid-feedback" id="IBAN"></p>
+                                    </div>
+                                    <!-- end   :: Column -->
 
                                     <!-- begin :: Column -->
 
@@ -559,7 +593,7 @@
                 },
                 success: function(data) {
                     let commisiioninp = document.getElementById("commission_inp").value = data.data.commission;
-                                        let IBAN = document.getElementById("IBAN-inp").value = data.data.IBAN;
+                    let IBAN = document.getElementById("IBAN-inp").value = data.data.IBAN;
 
                     calculate();
                 },
@@ -573,71 +607,72 @@
         let totalRemainingPriceDiscountAmount = 0;
         let totalRemainingPriceCashbackAmount = 0;
 
-function calculate() {
-    let amount =
-        parseFloat(document.getElementById("approval_amount_inp").value) || 0;
-    let plateNumberAmount =
-        parseFloat(document.getElementById("plate_no_cost_inp").value) || 0;
-    let discountPercent =
-        parseFloat(document.getElementById("discount_percent_inp").value) || 0;
-    let cashbackPercent =
-        parseFloat(document.getElementById("cashback_percent_inp").value) || 0;
-    let insuranceCost =
-        parseFloat(document.getElementById("insurance_cost_inp").value) || 0;
+        function calculate() {
+            let amount =
+                parseFloat(document.getElementById("approval_amount_inp").value) || 0;
+            // let plateNumberAmount =
+            //     parseFloat(document.getElementById("plate_no_cost_inp").value) || 0;
+            let discountPercent =
+                parseFloat(document.getElementById("discount_percent_inp").value) || 0;
+            let cashbackPercent =
+                parseFloat(document.getElementById("cashback_percent_inp").value) || 0;
+            let insuranceCost =
+                parseFloat(document.getElementById("insurance_cost_inp").value) || 0;
 
-    let cost = parseFloat(document.getElementById("cost_inp").value) || 0;
-    let deliveryCost =
-        parseFloat(document.getElementById("delivery_cost_inp").value) || 0;
-    let commission =
-        parseFloat(document.getElementById("commission_inp").value) || 0;
+            let cost = parseFloat(document.getElementById("cost_inp").value) || 0;
+            let deliveryCost =
+                parseFloat(document.getElementById("delivery_cost_inp").value) || 0;
+            let commission =
+                parseFloat(document.getElementById("commission_inp").value) || 0;
 
-    // let extradetails =
-    //     parseFloat(document.getElementById("extra_details_inp").value) || 0;
- 
-    let profitValues = [
-        insuranceCost,
-        cost,
-        deliveryCost,
-        commission,
-        // extradetails,
-    ];
+            // let extradetails =
+            //     parseFloat(document.getElementById("extra_details_inp").value) || 0;
 
-    // calculate amount tax
-    let tax = parseInt(document.getElementById("tax").value);
-    toatal_price_add_plate = amount + plateNumberAmount;
+            let profitValues = [
+                insuranceCost,
+                cost,
+                deliveryCost,
+                commission,
+                // extradetails,
+            ];
 
-    // totalAbstractAmountPlate = amount - plateNumberAmount;
-    taxto = tax / 100 + 1;
-    totalTax = Math.round(amount - amount / taxto);
-    let carmaincost = document.getElementById("Main_car_cost_inp").value;
+            // calculate amount tax
+            let tax = parseInt(document.getElementById("tax").value);
+            toatal_price_add_plate = amount ;
 
-    totalRemainingPrice = amount - totalTax - carmaincost;
-    document.getElementById("tax_discount_inp").value = totalTax;
+            // totalAbstractAmountPlate = amount - plateNumberAmount;
+            taxto = tax / 100 + 1;
+            totalTax = Math.round(amount - amount / taxto);
+            let carmaincost = document.getElementById("Main_car_cost_inp").value;
 
-    // calculate cashback amount
-    cashbackAmount = (toatal_price_add_plate * cashbackPercent) / 100;
-    totalRemainingPriceCashbackAmount = totalRemainingPrice - cashbackAmount;
-    document.getElementById("cashback_amount_inp").value = cashbackAmount;
-    // calculate discount amount
-    discountAmount = (toatal_price_add_plate * discountPercent) / 100;
-    totalRemainingPriceDiscountAmount =
-        totalRemainingPriceCashbackAmount - discountAmount;
-    document.getElementById("discount_amount_inp").value = discountAmount;
-    // calculate profit
-    let sum = profitValues.reduce((total, value) => total + value, 0);
-    // document.getElementById("profit_inp").value = Math.max(
-    //     totalRemainingPriceDiscountAmount - sum,
-    //     0
-    // ).toFixed(2);
+            totalRemainingPrice = amount - totalTax - carmaincost;
+            document.getElementById("tax_discount_inp").value = totalTax;
 
-    document.getElementById("profit_inp").value = document.getElementById(
-        "profit_inp"
-    ).value = Math.max(totalRemainingPriceDiscountAmount - sum, 0).toFixed(2);
+            // calculate cashback amount
+            cashbackAmount = (toatal_price_add_plate * cashbackPercent) / 100;
+            totalRemainingPriceCashbackAmount = totalRemainingPrice - cashbackAmount;
+            document.getElementById("cashback_amount_inp").value = cashbackAmount;
+            // calculate discount amount
+            discountAmount = (toatal_price_add_plate * discountPercent) / 100;
+            totalRemainingPriceDiscountAmount =
+                totalRemainingPriceCashbackAmount - discountAmount;
+            document.getElementById("discount_amount_inp").value = discountAmount;
+            // calculate profit
+            let sum = profitValues.reduce((total, value) => total + value, 0);
+            // document.getElementById("profit_inp").value = Math.max(
+            //     totalRemainingPriceDiscountAmount - sum,
+            //     0
+            // ).toFixed(2);
 
-    document.getElementById("result").innerHTML = parseFloat(
-        Math.max(totalRemainingPriceDiscountAmount - sum, 0).toFixed(2)
-    ).toString();
-}        $(document).ready(() => {
+            document.getElementById("profit_inp").value = document.getElementById(
+                "profit_inp"
+            ).value = Math.max(totalRemainingPriceDiscountAmount - sum, 0).toFixed(2);
+
+            document.getElementById("result").innerHTML = parseFloat(
+                Math.max(totalRemainingPriceDiscountAmount - sum, 0).toFixed(2)
+            ).toString();
+        }
+        $(document).ready(() => {
             $("#approval_date").val("{{ $financeApproval->approval_date }}").trigger('change');
         })
     </script>

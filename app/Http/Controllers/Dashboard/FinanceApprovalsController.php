@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreFinanceApprovalsRequest;
 use App\Http\Requests\Dashboard\UpdateFinanceApprovalsRequest;
+use App\Models\Bank;
 use App\Models\Delegate;
 use App\Models\FinanceApproval;
 use App\Models\Order;
@@ -78,8 +79,10 @@ class FinanceApprovalsController extends Controller
       
         $orders = Order::get();
         $delegates = Delegate::get();
-        return view('dashboard.finance_approvals.create', compact('orders', 'delegates'));
-    }
+        $banks = Bank::get();
+
+        return view('dashboard.finance_approvals.create', compact('orders', 'delegates','banks'));
+     }
 
     public function financeapprovalPDF($id){ 
        
@@ -103,7 +106,9 @@ class FinanceApprovalsController extends Controller
         $financeApproval->load('order.car.color');
         $orders = Order::get();
         $delegates = Delegate::get();
-        return view('dashboard.finance_approvals.show', compact('delegates', 'orders', 'financeApproval'));
+        $banks = Bank::get();
+
+        return view('dashboard.finance_approvals.show', compact('delegates', 'orders', 'financeApproval','banks'));
     }
 
     public function edit(FinanceApproval $financeApproval)
@@ -115,7 +120,9 @@ class FinanceApprovalsController extends Controller
 
         $orders = Order::get();
         $delegates = Delegate::get();
-        return view('dashboard.finance_approvals.edit', compact('delegates', 'orders', 'financeApproval'));
+        $banks = Bank::get();
+
+        return view('dashboard.finance_approvals.edit', compact('delegates', 'orders', 'financeApproval','banks'));
     }
 
     /**

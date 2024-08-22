@@ -34,7 +34,7 @@ class UpdateFinanceApprovalsRequest extends FormRequest
             'cashback_amount' => 'required|numeric ',
             'cashback_amount' => 'required|numeric ',
             'cost' => 'required|numeric ',
-            'plate_no_cost' => 'required|numeric ',
+            // 'plate_no_cost' => 'required|numeric ',
             'insurance_cost' => 'required|numeric ',
             'delivery_cost' => 'required|numeric ',
             'commission' => 'nullable|numeric ',
@@ -43,6 +43,9 @@ class UpdateFinanceApprovalsRequest extends FormRequest
             'Main_car_cost'=>'required|numeric ',
             'extra_details' => 'nullable|string',
             'delegate_id' => 'required|exists:delegates,id',
+            'bank_id' => 'required|numeric ',
+            'agency' => 'required|string',
+
         ];
     }
 }

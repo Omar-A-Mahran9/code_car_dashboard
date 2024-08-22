@@ -54,7 +54,9 @@
                             @endif
                         </p>
                         <p><strong>{{ __('city') }} : </strong>{{ $financeApproval->order->city->name }}</p>
-
+                        @if($financeApproval->agency)
+                        <p><strong>{{ __('The agency') }} : </strong>{{ $financeApproval->agency }}</p>
+                        @endif
                         <p><strong>{{ __('Date') }} : </strong> {{ $financeApproval->created_at->format('d/m/Y') }}
                         </p>
                     </div>
@@ -66,7 +68,9 @@
                         <p><strong>{{ __('Car color') }} : </strong>{{ $financeApproval->order->color->name }}</p>
  
                        @endif
-                      
+                       @if($financeApproval->bank_id)
+                       <p><strong>{{ __('Financing entity') }} : </strong>{{ $financeApproval->bank->name }}</p>
+                       @endif
 
                         <p><strong>{{ __('Order number') }} : </strong>{{ $financeApproval->id }}</p>
                         <p><strong>{{ __('Time') }}: </strong> {{ $financeApproval->created_at->format('H:i A') }} </p>
