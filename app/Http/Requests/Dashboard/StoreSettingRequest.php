@@ -48,6 +48,7 @@ class StoreSettingRequest extends FormRequest
             'Last_year_of_ads' => ['required_if:setting_type,general', 'digits:4','integer', 'lte:' . date('Y')],
             'Last_year_of_finance' => ['required_if:setting_type,general', 'digits:4', 'lte:' . date('Y'),],
             'males_insurance' => ['required_if:setting_type,general', 'numeric', 'between:0,100'],
+            'percentage_profit_for_car' => ['required_if:setting_type,general', 'numeric', 'between:0,100'],
             'females_insurance' => ['required_if:setting_type,general', 'numeric', 'between:0,100'],
             'maintenance_mode' => ['required_if:setting_type,general', 'nullable', 'string', 'max:255'],
             'orders_statuses' => ['required_if:setting_type,general', 'array'],

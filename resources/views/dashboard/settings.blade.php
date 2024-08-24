@@ -150,13 +150,26 @@
                 <div class="fv-row row mb-15">
 
                     <!-- Begin :: Col -->
-                    <div class="col-md-12
+                    <div class="col-md-6
                     ">
                         <label class="form-label">{{ __('video aboutus (Youtube)') }}</label>
                         <input type="text" class="form-control" name="about_us_video"
                             value="{{ $fullYoutubeUrl ?? '' }}" id="about_us_video_inp"
                             placeholder="{{ __('Enter the about us video url') }}">
                         <p class="invalid-feedback" id="about_us_video"></p>
+
+                    </div>
+                    <!-- End   :: Col -->
+
+                    <!-- Begin :: Col -->
+                    <div class="col-md-6
+                      ">
+                        <label class="form-label">{{ __('percentage profit for car') . ' ' . '%' }}</label>
+                        <input type="text" class="form-control" name="percentage_profit_for_car"
+                            value="{{ settings()->getSettings('percentage_profit_for_car') }}"
+                            id="percentage_profit_for_car_inp"
+                            placeholder="{{ __('Enter the percentage profit for car') }}">
+                        <p class="invalid-feedback" id="percentage_profit_for_car"></p>
 
                     </div>
                     <!-- End   :: Col -->
@@ -1646,7 +1659,8 @@
                     <div class="col-md-6">
 
                         <label class="form-label">{{ __('Why CodeCar card 1 in english') }}</label>
-                        <textarea class="form-control form-control form-control" name="why_code_car_cars_card_1_en" data-kt-autosize="true">{!! settings()->getSettings('why_code_car_cars_card_1_en') ?? '' !!}</textarea>
+                        <textarea class="form-control form-control form-control" name="why_code_car_cars_card_1_en"
+                            data-kt-autosize="true">{!! settings()->getSettings('why_code_car_cars_card_1_en') ?? '' !!}</textarea>
                         <p class="text-danger error-element" id="why_code_car_cars_card_1_en"></p>
 
                     </div>
@@ -1794,7 +1808,7 @@
                 <!--</div>-->
                 <!-- End   :: Input group --
 
-                                                                                                                                                                                                                                                                                             Begin   :: Input group -->
+                                                                                                                                                                                                                                                                                                             Begin   :: Input group -->
                 <div class="fv-row row mb-15">
 
                     <!-- Begin :: Col -->

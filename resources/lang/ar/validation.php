@@ -172,6 +172,7 @@ return [
         'password_confirmation' => 'تأكيد كلمة المرور',
         'phone_number' => 'رقم الهاتف',
         'image' => 'الصورة',
+        'percentage_profit_for_car' => 'نسبة الربح من السيارة',
         'address_en' => 'العنوان باللغة الانجليزية',
         'address_ar' => 'العنوان باللغة العربية',
         'lat' => 'العنوان من الخريطه',

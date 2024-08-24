@@ -195,7 +195,8 @@
                                             class="form-control form-control-solid  datepicker border-gray-300 border-1 filter-datatable-inp me-4"
                                             id="approval_date" name="approval_date"
                                             value="{{ $financeApproval->approval_date }}"
-                                            placeholder="{{ __('Enter the approval date') }}" data-filter-index="4" readonly />
+                                            placeholder="{{ __('Enter the approval date') }}" data-filter-index="4"
+                                            readonly />
                                     </div>
                                 </div>
                                 <p class="invalid-feedback" id="approval_date"></p>
@@ -227,7 +228,7 @@
                                 <label class="fs-5 fw-bold mb-2">{{ __('The agency') }}</label>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="agency" placeholder="example"
-                                        value="{{ $financeApproval->agency }}" readonly/>
+                                        value="{{ $financeApproval->agency }}" readonly />
                                     <label for="name_ar_inp">{{ __('Enter the agency name') }}</label>
                                 </div>
                                 <p class="invalid-feedback" id="agency"></p>
@@ -235,52 +236,50 @@
 
                             </div>
                         </div>
-                            <hr style="border-top: 2px solid #000; font-weight: bold;">
-                            <div class="d-flex">
-                                <div class="col-md-9">
+                        <hr style="border-top: 2px solid #000; font-weight: bold;">
+                        <div class="d-flex">
+                            <div class="col-md-9">
 
-                                    <!-- begin :: Row -->
-                                    <div class="row mb-10">
+                                <!-- begin :: Row -->
+                                <div class="row mb-10">
 
-                                        <!-- end   :: Column -->
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
+                                    <!-- end   :: Column -->
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
 
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Approval amount') }}</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control form-control-solid"
-                                                    id="approval_amount_inp" name="approval_amount"
-                                                    value="{{ $financeApproval->approval_amount }}" placeholder=""
-                                                    readonly />
-                                                <label
-                                                    for="approval_date_inp">{{ __('Enter the approval amount') }}</label>
-                                            </div>
-                                            <p class="invalid-feedback" id="approval_amount"></p>
-
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Approval amount') }}</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control form-control-solid"
+                                                id="approval_amount_inp" name="approval_amount"
+                                                value="{{ $financeApproval->approval_amount }}" placeholder=""
+                                                readonly />
+                                            <label for="approval_date_inp">{{ __('Enter the approval amount') }}</label>
                                         </div>
-                                        <!-- end   :: Column -->
+                                        <p class="invalid-feedback" id="approval_amount"></p>
+
+                                    </div>
+                                    <!-- end   :: Column -->
 
 
-                                        <!-- end   :
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    : Column -->
-                                        <div class="col-md-4 fv-row">
+                                    <!-- end   :
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        : Column -->
+                                    <div class="col-md-4 fv-row">
 
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Tax discount') }}
-                                                {{ settings()->getSettings('maintenance_mode') == 1 ? settings()->getSettings('tax') : 0 }}
-                                                %</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control form-control-solid"
-                                                    id="tax_discount_inp" name="tax_discount"
-                                                    value="{{ $financeApproval->tax_discount }}" placeholder=""
-                                                    readonly />
-                                                {{-- <!-- <label for="name_en_inp">{{ __('Enter the tax discount') }}</label> --> --}}
-                                            </div>
-                                            <p class="invalid-feedback" id="tax_discount"></p>
-
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Tax discount') }}
+                                            {{ settings()->getSettings('maintenance_mode') == 1 ? settings()->getSettings('tax') : 0 }}
+                                            %</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control form-control-solid"
+                                                id="tax_discount_inp" name="tax_discount"
+                                                value="{{ $financeApproval->tax_discount }}" placeholder="" readonly />
+                                            {{-- <!-- <label for="name_en_inp">{{ __('Enter the tax discount') }}</label> --> --}}
                                         </div>
-                                        <!-- end   :: Column -->
+                                        <p class="invalid-feedback" id="tax_discount"></p>
 
-                                        <div class="col-md-4 fv-row">
+                                    </div>
+                                    <!-- end   :: Column -->
+
+                                    {{-- <div class="col-md-4 fv-row">
 
                                             <label class="fs-5 fw-bold mb-2">{{ __('Plate no cost') }}</label>
                                             <div class="form-floating">
@@ -292,274 +291,266 @@
                                             </div>
                                             <p class="invalid-feedback" id="plate_no_cost"></p>
 
+                                        </div> --}}
+
+
+                                </div>
+                                <!-- end   :: Row -->
+                                <!-- begin :: Row -->
+                                <div class="row mb-10 ">
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
+
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Cashback percent') }} %</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="cashback_percent_inp"
+                                                name="cashback_percent" value="{{ $financeApproval->cashback_percent }}"
+                                                placeholder="example" disabled />
+                                            <label
+                                                for="cashback_percent_inp">{{ __('Enter the cashback percent') }}</label>
                                         </div>
+                                        <p class="invalid-feedback" id="cashback_percent"></p>
 
 
                                     </div>
-                                    <!-- end   :: Row -->
-                                    <!-- begin :: Row -->
-                                    <div class="row mb-10 ">
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
+                                    <!-- end   :: Column -->
 
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Cashback percent') }} %</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="cashback_percent_inp"
-                                                    name="cashback_percent"
-                                                    value="{{ $financeApproval->cashback_percent }}"
-                                                    placeholder="example" disabled />
-                                                <label
-                                                    for="cashback_percent_inp">{{ __('Enter the cashback percent') }}</label>
-                                            </div>
-                                            <p class="invalid-feedback" id="cashback_percent"></p>
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
 
-
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Cashback amount') }}</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control form-control-solid"
+                                                id="cashback_amount_inp" value="{{ $financeApproval->cashback_amount }}"
+                                                name="cashback_amount" placeholder="" readonly />
+                                            <!-- <label for="cashback_amount_inp">{{ __('Enter the cashback amount') }}</label> -->
                                         </div>
-                                        <!-- end   :: Column -->
-
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
-
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Cashback amount') }}</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control form-control-solid"
-                                                    id="cashback_amount_inp"
-                                                    value="{{ $financeApproval->cashback_amount }}"
-                                                    name="cashback_amount" placeholder="" readonly />
-                                                <!-- <label for="cashback_amount_inp">{{ __('Enter the cashback amount') }}</label> -->
-                                            </div>
-                                            <p class="invalid-feedback" id="cashback_amount"></p>
-
-
-                                        </div>
-                                        <!-- end   :: Column -->
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
-
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Delivery cost') }}</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control calculate-profit"
-                                                    id="delivery_cost_inp" name="delivery_cost"
-                                                    value="{{ $financeApproval->delivery_cost }}" placeholder="example"
-                                                    disabled />
-                                                <label for="delivery_cost_inp">{{ __('Enter the delivery cost') }}</label>
-                                            </div>
-                                            <p class="invalid-feedback" id="delivery_cost"></p>
-
-                                        </div>
-                                        <!-- end   :: Column -->
-
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
-
-                                            {{-- <label class="fs-5 fw-bold mb-2">{{ __('Cost') }}</label> --}}
-                                            <div class="form-floating">
-                                                <input type="text" hidden class="form-control calculate-profit"
-                                                    id="cost_inp" name="cost" value="{{ $financeApproval->cost }}"
-                                                    placeholder="example" disabled />
-                                                {{-- <label for="cost_inp">{{ __('Enter the cost') }}</label> --}}
-                                            </div>
-                                            {{-- <p class="invalid-feedback" id="cost"></p> --}}
-
-                                        </div>
+                                        <p class="invalid-feedback" id="cashback_amount"></p>
 
 
                                     </div>
-                                    <!-- end   :: Row -->
-                                    <!-- begin :: Row -->
-                                    <div class="row mb-10">
+                                    <!-- end   :: Column -->
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
 
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
-
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Discount percent') }} %</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="discount_percent_inp"
-                                                    name="discount_percent"
-                                                    value="{{ $financeApproval->discount_percent }}"
-                                                    placeholder="example" disabled />
-                                                <label
-                                                    for="discount_percent_inp">{{ __('Enter the discount percent') }}</label>
-                                            </div>
-                                            <p class="invalid-feedback" id="discount_percent"></p>
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Delivery cost') }}</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control calculate-profit"
+                                                id="delivery_cost_inp" name="delivery_cost"
+                                                value="{{ $financeApproval->delivery_cost }}" placeholder="example"
+                                                disabled />
+                                            <label for="delivery_cost_inp">{{ __('Enter the delivery cost') }}</label>
                                         </div>
-                                        <!-- end   :: Column -->
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
-
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Discount amount') }}</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control form-control-solid"
-                                                    id="discount_amount_inp"
-                                                    value="{{ $financeApproval->discount_amount }}"
-                                                    name="discount_amount" placeholder="" readonly />
-                                                <!-- <label for="discount_amount_inp">{{ __('Enter the discount amount') }}</label> -->
-                                            </div>
-                                            <p class="invalid-feedback" id="discount_amount"></p>
-
-                                        </div>
-                                        <!-- end   :: Column -->
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
-
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Insurance cost') }}</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control calculate-profit"
-                                                    id="insurance_cost_inp"
-                                                    value="{{ $financeApproval->insurance_cost }}" name="insurance_cost"
-                                                    placeholder="example" disabled />
-                                                <label
-                                                    for="insurance_cost_inp">{{ __('Enter the insurance cost') }}</label>
-                                            </div>
-                                            <p class="invalid-feedback" id="insurance_cost"></p>
-
-
-                                        </div>
-                                        <!-- end   :: Column -->
+                                        <p class="invalid-feedback" id="delivery_cost"></p>
 
                                     </div>
-                                    <!-- end   :: Row -->
-                                    <!-- begin :: Row -->
-                                    <div class="row mb-10 ">
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
+                                    <!-- end   :: Column -->
 
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Delegate') }}</label>
-                                            <select class="form-select" data-control="select2" name="delegate_id"
-                                                id="delegate_id_sp" data-placeholder="{{ __('Choose the delegate') }}"
-                                                data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}" disabled>
-                                                <!-- <option > {{ __('Choose the delegate') }} </option> -->
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
 
-                                                @foreach ($delegates as $delegate)
-                                                    <option value="{{ $delegate->id }}"
-                                                        {{ $delegate->id === $financeApproval->delegate_id ? 'selected' : '' }}>
-                                                        {{ $delegate->name }} </option>
-                                                @endforeach
-                                            </select>
-
-                                            <p class="invalid-feedback" id="delegate_id"></p>
-
+                                        {{-- <label class="fs-5 fw-bold mb-2">{{ __('Cost') }}</label> --}}
+                                        <div class="form-floating">
+                                            <input type="text" hidden class="form-control calculate-profit"
+                                                id="cost_inp" name="cost" value="{{ $financeApproval->cost }}"
+                                                placeholder="example" disabled />
+                                            {{-- <label for="cost_inp">{{ __('Enter the cost') }}</label> --}}
                                         </div>
-                                        <!-- end   :: Column -->
-                                        <div class="col-md-4 fv-row">
+                                        {{-- <p class="invalid-feedback" id="cost"></p> --}}
 
-                                            <label class="fs-5 fw-bold mb-2">{{ __('Commission') }}</label>
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control calculate-profit"
-                                                    id="commission_inp" name="commission"
-                                                    value="{{ $financeApproval->commission }}" placeholder="example"
-                                                    disabled />
-                                                <label for="commission_inp">{{ __('Enter the commission') }}</label>
-                                            </div>
-                                            <p class="invalid-feedback" id="commission"></p>
-
-
-                                        </div>
-
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
-
-                                            <label class="fs-5 fw-bold mb-2">{{ __('IBAN') }}</label>
-                                            <div class="form-floating">
-                                                <input readonly disable type="text"
-                                                    class="form-control calculate-profit" id="IBAN-inp" name="IBAN"
-                                                    value="{{ $financeApproval->IBAN }}" placeholder="example" />
-                                                <label for="IBAN">{{ __('IBAN') }}</label>
-                                            </div>
-                                            <p class="invalid-feedback" id="IBAN"></p>
-                                        </div>
-                                        <!-- end   :: Column -->
-
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-4 fv-row">
-                                            {{-- <label class="fs-5 fw-bold mb-2">{{ __('Profit') }}</label> --}}
-                                            <div class="form-floating">
-                                                <input type="text" hidden class="form-control form-control-solid"
-                                                    id="profit_inp" value="{{ $financeApproval->profit }}"
-                                                    name="profit" placeholder="" readonly />
-                                            </div>
-                                            {{-- <p class="invalid-feedback" id="profit"></p> --}}
-                                        </div>
-                                        <!-- end   :: Column -->
                                     </div>
-                                    <div class="row mb-10 ">
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-12 fv-row text-center">
+
+
+                                </div>
+                                <!-- end   :: Row -->
+                                <!-- begin :: Row -->
+                                <div class="row mb-10">
+
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
+
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Discount percent') }} %</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="discount_percent_inp"
+                                                name="discount_percent" value="{{ $financeApproval->discount_percent }}"
+                                                placeholder="example" disabled />
+                                            <label
+                                                for="discount_percent_inp">{{ __('Enter the discount percent') }}</label>
+                                        </div>
+                                        <p class="invalid-feedback" id="discount_percent"></p>
+                                    </div>
+                                    <!-- end   :: Column -->
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
+
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Discount amount') }}</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control form-control-solid"
+                                                id="discount_amount_inp" value="{{ $financeApproval->discount_amount }}"
+                                                name="discount_amount" placeholder="" readonly />
+                                            <!-- <label for="discount_amount_inp">{{ __('Enter the discount amount') }}</label> -->
+                                        </div>
+                                        <p class="invalid-feedback" id="discount_amount"></p>
+
+                                    </div>
+                                    <!-- end   :: Column -->
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
+
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Insurance cost') }}</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control calculate-profit"
+                                                id="insurance_cost_inp" value="{{ $financeApproval->insurance_cost }}"
+                                                name="insurance_cost" placeholder="example" disabled />
+                                            <label for="insurance_cost_inp">{{ __('Enter the insurance cost') }}</label>
+                                        </div>
+                                        <p class="invalid-feedback" id="insurance_cost"></p>
+
+
+                                    </div>
+                                    <!-- end   :: Column -->
+
+                                </div>
+                                <!-- end   :: Row -->
+                                <!-- begin :: Row -->
+                                <div class="row mb-10 ">
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
+
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Delegate') }}</label>
+                                        <select class="form-select" data-control="select2" name="delegate_id"
+                                            id="delegate_id_sp" data-placeholder="{{ __('Choose the delegate') }}"
+                                            data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}" disabled>
+                                            <!-- <option > {{ __('Choose the delegate') }} </option> -->
+
+                                            @foreach ($delegates as $delegate)
+                                                <option value="{{ $delegate->id }}"
+                                                    {{ $delegate->id === $financeApproval->delegate_id ? 'selected' : '' }}>
+                                                    {{ $delegate->name }} </option>
+                                            @endforeach
+                                        </select>
+
+                                        <p class="invalid-feedback" id="delegate_id"></p>
+
+                                    </div>
+                                    <!-- end   :: Column -->
+                                    <div class="col-md-4 fv-row">
+
+                                        <label class="fs-5 fw-bold mb-2">{{ __('Commission') }}</label>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control calculate-profit"
+                                                id="commission_inp" name="commission"
+                                                value="{{ $financeApproval->commission }}" placeholder="example"
+                                                disabled />
+                                            <label for="commission_inp">{{ __('Enter the commission') }}</label>
+                                        </div>
+                                        <p class="invalid-feedback" id="commission"></p>
+
+
+                                    </div>
+
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
+
+                                        <label class="fs-5 fw-bold mb-2">{{ __('IBAN') }}</label>
+                                        <div class="form-floating">
+                                            <input readonly disable type="text" class="form-control calculate-profit"
+                                                id="IBAN-inp" name="IBAN" value="{{ $financeApproval->IBAN }}"
+                                                placeholder="example" />
+                                            <label for="IBAN">{{ __('IBAN') }}</label>
+                                        </div>
+                                        <p class="invalid-feedback" id="IBAN"></p>
+                                    </div>
+                                    <!-- end   :: Column -->
+
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-4 fv-row">
+                                        {{-- <label class="fs-5 fw-bold mb-2">{{ __('Profit') }}</label> --}}
+                                        <div class="form-floating">
+                                            <input type="text" hidden class="form-control form-control-solid"
+                                                id="profit_inp" value="{{ $financeApproval->profit }}" name="profit"
+                                                placeholder="" readonly />
+                                        </div>
+                                        {{-- <p class="invalid-feedback" id="profit"></p> --}}
+                                    </div>
+                                    <!-- end   :: Column -->
+                                </div>
+                                <div class="row mb-10 ">
+                                    <!-- begin :: Column -->
+                                    <div class="col-md-12 fv-row text-center">
+                                        @if (
+                                            $financeApproval->order['orderDetailsCar']->type == 'organization' &&
+                                                $financeApproval->order['orderDetailsCar']->payment_type == 'cash')
+                                            <label class="fs-5 fw-bold mb-2">{{ __('Main cars cost') }}</label>
+                                        @else
+                                            <label class="fs-5 fw-bold mb-2">{{ __('Main car cost') }}</label>
+                                        @endif
+
+                                        <div class="form-floating">
+                                            <input type="number" min="1" class="form-control text-center"
+                                                id="Main_car_cost_inp" name="Main_car_cost"
+                                                value="{{ $financeApproval->Main_car_cost }}" placeholder="example"
+                                                disabled />
                                             @if (
                                                 $financeApproval->order['orderDetailsCar']->type == 'organization' &&
                                                     $financeApproval->order['orderDetailsCar']->payment_type == 'cash')
-                                                <label class="fs-5 fw-bold mb-2">{{ __('Main cars cost') }}</label>
+                                                <label for="Main_car_cost">{{ __('Enter the main cars cost') }}</label>
                                             @else
-                                                <label class="fs-5 fw-bold mb-2">{{ __('Main car cost') }}</label>
+                                                <label for="Main_car_cost">{{ __('Enter the main car cost') }}</label>
                                             @endif
-
-                                            <div class="form-floating">
-                                                <input type="number" min="1" class="form-control text-center"
-                                                    id="Main_car_cost_inp" name="Main_car_cost"
-                                                    value="{{ $financeApproval->Main_car_cost }}" placeholder="example"
-                                                    disabled />
-                                                @if (
-                                                    $financeApproval->order['orderDetailsCar']->type == 'organization' &&
-                                                        $financeApproval->order['orderDetailsCar']->payment_type == 'cash')
-                                                    <label
-                                                        for="Main_car_cost">{{ __('Enter the main cars cost') }}</label>
-                                                @else
-                                                    <label for="Main_car_cost">{{ __('Enter the main car cost') }}</label>
-                                                @endif
-                                            </div>
-                                            <p class="invalid-feedback" id="Main_car_cost"></p>
                                         </div>
-                                        <!-- end   :: Column -->
-                                        <!-- begin :: Column -->
-                                        <div class="col-md-3 fv-row">
-
-                                            {{-- <label class="fs-5 fw-bold mb-2">{{ __('Cost') }}</label> --}}
-                                            <div class="form-floating">
-                                                <input type="text" hidden class="form-control calculate-profit"
-                                                    id="cost_inp" name="cost" value='0'
-                                                    placeholder="example" />
-                                                {{-- <label for="cost_inp">{{ __('Enter the cost') }}</label> --}}
-                                            </div>
-                                            {{-- <p class="invalid-feedback" id="cost"></p> --}}
-
-                                        </div>
-                                        <!-- end   :: Column -->
+                                        <p class="invalid-feedback" id="Main_car_cost"></p>
                                     </div>
-                                </div>
-                                <!-- end :: Row -->
-                                <div class="col-md-3 text-center d-flex align-items-center justify-content-center">
+                                    <!-- end   :: Column -->
                                     <!-- begin :: Column -->
-                                    <div class="col-md-12 fv-row">
-                                        {{-- <label class="fs-5 fw-bold mb-2">{{ __('Profit') }}</label> --}}
+                                    <div class="col-md-3 fv-row">
+
+                                        {{-- <label class="fs-5 fw-bold mb-2">{{ __('Cost') }}</label> --}}
                                         <div class="form-floating">
-                                            <div>
-                                                <h4>{{ __('Profit') }}</h4>
-                                                <h1 id='result' style="color: green; font-weight: bold;">
-                                                    {{ $financeApproval->profit }}</h1>
-                                            </div>
-                                            <input hidden type="text" class="form-control form-control-solid"
-                                                id="profit_inp" name="profit" value="{{ $financeApproval->profit }}"
-                                                placeholder="" readonly />
+                                            <input type="text" hidden class="form-control calculate-profit"
+                                                id="cost_inp" name="cost" value='0' placeholder="example" />
+                                            {{-- <label for="cost_inp">{{ __('Enter the cost') }}</label> --}}
                                         </div>
-                                        <p class="invalid-feedback" id="profit"></p>
+                                        {{-- <p class="invalid-feedback" id="cost"></p> --}}
+
                                     </div>
                                     <!-- end   :: Column -->
                                 </div>
                             </div>
+                            <!-- end :: Row -->
+                            <div class="col-md-3 text-center d-flex align-items-center justify-content-center">
+                                <!-- begin :: Column -->
+                                <div class="col-md-12 fv-row">
+                                    {{-- <label class="fs-5 fw-bold mb-2">{{ __('Profit') }}</label> --}}
+                                    <div class="form-floating">
+                                        <div>
+                                            <h4>{{ __('Profit') }}</h4>
+                                            <h1 id='result' style="color: green; font-weight: bold;">
+                                                {{ $financeApproval->profit }}</h1>
+                                        </div>
+                                        <input hidden type="text" class="form-control form-control-solid"
+                                            id="profit_inp" name="profit" value="{{ $financeApproval->profit }}"
+                                            placeholder="" readonly />
+                                    </div>
+                                    <p class="invalid-feedback" id="profit"></p>
+                                </div>
+                                <!-- end   :: Column -->
+                            </div>
                         </div>
                     </div>
-                    <!-- end   :: Inputs wrapper -->
-                    <!-- begin :: Form footer -->
-                    <div class="form-footer">
+                </div>
+                <!-- end   :: Inputs wrapper -->
+                <!-- begin :: Form footer -->
+                <div class="form-footer">
 
-                        <!-- begin :: Submit btn -->
-                        <a href="{{ route('dashboard.finance-approvals.index') }}" class="btn btn-primary">
-                            <span class="indicator-label">{{ __('Back') }}</span>
-                        </a>
-                        <!-- end   :: Submit btn -->
+                    <!-- begin :: Submit btn -->
+                    <a href="{{ route('dashboard.finance-approvals.index') }}" class="btn btn-primary">
+                        <span class="indicator-label">{{ __('Back') }}</span>
+                    </a>
+                    <!-- end   :: Submit btn -->
 
-                    </div>
-                    <!-- end   :: Form footer -->
+                </div>
+                <!-- end   :: Form footer -->
             </form>
             <!-- end   :: Form -->
         </div>

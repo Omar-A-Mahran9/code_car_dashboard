@@ -318,9 +318,9 @@ public function orders_not_approval(Request $request)
             $request->merge([
                 'driving_license' => filter_var($request->driving_license, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
                 'traffic_violations' => filter_var($request->traffic_violations, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'department_loan' => filter_var($request->having_loan, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'department_loan' => filter_var($request->department_loan, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
             ]);
-             $request->validate([
+               $request->validate([
                 "brand" => "required|numeric",
                 "model" => "required|numeric",
                 "category" => "required|numeric",
@@ -334,7 +334,7 @@ public function orders_not_approval(Request $request)
                 "sex" => "required",
                 'birth_date' => 'required|date|before_or_equal:' . Carbon::now()->subYears(16)->toDateString(),
                 "city_id"=>"required|numeric",
-                'identity_no' => 'nullable|unique:orders,identity_no,'. $old_order['id'],'|numeric|digits:10',
+                'identity_no' => 'nullable|unique:orders,identity_no,' . $old_order['id'] . '|numeric|digits:10',
                 'sector'=>"required|numeric",
                 'salary'=>"required|numeric",
                 'bank'=>'required|numeric',
@@ -385,7 +385,7 @@ public function orders_not_approval(Request $request)
                     'traffic_violations'=>$request->traffic_violations,
                     'commitments' => $request->Monthly_cometment,
                     'having_loan' => $request->department_loan,
-                    'driving_license' =>  $request->driving_license === '1'? 'available' : 'doesnt_exist',
+                    'driving_license' =>  $request->driving_license === true? 'available' : 'doesnt_exist',
                     'birth_date' => $request->birth_date,
                     'bank_id' => $request->bank,
                     'sector_id' => $request->sector,
@@ -398,11 +398,11 @@ public function orders_not_approval(Request $request)
             }
             $ordersTableData['type'] = 'car';
             $ordersTableData['car_name'] = $car->name;       
-            $ordersTableData['status_id'] = 7;
+            $ordersTableData['status_id'] = $old_order['status_id'];
             $ordersTableData['client_id'] = $car['vendor']['id'];
             $ordersTableData['Adminstrative_fees'] =  $request->administrative_fees;
-            $ordersTableData['old_order_id'] =  $old_order['id'];
-            $ordersTableData['edited'] =  true;
+            // $ordersTableData['old_order_id'] =  $old_order['id'];
+            // $ordersTableData['edited'] =  true;
             $ordersTableData['edited_by'] =  auth()->id();
  
 
@@ -413,10 +413,10 @@ public function orders_not_approval(Request $request)
             $order = $finalapproval->fresh(); // Retrieve the updated model instance
             } else {
             // Create a new order
- 
-            $order = Order::create($ordersTableData);
-            }
-            $ordersTableData['first_payment_value'] = $request['first_payment_value'];
+            $order=Order::find($old_order['id']);
+              $updated_order = $order->update($ordersTableData);
+             }
+             $ordersTableData['first_payment_value'] = $request['first_payment_value'];
             $ordersTableData['last_payment_value'] = $request['last_payment_value'];
             $ordersTableData['finance_amount'] = $request['finance_amount'];
             $ordersTableData['Adminstrative_fees'] = $request['administrative_fees'];

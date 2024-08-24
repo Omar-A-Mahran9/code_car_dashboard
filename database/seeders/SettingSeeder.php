@@ -104,6 +104,10 @@ class SettingSeeder extends Seeder
                 'option_value' => 'asdasd'
             ],
             [
+                'option_name' => 'percentage_profit_for_car',
+                'option_value' => '5'
+            ],
+            [
                 'option_name' => 'financing_body_text_in_home_page_ar',
                 'option_value' => 'قسم ميزة التمويل في الصفحة الرئيسية بالعربية'
             ],
