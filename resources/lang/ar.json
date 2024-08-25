@@ -24,6 +24,21 @@
   "Choose the gear shifter": "اختر نوع الجير",
   "The installment amount": "قيمة القسط الشهري",
   "Total Price": "السعر الكلي للطلب",
+  "Data on the minimum salary limit": "بيانات عن الحد الأدنى للمرتب",
+  "Data on the maximum salary limit": "بيانات عن الحد الأقصى للمرتب",
+  "Enter the value of maximum salary": "ادخل قيمة الحد الأقصى للراتب",
+
+  "value of minimum salary": "قيمة الحد الأدنى للراتب",
+  "Enter the value of minimum salary": "ادخل قيمة الحد الأدنى للراتب",
+  "Enter Deduction rate without mortgage": "ادخل نسبة استقطاع بدون القرض العقاري",
+  "Deduction rate without mortgage": "نسبة استقطاع بدون القرض العقاري",
+  "Enter Deduction rate with mortgage": "ادخل نسبة استقطاع القرض العقاري",
+  "Deduction rate with mortgage": "نسبة استقطاع القرض العقاري",
+  "Enter Deduction rate with support mortgage": "ادخل نسبة استقطاع القرض العقاري المدعوم",
+  "Deduction rate with support mortgage": "نسبة استقطاع القرض العقاري المدعوم",
+
+  "value of maximum salary": "قيمة الحد الأقصى للراتب",
+
   "This employee is assigned to vendors and can't be deleted": "هذا الموظف مستخدم في العملاء ولا يمكن حذفه",
   "image dimensions of 310 pixels in width and 170 pixels in height.": "ابعاد الصورة يجب أن يكون عرضه 310 بكسل وارتفاعه 170 بكسل.",
   "cover dimensions of 900 pixels in width and 300 pixels in height.": "ابعاد الصورة يجب أن يكون عرضه 900 بكسل وارتفاعه 300 بكسل.",
