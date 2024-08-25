@@ -105,6 +105,14 @@ class BankController extends Controller
             'type' => ['required'],
             'accept_from_other_banks' => 'nullable|boolean|required_if:type,bank',
             'special.*'    => 'required|numeric|min:0',
+            'min_salary' => ['required','numeric'],
+            'Deduction_rate_without_mortgage_min' => ['required','numeric','max:100'],
+            'Deduction_rate_with_mortgage_min' => ['required','numeric','max:100'],
+            'Deduction_rate_with_support_mortgage_min' => ['required','numeric','max:100'],
+            'max_salary' => ['required','numeric'],
+            'Deduction_rate_without_mortgage_max' => ['required','numeric','max:100'],
+            'Deduction_rate_with_mortgage_max' => ['required','numeric','max:100'],
+            'Deduction_rate_with_support_mortgage_max' => ['required','numeric','max:100'],
 
         ];
         foreach(Sector::get()->pluck('slug') as $sector){

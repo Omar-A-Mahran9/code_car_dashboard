@@ -170,7 +170,7 @@
 
                     </div>
                     <hr class="pb-2">
-                    <div>
+                <div>
                         <p class="text-center mt-4 mb-5">{{ __('Data on the minimum salary limit') }}</p>
                         <div class="row pt-2">
                         <div class="col-md-3 fv-row">
