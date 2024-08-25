@@ -42,7 +42,9 @@ class CarResourse extends JsonResource
                 }
             });
         })
-        ->exists();     
+        ->exists();  
+        $priceaftervat = floatval($this->getPriceAfterVatAttribute());
+        
         return [
             'id' => $this->id,
             'title' => Str::limit($this->name, 35),
@@ -60,18 +62,16 @@ class CarResourse extends JsonResource
             'gear_shifterkey'=>$this->gear_shifter,
             'is_fav'=> $fav,
             'year'=>$this->year,
-            'price'=>$this->price,
+            'price' => number_format($this->price, 2, '.', ','),
             'supplier'=>__($this->supplier),
             'supplier_english'=>$this->supplier,
             'have_discount'=>$this->have_discount,
             'video_url'=>$this->video_url,
-            'discount_price'=>$this->discount_price,
+            'discount_price'=>number_format($this->discount_price, 2, '.', ','),
             'discount_percentage' => $this->discount_price != 0 ? round(($this->price - $this->discount_price) / $this->price * 100, 2): 0,
-            'selling_price'=>$this->getSellingPriceAttribute(),
+            'selling_price'=>number_format($this->getSellingPriceAttribute(), 2, '.', ','),
             'tax'=>settings()->getSettings('maintenance_mode') == 1 ? settings()->getSettings('tax') : 0,
-
-            'price_after_tax' => $this->getPriceAfterVatAttribute(),
-            'statusCar' => intval($this->status),
+            'price_after_tax' =>number_format($priceaftervat, 2, '.', ',') ,
             'show_in_home_page' => (bool) $this->show_in_home_page,
             'car_style'=>$this->car_body,
             'fuel_tank_capacity'=>$this->fuel_tank_capacity,

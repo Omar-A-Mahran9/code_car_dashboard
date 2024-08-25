@@ -118,8 +118,55 @@ trait Calculations{
         $car->price =   $car->price + ($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
 
         $bank = Bank::find($request->bank);
+        
+        if($request->salary < $bank->min_salary ){
+            return $AllAvailableOffers;
+        }
+    
+        else{
+              if($request->salary > $bank->min_salary && $request->salary < $bank->max_salary){
+            $deduction_percentage=$bank->Deduction_rate_without_mortgage_min;
+            if($request->department_loan==1){
+ 
+                if($request->department_loan_support==1){
+                $deduction_percentage=$bank->Deduction_rate_with_support_mortgage_min;
+                $deduction = (($request->salary+$request->support_price) - $request->Monthly_cometment) * ($deduction_percentage / 100);
+                }else{
+                $deduction_percentage=$bank->Deduction_rate_with_mortgage_min;
+                $deduction = ($request->salary - $request->Monthly_cometment) * ($deduction_percentage / 100);
 
-       if($car){
+                }
+            }else{
+                $deduction = ($request->salary - $request->Monthly_cometment) * ($deduction_percentage / 100);
+
+            }
+            
+  
+        }        
+        elseif($request->salary > $bank->max_salary){
+            $deduction_percentage=$bank->Deduction_rate_without_mortgage_max;
+            if($request->department_loan==1){
+ 
+                if($request->department_loan_support==1){
+                $deduction_percentage=$bank->Deduction_rate_with_support_mortgage_max;
+                $deduction = (($request->salary+$request->support_price) - $request->Monthly_cometment) * ($deduction_percentage / 100);
+                }else{
+                $deduction_percentage=$bank->Deduction_rate_with_mortgage_max;
+                $deduction = ($request->salary - $request->Monthly_cometment) * ($deduction_percentage / 100);
+
+                }
+            }else{
+                $deduction = ($request->salary - $request->Monthly_cometment) * ($deduction_percentage / 100);
+
+            }
+            
+            
+        }
+        else{
+          return $AllAvailableOffers;
+        }
+        
+                    if($car){
         $carDetails = CarResourse::make($car)->resolve();
         $brandId = $carDetails['brand']['id'];
         $sectorBenefit = null;
@@ -208,18 +255,25 @@ trait Calculations{
               $result=[
                 // 'lwest_monthly_installment' => $otherBannks['monthlyInstallment'] <$monthlyInstallment ? $otherBannks:null,
                 'OfferName'=>BankOffer::find($offer->bank_offer_id)->toArray(),
-                'monthly_installment' => round($monthlyInstallment,2),
-                'fundingAmount'=>round($fundingAmount,2),
-                'firs_installment'=>round($first_installment,2),
+                'monthly_installment' => number_format($monthlyInstallment, 2, '.', ','),
+                'fundingAmount' => number_format(round($fundingAmount, 2), 2, '.', ','),
+                'firs_installment'=>number_format(round($first_installment,2), 2, '.', ','),
                 'years' => $installment_years,
-                'last_installment'=> round($last_installment,2),
-                'sectorAdministrative_fees'=> round($Adminstrativefeecost),
+                'last_installment'=> number_format(round($last_installment,2), 2, '.', ','),
+                'sectorAdministrative_fees'=> number_format(round($Adminstrativefeecost), 2, '.', ','),
                 'bank_offer_id'=>$offer->bank_offer_id,
                 'car' => $carDetails,
                 'price' =>  $price
             ];
-
+            
+            if($monthlyInstallment>$deduction){
+            return $AllAvailableOffers;
+            }
+            else{
             $AllAvailableOffers[] = $result;
+
+            }
+
             }
             if($car==null){
                 return 'Sorry Car Not Found';
@@ -240,6 +294,9 @@ trait Calculations{
             // $sectorInstallment = $sector['installment'];
             
         }
+            
+        }
+     
 
 
     }
