@@ -503,8 +503,12 @@ class FinanceController extends Controller
                     ->where('gear_shifter',request('gear_shifter'))
                     ->where('category_id',request('category'))
                     ->first();
+
             if($car){
+             $car->price =   $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+
             return $this->success(data: ['car' => $car]);
+            
             }
             else{
                 return $this->success('car Not found');
@@ -579,6 +583,8 @@ class FinanceController extends Controller
                 ->where('gear_shifter',request('gear_shifter'))
                 ->where('category_id',request('category'))
                 ->first();
+          $car->price =   $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+
           $data = $this->calculateInstallmentscar($request);
           foreach ($data as $selectedOffer)
           {
@@ -1107,7 +1113,7 @@ class FinanceController extends Controller
           return $this->validationFailure(errors: ['errors' => __('car exist before'), 'field_number' => $key]);
 
         }
-        $uniqueCars[] = ['car_id' => $carIdentifier->id, 'car_name' => $carIdentifier->name_en, 'count' => $car_count, 'price' => $carIdentifier->getPriceAfterVatAttribute()];
+        $uniqueCars[] = ['car_id' => $carIdentifier->id, 'car_name' => $carIdentifier->name_en, 'count' => $car_count, 'price' => $carIdentifier->getPriceAfterVatAttribute()+($carIdentifier->getPriceAfterVatAttribute() * (settings()->getSettings('percentage_profit_for_car')/100))];
       } else
       {
         return $this->validationFailure(errors: ['errors' => __('This car not found'), 'field_number' => $key]);

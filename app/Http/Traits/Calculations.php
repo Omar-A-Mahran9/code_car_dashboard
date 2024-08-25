@@ -115,6 +115,8 @@ trait Calculations{
         ->where('gear_shifter',request('gear_shifter'))
         ->where('category_id',request('category'))
         ->first()??$request->car;
+        $car->price =   $car->price + ($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+
         $bank = Bank::find($request->bank);
 
        if($car){
