@@ -115,8 +115,13 @@ trait Calculations{
         ->where('gear_shifter',request('gear_shifter'))
         ->where('category_id',request('category'))
         ->first()??$request->car;
-        $car->price =   $car->price + ($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+            if($car->have_discount==1){
+                                 $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;          
 
+                }else{
+                                 $car->price = $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+
+                }
         $bank = Bank::find($request->bank);
         
         if($request->salary < $bank->min_salary ){
@@ -263,7 +268,7 @@ trait Calculations{
                 'sectorAdministrative_fees'=> number_format(round($Adminstrativefeecost), 2, '.', ','),
                 'bank_offer_id'=>$offer->bank_offer_id,
                 'car' => $carDetails,
-                'price' =>  $price
+                'price' =>  number_format($price, 2, '.', ',')
             ];
             
             if($monthlyInstallment>$deduction){

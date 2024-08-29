@@ -265,6 +265,8 @@ class CarController extends Controller
             'Car_style'=>[
                 'hatchback', 'sedan', 'four-wheel-drive', 'commercial','family'
             ],
+                'car_profit'=>settings()->getSettings('percentage_profit_for_car'),
+
             'Category'=>$categorydata,
             'City'=>$citydata,
             'sectors'=>Sector::get()->toArray(),

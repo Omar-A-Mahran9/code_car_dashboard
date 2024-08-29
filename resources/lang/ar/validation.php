@@ -167,6 +167,8 @@ return [
         'compose_to'=>'المرسل اليه',
         'compose_subject'=>'عنوان الرسالة',
         'name_en' => 'الإسم باللغة الإنجليزية',
+                'support_price' => 'قيمة الدعم',
+
         'name_ar' => 'الاسم باللغة العربيه',
         'password' => 'كلمة المرور',
         'password_confirmation' => 'تأكيد كلمة المرور',
@@ -469,6 +471,7 @@ return [
         'delegate_id' => 'المندوب',
         'extra_details' => 'تفاصيل اضافية',
         'profit' => 'الربح',
+        'department_loan_support'=>'وجود دعم عقاري',
         'approval_amount' => 'مبلغ التعميد',
         'There is no order' => 'لا يوجد طلب',
         'work_type' => 'نوع العمل ',

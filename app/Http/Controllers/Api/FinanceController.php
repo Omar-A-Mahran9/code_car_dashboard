@@ -133,7 +133,6 @@ class FinanceController extends Controller
             'email' => ['bail','max:255'],
             'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
             "sex" => "required",
-
             'birth_date' => 'required|date|before_or_equal:' . Carbon::now()->subYears(16)->toDateString(),
             "city_id"=>"required|numeric",
             'identity_no' => 'nullable|unique:orders,identity_no|numeric|digits:10',
@@ -144,8 +143,13 @@ class FinanceController extends Controller
             'driving_license' => ['required', 'boolean'],
             'traffic_violations' => ['required', 'boolean'],
             'have_life_problem' => ['required', 'boolean'],
-            'department_loan' => ['required', 'boolean'],
-            'nationality_id' => 'required|numeric',
+   'department_loan' => ['required', 'boolean'],
+    'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+ 'support_price' => [
+         'required_if:department_loan_support,true',
+      
+    ],
+    'nationality_id' => 'required|numeric',
 
           ]);
           $request->merge(['phone' => $request->phone]);
@@ -230,6 +234,9 @@ class FinanceController extends Controller
             'salary' => $request->salary,
             'commitments' => $request->Monthly_cometment,
             'having_loan' => $request->department_loan,
+            'having_loan_support' => $request->department_loan_support,
+            'having_loan_support_price' => $request->support_price,
+
             'traffic_violations'=>$request->traffic_violations,
             'driving_license' =>  $request->driving_license === '1' ? 'available' : 'doesnt_exist',
  
@@ -274,14 +281,12 @@ class FinanceController extends Controller
 
           $ordersTableData['order_id'] = $order->id;
           $ordersTableData['type'] = $request->type;
-
-          $ordersTableData['first_payment_value'] = $view_selected_Offer['firs_installment'];
-          $ordersTableData['last_payment_value'] = $view_selected_Offer['last_installment'];
-          $ordersTableData['finance_amount'] = $view_selected_Offer['fundingAmount'];
-          $ordersTableData['Adminstrative_fees'] = $view_selected_Offer['sectorAdministrative_fees'];
-          $ordersTableData['Monthly_installment'] = $view_selected_Offer['monthly_installment'];
-
-
+ 
+        $ordersTableData['first_payment_value'] = str_replace(',', '', $view_selected_Offer['firs_installment']);
+        $ordersTableData['last_payment_value'] = str_replace(',', '', $view_selected_Offer['last_installment']);
+        $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
+        $ordersTableData['Adminstrative_fees'] = str_replace(',', '', $view_selected_Offer['sectorAdministrative_fees']);
+        $ordersTableData['Monthly_installment'] = str_replace(',', '', $view_selected_Offer['monthly_installment']);
           CarOrder::create($ordersTableData);
           $notify = [
             'vendor_id' => Auth::id() ?? null,
@@ -505,8 +510,13 @@ class FinanceController extends Controller
                     ->first();
 
             if($car){
-             $car->price =   $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+                if($car->have_discount==1){
+                                 $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;          
 
+                }else{
+                                 $car->price = $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+
+                }
             return $this->success(data: ['car' => $car]);
             
             }
@@ -530,8 +540,15 @@ class FinanceController extends Controller
             'Monthly_cometment'=>'required|numeric',
             'driving_license' =>  ['required', 'boolean'],
             'traffic_violations' =>  ['required', 'boolean'],
+          
             'have_life_problem' => ['required', 'boolean'],
-            'department_loan' => ['required', 'boolean'],
+             'department_loan' => ['required', 'boolean'],
+    'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+ 'support_price' => [
+         'required_if:department_loan_support,true',
+        
+    ],
+
             'nationality_id'=>'required|numeric',
           ]);
           $ordersTableData['phone'] = convertArabicNumbers($request->phone);
@@ -583,8 +600,13 @@ class FinanceController extends Controller
                 ->where('gear_shifter',request('gear_shifter'))
                 ->where('category_id',request('category'))
                 ->first();
-          $car->price =   $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+            if($car->have_discount==1){
+                                 $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;          
 
+                }else{
+                                 $car->price = $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
+
+                }
           $data = $this->calculateInstallmentscar($request);
           foreach ($data as $selectedOffer)
           {
@@ -618,6 +640,9 @@ class FinanceController extends Controller
 
             'commitments' => $request->Monthly_cometment,
             'having_loan' => $request->department_loan,
+            'having_loan_support' => $request->department_loan_support,
+            'having_loan_support_price' => $request->support_price,
+
             'driving_license' =>  $request->driving_license === '1'? 'available' : 'doesnt_exist',
             'birth_date' => $request->birth_date,
             'bank_id' => $request->bank,
@@ -651,11 +676,12 @@ class FinanceController extends Controller
 
           $order->sendOTP();
 
-          $ordersTableData['first_payment_value'] = $view_selected_Offer['firs_installment'];
-          $ordersTableData['last_payment_value'] = $view_selected_Offer['last_installment'];
-          $ordersTableData['finance_amount'] = $view_selected_Offer['fundingAmount'];
-          $ordersTableData['Adminstrative_fees'] = $view_selected_Offer['sectorAdministrative_fees'];
-          $ordersTableData['Monthly_installment'] = $view_selected_Offer['monthly_installment'];
+        $ordersTableData['first_payment_value'] = str_replace(',', '', $view_selected_Offer['firs_installment']);
+        $ordersTableData['last_payment_value'] = str_replace(',', '', $view_selected_Offer['last_installment']);
+        $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
+        $ordersTableData['Adminstrative_fees'] = str_replace(',', '', $view_selected_Offer['sectorAdministrative_fees']);
+        $ordersTableData['Monthly_installment'] = str_replace(',', '', $view_selected_Offer['monthly_installment']);
+
 
           $ordersTableData['order_id'] = $order->id;
           $ordersTableData['type'] = $request->type;
@@ -833,8 +859,12 @@ class FinanceController extends Controller
             'driving_license' =>  ['required', 'boolean'],
             'traffic_violations' =>  ['required', 'boolean'],
             'have_life_problem' => ['required', 'boolean'],
-            'department_loan' => ['required', 'boolean'],
-            'nationality_id'=>'required|numeric',
+                'department_loan' => ['required', 'boolean'],
+    'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+ 'support_price' => [
+         'required_if:department_loan_support,true',
+        
+    ], 'nationality_id'=>'required|numeric',
           ]);
           $ordersTableData['phone'] = convertArabicNumbers($request->phone);
           $request->merge(['phone' => $ordersTableData['phone']]);
@@ -923,7 +953,10 @@ class FinanceController extends Controller
             'traffic_violations'=>$request->traffic_violations,
 
             'commitments' => $request->Monthly_cometment,
-            'having_loan' => $request->department_loan,
+            'having_loan' => $request->department_loan ,
+            'having_loan_support' => $request->department_loan_support,
+            'having_loan_support_price' => $request->department_loan_support,
+
             'driving_license' =>  $request->driving_license === '1'? 'available' : 'doesnt_exist',
             'birth_date' => $request->birth_date,
             'bank_id' => $request->bank,

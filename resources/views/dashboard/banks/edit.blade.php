@@ -196,7 +196,8 @@
                                 <label class="fs-5 fw-bold mb-2">{{ __('Deduction rate without mortgage') ." "."%"}}</label>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="Deduction_rate_without_mortgage_min_inp" name="Deduction_rate_without_mortgage_min"
-                                        placeholder="example"  value="{{$bank['Deduction_rate_without_mortgage_min']}}"/>
+                                        placeholder="example"  value="{{ (int) $bank['Deduction_rate_without_mortgage_min'] }}"
+}"/>
                                     <label for="Deduction_rate_without_mortgage_min_inp">{{ __('Enter Deduction rate without mortgage') }}</label>
                                 </div>
                                 <p class="invalid-feedback" id="Deduction_rate_without_mortgage_min"></p>
@@ -205,7 +206,7 @@
                                 <label class="fs-5 fw-bold mb-2">{{ __('Deduction rate with mortgage') ." "."%"}}</label>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="Deduction_rate_with_mortgage_min_inp" name="Deduction_rate_with_mortgage_min"
-                                        placeholder="example"  value="{{$bank['Deduction_rate_with_mortgage_min']}}"/>
+                                        placeholder="example"  value="{{ (int) $bank['Deduction_rate_with_mortgage_min']}}"/>
                                     <label for="Deduction_rate_with_mortgage_min_inp">{{ __('Enter Deduction rate with mortgage') }}</label>
                                 </div>
                                 <p class="invalid-feedback" id="Deduction_rate_with_mortgage_min"></p>
@@ -214,7 +215,7 @@
                                 <label class="fs-5 fw-bold mb-2">{{ __('Deduction rate with support mortgage')." "."%" }}</label>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="Deduction_rate_with_support_mortgage_min_inp" name="Deduction_rate_with_support_mortgage_min"
-                                        placeholder="example"  value="{{$bank['Deduction_rate_with_support_mortgage_min']}}"/>
+                                        placeholder="example"  value="{{ (int) $bank['Deduction_rate_with_support_mortgage_min']}}"/>
                                     <label for="Deduction_rate_with_support_mortgage_min_inp">{{ __('Enter Deduction rate with support mortgage') }}</label>
                                 </div>
                                 <p class="invalid-feedback" id="Deduction_rate_with_support_mortgage_min"></p>
@@ -229,7 +230,7 @@
             <label class="fs-5 fw-bold mb-2">{{ __('value of maximum salary') }}</label>
             <div class="form-floating">
                 <input type="text" class="form-control" id="max_salary_inp" name="max_salary"
-                    placeholder="example" value="{{$bank['max_salary']}}"/>
+                    placeholder="example" value="{{ $bank['max_salary']}}"/>
                 <label for="max_salary_inp">{{ __('Enter the value of maximum salary') }}</label>
             </div>
             <p class="invalid-feedback" id="max_salary"></p>
@@ -238,7 +239,7 @@
             <label class="fs-5 fw-bold mb-2">{{ __('Deduction rate without mortgage')." "."%" }}</label>
             <div class="form-floating">
                 <input type="text" class="form-control" id="Deduction_rate_without_mortgage_max_inp" name="Deduction_rate_without_mortgage_max"
-                    placeholder="example"  value="{{$bank['Deduction_rate_without_mortgage_max']}}"/>
+                    placeholder="example"  value="{{ (int) $bank['Deduction_rate_without_mortgage_max']}}"/>
                 <label for="Deduction_rate_without_mortgage_max_inp">{{ __('Enter Deduction rate without mortgage') }}</label>
             </div>
             <p class="invalid-feedback" id="Deduction_rate_without_mortgage_max"></p>
@@ -247,7 +248,7 @@
             <label class="fs-5 fw-bold mb-2">{{ __('Deduction rate with mortgage')." "."%" }}</label>
             <div class="form-floating">
                 <input type="text" class="form-control" id="Deduction_rate_with_mortgage_max_inp" name="Deduction_rate_with_mortgage_max"
-                    placeholder="example" value="{{$bank['Deduction_rate_with_mortgage_max']}}"/>
+                    placeholder="example" value="{{ (int) $bank['Deduction_rate_with_mortgage_max']}}"/>
                 <label for="Deduction_rate_with_mortgage_max_inp">{{ __('Enter Deduction rate with mortgage') }}</label>
             </div>
             <p class="invalid-feedback" id="Deduction_rate_with_mortgage_max"></p>
@@ -256,7 +257,7 @@
             <label class="fs-5 fw-bold mb-2">{{ __('Deduction rate with support mortgage')." "."%" }}</label>
             <div class="form-floating">
                 <input type="text" class="form-control" id="Deduction_rate_with_support_mortgage_max_inp" name="Deduction_rate_with_support_mortgage_max"
-                    placeholder="example" value="{{$bank['Deduction_rate_with_support_mortgage_max']}}"/>
+                    placeholder="example" value="{{ (int) $bank['Deduction_rate_with_support_mortgage_max']}}"/>
                 <label for="Deduction_rate_with_support_mortgage_max_inp">{{ __('Enter Deduction rate with support mortgage') }}</label>
             </div>
             <p class="invalid-feedback" id="Deduction_rate_with_support_mortgage_max"></p>

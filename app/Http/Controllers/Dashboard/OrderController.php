@@ -263,15 +263,37 @@ public function orders_not_approval(Request $request)
         $nationality = Nationality::get();
         $organizationTypes = OrganizationType::get();
         $organizationactivities = Organizationactive::get();
-        $precentage_approve = !$order['orderDetailsCar']['having_loan'] ? 45 : 65;
-        $commitment         = $order['orderDetailsCar']['commitments'];
         $salary             = $order['orderDetailsCar']['salary'];
+
+         if (isset($order['orderDetailsCar']['bank']['min_salary'], $order['orderDetailsCar']['bank']['max_salary']) &&
+            $salary > $order['orderDetailsCar']['bank']['min_salary'] && 
+            $salary < $order['orderDetailsCar']['bank']['max_salary']) {
+        
+            $precentage_approve = !$order['orderDetailsCar']['having_loan']
+                ? ($order['orderDetailsCar']['bank']['Deduction_rate_without_mortgage_min'] ?? 0)
+                : ($order['orderDetailsCar']['having_loan_support']
+                    ? ($order['orderDetailsCar']['bank']['Deduction_rate_with_support_mortgage_min'] ?? 0)
+                    : ($order['orderDetailsCar']['bank']['Deduction_rate_with_mortgage_max'] ?? 0));
+        
+        } elseif (isset($order['orderDetailsCar']['bank']['max_salary']) && $salary > $order['orderDetailsCar']['bank']['max_salary']) {
+        
+            $precentage_approve = !$order['orderDetailsCar']['having_loan']
+                ? ($order['orderDetailsCar']['bank']['Deduction_rate_without_mortgage_max'] ?? 0)
+                : ($order['orderDetailsCar']['having_loan_support']
+                    ? ($order['orderDetailsCar']['bank']['Deduction_rate_with_support_mortgage_max'] ?? 0)
+                    : ($order['orderDetailsCar']['bank']['Deduction_rate_with_mortgage_max'] ?? 0));
+        
+        } else {
+            $precentage_approve = 0;
+        }
+
+        $commitment         = $order['orderDetailsCar']['commitments'];
         if ($commitment > $salary)
         {
             $approve_amount = 0;
         } else
         {
-            $approve_amount = ($salary - $commitment) * ($precentage_approve / 100);
+            $approve_amount = (($salary+$order['orderDetailsCar']['having_loan_support_price']) - $commitment) * ($precentage_approve / 100);
         }
 
         $employees = Employee::select('id', 'name')->whereHas('roles.abilities', function ($query) {

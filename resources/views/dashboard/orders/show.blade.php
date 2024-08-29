@@ -553,7 +553,7 @@
                                                         </tr>
                                                     @endif
 
-                                                    {{-- @if ($order['orderDetailsCar']['Adminstrative_fees'])
+                                                    @if ($order['orderDetailsCar']['Adminstrative_fees'])
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('adminstrative fees') }}
                                                         </td>
@@ -561,7 +561,7 @@
                                                             {{ $order['orderDetailsCar']['Adminstrative_fees'] . ' ' . currency() }}
                                                         </td>
                                                     </tr>
-                                                @endif --}}
+                                                @endif 
                                                     @if ($order['orderDetailsCar']['finance_amount'])
                                                         <tr>
                                                             <td class="fw-boldest">{{ __('Finance amounts') }}
