@@ -235,7 +235,7 @@ class FinanceController extends Controller
             'commitments' => $request->Monthly_cometment,
             'having_loan' => $request->department_loan,
             'having_loan_support' => $request->department_loan_support,
-            'having_loan_support_price' => $request->support_price,
+            'having_loan_support_price' => $request->support_price??0,
 
             'traffic_violations'=>$request->traffic_violations,
             'driving_license' =>  $request->driving_license === '1' ? 'available' : 'doesnt_exist',
@@ -641,7 +641,7 @@ class FinanceController extends Controller
             'commitments' => $request->Monthly_cometment,
             'having_loan' => $request->department_loan,
             'having_loan_support' => $request->department_loan_support,
-            'having_loan_support_price' => $request->support_price,
+            'having_loan_support_price' => $request->support_price??0,
 
             'driving_license' =>  $request->driving_license === '1'? 'available' : 'doesnt_exist',
             'birth_date' => $request->birth_date,
@@ -955,7 +955,7 @@ class FinanceController extends Controller
             'commitments' => $request->Monthly_cometment,
             'having_loan' => $request->department_loan ,
             'having_loan_support' => $request->department_loan_support,
-            'having_loan_support_price' => $request->department_loan_support,
+            'having_loan_support_price' => $request->support_price??0,
 
             'driving_license' =>  $request->driving_license === '1'? 'available' : 'doesnt_exist',
             'birth_date' => $request->birth_date,

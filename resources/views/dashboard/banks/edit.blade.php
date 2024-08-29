@@ -187,7 +187,7 @@
                                 <label class="fs-5 fw-bold mb-2">{{ __('value of minimum salary') }}</label>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="min_salary_inp" name="min_salary"
-                                        placeholder="example" value="{{$bank['min_salary']}}" />
+                                        placeholder="example" value="{{(int) $bank['min_salary']}}" />
                                     <label for="min_salary_inp">{{ __('Enter the value of minimum salary') }}</label>
                                 </div>
                                 <p class="invalid-feedback" id="min_salary"></p>
@@ -230,7 +230,7 @@
             <label class="fs-5 fw-bold mb-2">{{ __('value of maximum salary') }}</label>
             <div class="form-floating">
                 <input type="text" class="form-control" id="max_salary_inp" name="max_salary"
-                    placeholder="example" value="{{ $bank['max_salary']}}"/>
+                    placeholder="example" value="{{ (int)$bank['max_salary']}}"/>
                 <label for="max_salary_inp">{{ __('Enter the value of maximum salary') }}</label>
             </div>
             <p class="invalid-feedback" id="max_salary"></p>

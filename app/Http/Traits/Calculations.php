@@ -129,7 +129,7 @@ trait Calculations{
         }
     
         else{
-              if($request->salary > $bank->min_salary && $request->salary < $bank->max_salary){
+              if($request->salary >= $bank->min_salary && $request->salary < $bank->max_salary){
             $deduction_percentage=$bank->Deduction_rate_without_mortgage_min;
             if($request->department_loan==1){
  
@@ -148,7 +148,7 @@ trait Calculations{
             
   
         }        
-        elseif($request->salary > $bank->max_salary){
+        elseif($request->salary >= $bank->max_salary){
             $deduction_percentage=$bank->Deduction_rate_without_mortgage_max;
             if($request->department_loan==1){
  
