@@ -486,6 +486,20 @@
                                                             {{ $order['orderDetailsCar']['having_loan'] ? __('Yes') : __('No') }}
                                                         </td>
                                                     </tr>
+                                                     <tr>
+                                                        <td class="fw-boldest">{{ __('Is there a supported mortgage loan') }}
+                                                        </td>
+                                                        <td class="text-end fw-boldest" colspan="4">
+                                                            {{ $order['orderDetailsCar']['having_loan_support'] ? __('Yes') : __('No') }}
+                                                        </td>
+                                                    </tr>
+                                                      <tr>
+                                                        <td class="fw-boldest">{{ __('mortgage loan price') }}
+                                                        </td>
+                                                        <td class="text-end fw-boldest" colspan="4">
+                                                            {{ $order['orderDetailsCar']['having_loan_support_price']  }}
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td class="fw-boldest" style="font-weight:900">
                                                             {{ __('Max limit to monthely installment') . ' ' }}

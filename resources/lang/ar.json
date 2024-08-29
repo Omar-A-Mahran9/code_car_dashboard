@@ -682,6 +682,8 @@
   "Salary and allowances in SAR": "الراتب + البدلات بالريال السعودي",
   "Commitment amount in SAR": "فيمة الالتزام بالريال السعودي",
   "Is there a mortgage loan": "هل يوجد قرض عقاري ؟",
+    "Is there a supported mortgage loan": "هل يوجد قرض عقاري مدعوم ؟",
+  "mortgage loan price": "قيمة الدعم",
   "The last installment": "نسبة الدفعة الاخيرة",
   "The last installment amount": "قيمة الدفعة الأخيرة",
   "The first installment": "نسبة الدفعة الأولى",

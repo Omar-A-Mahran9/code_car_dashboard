@@ -266,7 +266,7 @@ public function orders_not_approval(Request $request)
         $salary             = $order['orderDetailsCar']['salary'];
 
          if (isset($order['orderDetailsCar']['bank']['min_salary'], $order['orderDetailsCar']['bank']['max_salary']) &&
-            $salary > $order['orderDetailsCar']['bank']['min_salary'] && 
+            $salary >= $order['orderDetailsCar']['bank']['min_salary'] && 
             $salary < $order['orderDetailsCar']['bank']['max_salary']) {
         
             $precentage_approve = !$order['orderDetailsCar']['having_loan']
@@ -275,7 +275,7 @@ public function orders_not_approval(Request $request)
                     ? ($order['orderDetailsCar']['bank']['Deduction_rate_with_support_mortgage_min'] ?? 0)
                     : ($order['orderDetailsCar']['bank']['Deduction_rate_with_mortgage_max'] ?? 0));
         
-        } elseif (isset($order['orderDetailsCar']['bank']['max_salary']) && $salary > $order['orderDetailsCar']['bank']['max_salary']) {
+        } elseif (isset($order['orderDetailsCar']['bank']['max_salary']) && $salary >= $order['orderDetailsCar']['bank']['max_salary']) {
         
             $precentage_approve = !$order['orderDetailsCar']['having_loan']
                 ? ($order['orderDetailsCar']['bank']['Deduction_rate_without_mortgage_max'] ?? 0)
