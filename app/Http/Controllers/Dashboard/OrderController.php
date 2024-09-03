@@ -252,6 +252,7 @@ public function orders_not_approval(Request $request)
 
     public function show(Order $order)
     {
+ 
         $finalapproval=Order::where('edited',true)->where('old_order_id',$order->id)->first();
         $brands = Brand::select('id','name_' . getLocale())->get();
         $cities = City::select('id','name_' . getLocale())->get();
@@ -424,7 +425,7 @@ public function orders_not_approval(Request $request)
             $ordersTableData['client_id'] = $car['vendor']['id'];
             $ordersTableData['Adminstrative_fees'] =  $request->administrative_fees;
             // $ordersTableData['old_order_id'] =  $old_order['id'];
-            // $ordersTableData['edited'] =  true;
+            $ordersTableData['edited'] =  1;
             $ordersTableData['edited_by'] =  auth()->id();
  
 
@@ -491,7 +492,7 @@ public function orders_not_approval(Request $request)
           $ordersTableData['car_name'] = $car->name;
           $ordersTableData['clint_id'] = Auth::user()->id ?? null; 
           $ordersTableData['old_order_id'] =  $old_order['id'];
-          $ordersTableData['edited'] =  true;
+          $ordersTableData['edited'] =  1;
           $ordersTableData['edited_by'] =  auth()->id();
 
           if ($finalapproval) {
@@ -517,6 +518,14 @@ public function orders_not_approval(Request $request)
             return $this->failure('car Not found');
             }  
         }
+       
+         OrderHistory::create([
+                // 'status' => $request['status'],
+                'status' => $order->statue->name_en,
+                'employee_id' => auth()->id(),
+                'edited_by' =>$order['edited_by'],
+                'order_id' => $order['id'],
+            ]); 
         
     }
 

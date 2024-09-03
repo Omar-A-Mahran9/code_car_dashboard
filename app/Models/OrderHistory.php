@@ -21,4 +21,13 @@ class OrderHistory extends Model
     {
         return $this->belongsTo(Employee::class, 'assign_to', 'id');
     }
+    
+            
+      public function edited()
+        {
+            return $this->belongsTo(Employee::class, 'edited_by', 'id')->select('id', 'name');
+        }
+
+    
+
 }
