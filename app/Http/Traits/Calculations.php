@@ -109,6 +109,7 @@ trait Calculations{
          $currentUrl = url('/');
         $bankOffer=null;
         $AllAvailableOffers=[];
+         $salary_after_minus=($request->salary - $request->Monthly_cometment);
         $car = Car::where('model_id', $request->model)
         ->where('brand_id', request('brand'))
         ->where('year', request('year'))
@@ -124,12 +125,12 @@ trait Calculations{
                 }
         $bank = Bank::find($request->bank);
         
-        if($request->salary < $bank->min_salary ){
+        if($salary_after_minus < $bank->min_salary ){
             return $AllAvailableOffers;
         }
     
         else{
-              if($request->salary >= $bank->min_salary && $request->salary < $bank->max_salary){
+              if($salary_after_minus >= $bank->min_salary && $request->salary < $bank->max_salary){
             $deduction_percentage=$bank->Deduction_rate_without_mortgage_min;
             if($request->department_loan==1){
  
@@ -148,7 +149,7 @@ trait Calculations{
             
   
         }        
-        elseif($request->salary >= $bank->max_salary){
+        elseif($salary_after_minus >= $bank->max_salary){
             $deduction_percentage=$bank->Deduction_rate_without_mortgage_max;
             if($request->department_loan==1){
  
