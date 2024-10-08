@@ -490,7 +490,7 @@ if(!function_exists('storeAndPushNotificationBasedEmployee')) {
         function OtpLink($phone,$otp)
         { 
         $apiUrl = "https://api.oursms.com/api-a/msgs";
-        $token = "e4vHwxheBK6uujxk7G9I";
+        $token = "0sDzRTKJpS8pOYvKGaRX";
         $src = 'CODE CAR';
         $dests = "$phone";
         $appName = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
