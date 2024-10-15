@@ -109,7 +109,7 @@ trait Calculations{
          $currentUrl = url('/');
         $bankOffer=null;
         $AllAvailableOffers=[];
-         $salary_after_minus=($request->salary - $request->Monthly_cometment);
+         $salary_after_plus=($request->salary + ($request->support_price ?? 0));
         $car = Car::where('model_id', $request->model)
         ->where('brand_id', request('brand'))
         ->where('year', request('year'))
@@ -125,44 +125,44 @@ trait Calculations{
                 }
         $bank = Bank::find($request->bank);
         
-        if($salary_after_minus < $bank->min_salary ){
+        if($salary_after_plus < $bank->min_salary ){
             return $AllAvailableOffers;
         }
     
         else{
-              if($salary_after_minus >= $bank->min_salary && $request->salary < $bank->max_salary){
+              if($salary_after_plus >= $bank->min_salary && $request->salary < $bank->max_salary){
             $deduction_percentage=$bank->Deduction_rate_without_mortgage_min;
             if($request->department_loan==1){
  
                 if($request->department_loan_support==1){
                 $deduction_percentage=$bank->Deduction_rate_with_support_mortgage_min;
-                $deduction = (($request->salary+$request->support_price) - $request->Monthly_cometment) * ($deduction_percentage / 100);
+                $deduction = (($request->salary+$request->support_price) ) * ($deduction_percentage / 100) - $request->Monthly_cometment;
                 }else{
                 $deduction_percentage=$bank->Deduction_rate_with_mortgage_min;
-                $deduction = ($request->salary - $request->Monthly_cometment) * ($deduction_percentage / 100);
+                $deduction = ($request->salary ) * ($deduction_percentage / 100) - $request->Monthly_cometment;
 
                 }
             }else{
-                $deduction = ($request->salary - $request->Monthly_cometment) * ($deduction_percentage / 100);
+                $deduction = ($request->salary ) * ($deduction_percentage / 100) - $request->Monthly_cometment;
 
             }
             
   
         }        
-        elseif($salary_after_minus >= $bank->max_salary){
+        elseif($salary_after_plus >= $bank->max_salary){
             $deduction_percentage=$bank->Deduction_rate_without_mortgage_max;
             if($request->department_loan==1){
  
                 if($request->department_loan_support==1){
                 $deduction_percentage=$bank->Deduction_rate_with_support_mortgage_max;
-                $deduction = (($request->salary+$request->support_price) - $request->Monthly_cometment) * ($deduction_percentage / 100);
+                $deduction = (($request->salary+$request->support_price) ) * ($deduction_percentage / 100) - $request->Monthly_cometment;
                 }else{
                 $deduction_percentage=$bank->Deduction_rate_with_mortgage_max;
-                $deduction = ($request->salary - $request->Monthly_cometment) * ($deduction_percentage / 100);
+                $deduction = ($request->salary ) * ($deduction_percentage / 100) - $request->Monthly_cometment;
 
                 }
             }else{
-                $deduction = ($request->salary - $request->Monthly_cometment) * ($deduction_percentage / 100);
+                $deduction = ($request->salary ) * ($deduction_percentage / 100) - $request->Monthly_cometment;
 
             }
             
