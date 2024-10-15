@@ -294,7 +294,7 @@ public function orders_not_approval(Request $request)
             $approve_amount = 0;
         } else
         {
-            $approve_amount = (($salary+$order['orderDetailsCar']['having_loan_support_price']) - $commitment) * ($precentage_approve / 100);
+            $approve_amount = (($salary+$order['orderDetailsCar']['having_loan_support_price'])) * ($precentage_approve / 100)  - $commitment;
         }
 
         $employees = Employee::select('id', 'name')->whereHas('roles.abilities', function ($query) {
