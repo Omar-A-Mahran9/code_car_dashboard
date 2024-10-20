@@ -645,7 +645,7 @@ try
      function send_message($phone,$message)
         { 
         $apiUrl = "https://api.oursms.com/api-a/msgs";
-        $token = "0sDzRTKJpS8pOYvKGaRX";
+        $token = " ";
         $src = 'CODE CAR';
         $dests = "$phone";
         $appName = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";

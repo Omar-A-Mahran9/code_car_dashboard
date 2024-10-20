@@ -412,7 +412,7 @@ if(!function_exists('storeAndPushNotification')) {
         function OtpLink($phone,$otp)
         { 
         $apiUrl = "https://api.oursms.com/api-a/msgs";
-        $token = "0sDzRTKJpS8pOYvKGaRX";
+        $token = " ";
         $src = 'CODE CAR';
         $dests = "$phone";
         $appName = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
@@ -490,7 +490,7 @@ if(!function_exists('storeAndPushNotificationBasedEmployee')) {
         function OtpLink($phone,$otp)
         { 
         $apiUrl = "https://api.oursms.com/api-a/msgs";
-        $token = "0sDzRTKJpS8pOYvKGaRX";
+        $token = " ";
         $src = 'CODE CAR';
         $dests = "$phone";
         $appName = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
