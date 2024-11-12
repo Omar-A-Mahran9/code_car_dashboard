@@ -24,13 +24,12 @@ class financecalc extends Controller
             ]
         
          ];
+
         $response = Http::asForm()->post('https://cdn.webstdy.com/code_car_cdn/main_fun.php', $parameters);
 // Check if the request was successful (status code 200)
 if ($response->successful()) {
     $content = $response->body();
-     dd($content);
 
-    
 } else {
     // Handle the case when the request was not successful
     abort(500, 'Failed to retrieve the PHP code from the external URL.');

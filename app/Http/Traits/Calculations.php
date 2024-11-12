@@ -201,6 +201,7 @@ trait Calculations{
         //  $bankOffer = $this->checkBankOffersec($request->bank,$request->sector,$carDetails['brand']['id'],$request->first_batch,$request->installment);
         //  }
         }
+ 
          // $bankOffer = $this->checkBankOffer($request->bank,$request->sector,$brandId);
         if($bankOffer !=null){
             foreach ($bankOffer as $offer) {
@@ -238,11 +239,11 @@ trait Calculations{
                     'database' => $databaseConfig['database'],
                 ],
              ];
-             $response = Http::asForm()->post('https://cdn.webstdy.com/cdn/codecar/calculator', $parameters);
-             if ($response->successful()) {
-                $content = $response->body(); 
-                $data = json_decode($content, true);
-                 $last_installment = $data['result']['last_installment'];
+ 
+          $response = $this->calc_function($parameters);
+             if ($response) {
+                $data = $response->getData(true); // Retrieve as associative array
+                  $last_installment = $data['result']['last_installment'];
                 $first_installment =$data['result']['first_installment'];
                 $installment_years=$data['result']['installment_years'];
                 $benefitPercentage =$data['result']['benefitPercentage'];
@@ -306,6 +307,62 @@ trait Calculations{
 
 
     }
+    
+    
+     public function calc_function($request)
+    {
+ 
+          $benefitPercentage=$request['sectorBenefit'];
+
+        $first_installment=($request['r-first_batch']/100)*($request['price']);
+        $last_installment=($request['r-last_batch']/100)*($request['price']);
+ 
+        $installment_years=($request['sectorBenefit']<$request['sectorInstallment']?$request['sectorInstallment']:$request['r-installment'])??0;
+        // $Adminstrativefeecost=($request['price']-$first_installment)*$request['sectorAdministrative_fees'];
+        $pricefees=($request['price']-$first_installment)*$request['sectorAdministrative_fees'];
+        $Adminstrativefeecost=$pricefees+($pricefees*$request['tax']);
+        $fundingAmount=($request['price']-$first_installment)+$Adminstrativefeecost;
+
+        if($request['sex']=='female'){
+            $insurancePrice = ($request['price'] *  ($request['insurance_female'] / 100))*$request['r-installment'];
+            }
+            elseif($request['sex']=='male'){
+            $insurancePrice = ($request['price'] * ($request['insurance_man'] / 100))*$request['r-installment'];
+            }
+            else{
+                $insurancePrice = 0;
+            }
+            if ($benefitPercentage == 0)
+            $fundingAmountIncludeBenefit =  $fundingAmount-$last_installment + $insurancePrice;
+            else
+            $fundingAmountIncludeBenefit = ( $fundingAmount *  $benefitPercentage * $installment_years) + $fundingAmount - $last_installment + $insurancePrice;
+
+            $firstBatchIncludeAdministrativeFees = $first_installment + $Adminstrativefeecost;
+
+        if ($installment_years > 0) {
+        $monthlyInstallment = $fundingAmountIncludeBenefit / ($installment_years * 12);
+        } else {
+            // Handle the case when $installment_years is zero, for example, by setting $monthlyInstallment to 0 or showing an error message
+            $monthlyInstallment = 0; // or display a meaningful error message
+        }
+
+
+        $result=[
+            'first_installment'=>$first_installment,
+            'last_installment'=>$last_installment,
+            'installment_years'=>$installment_years,
+            'benefitPercentage'=>$request['sectorBenefit'],
+            'Adminstrativefeecost'=>$Adminstrativefeecost,
+            'fundingAmount'=> $fundingAmount,
+            'insurancePrice'=> $insurancePrice,
+            'fundingAmountIncludeBenefit'=>$fundingAmountIncludeBenefit,
+            'monthlyInstallment'=>$monthlyInstallment,
+        ];
+
+        return response()->json(['result' => $result]); 
+
+    }
+    
 
     public function calculateByAmount($request)
     {
