@@ -541,6 +541,7 @@ public function orders_not_approval(Request $request)
 
     public function changeStatus(Order $order, Request $request)
     {
+       
         $notify = [
             'oldstatue' => $order->status_id,
         ];
@@ -555,27 +556,30 @@ public function orders_not_approval(Request $request)
         $id      = $parts[0];
         $name_en = $parts[1];
         DB::beginTransaction();
-        
+        $phone = preg_replace('/^966/', '0', $order->phone);
+
+
+
        if($order->orderDetailsCar->payment_type=="finance" && $id==2){
-        $phone=$order->phone;
+       
         $message = "ﻋزﯾزﻧﺎ اﻟﻌﻣﯾل ﺗم اﺳﺗﻼم طﻠب ﺗﻣوﯾﻠك رﻗم {$order->id} وﺳﯾﺗم اﻟﺗواﺻل ﻣﻌك ﺑﺄﺳرع وﻗت";
         $this->send_message($phone,$message);
        }
        
         if($order->orderDetailsCar->payment_type=="finance" && $id==3){
-        $phone=$order->phone;
+
         $message = "ﻋزﯾزﻧﺎ اﻟﻌﻣﯾل ﯾﺳﻌدﻧﺎ اﺑﻼﻏك ﺑﺎﻟﻣواﻓﻘﺔ ﻋﻠﻰ طﻠب اﻟﺗﻣوﯾل اﻟﺧﺎص ﺑك رﻗم {$order->id} وﺳﯾﺗم اﻟﺗواﺻل ﻣﻌك ﺑﺄﺳرع وﻗت";
         $this->send_message($phone,$message);
        }
        
         if($order->orderDetailsCar->payment_type=="finance" && $id==4){
-        $phone=$order->phone;
+
         $message = "ﻋزﯾزﻧﺎ اﻟﻌﻣﯾل ﻧﺎﺳف اﺑﻼﻏك اﻧﮫ ﺗم رﻓض طﻠب التﻣوﯾل اﻟﺧﺎص ﺑك رﻗم {$order->id} وﺳﯾﺗم اﻟﺗواﺻل ﻣﻌك ﺑﺄﺳرع وﻗت";
         $this->send_message($phone,$message);
        }
        
          if($order->orderDetailsCar->payment_type=="finance" && $id==7){
-        $phone=$order->phone;
+
         $message = "ﻋزﯾزﻧﺎ اﻟﻌﻣﯾل ﯾﺳﻌدﻧﺎ اﺑﻼﻏك اﻧﮫ ﺗم ﺗﻌﻣﯾد طﻠب التﻣوﯾل اﻟﺧﺎص ﺑك رقم {$order->id} وﺳﯾﺗم اﻟﺗواﺻل ﻣﻌك ﺑﺄﺳرع وﻗت";
         $this->send_message($phone,$message);
        }
@@ -642,35 +646,42 @@ try
     }
     
         
-     function send_message($phone,$message)
-        { 
-        $apiUrl = "https://api.oursms.com/api-a/msgs";
-        $token = " ";
-        $src = 'CODE CAR';
-        $dests = "$phone";
-        $appName = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
+function send_message($phone, $message)
+{
+    $username = "0562222170";
+    $password = "Aa@987654321";
+    $tagname = "CODECAR";
+    $recepientNumber = $phone;
+    $appName = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
 
-        $body = <<<msg
-        مرحبا بك في $appName ...
-$message
-msg;
-                
-        $response = \Illuminate\Support\Facades\Http::asForm()->post($apiUrl, [
-            'token' => $token,
-            'src' => $src,
-            'dests' => $dests,
-            'body' => $body,
-        ]);
+    // Format the message body
+    $formattedMessage = "مرحبا بك في $appName ...\n$message";
 
-        
+    // Build the URL for the Yamamah API request
+    $apiUrl = "https://api1.yamamah.com/SendSMSV2";
+    $queryParams = http_build_query([
+        'Username' => $username,
+        'Password' => $password,
+        'Tagname' => $tagname,
+        'RecepientNumber' => $recepientNumber,
+        'Message' => $formattedMessage,
+        'SendDateTime' => 0,
+        'EnableDR' => false,
+        'SentMessageID' => true,
+    ]);
 
-        if ($response->successful()) {
-            // Request successful
-            // echo "SMS sent successfully.";
-        } else {
-            // Request failed
-            echo "Failed to send SMS. Error: " . $response->body();
-        
-        }
-        }
+    $url = "$apiUrl?$queryParams";
+
+    // Send the request
+    $response = \Illuminate\Support\Facades\Http::get($url);
+
+    if ($response->successful()) {
+        // SMS sent successfully
+        // echo "SMS sent successfully.";
+    } else {
+        // Failed to send SMS
+        echo "Failed to send SMS. Error: " . $response->body();
+    }
+}
+
 }

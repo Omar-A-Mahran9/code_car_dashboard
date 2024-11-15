@@ -405,44 +405,52 @@ if(!function_exists('storeAndPushNotification')) {
             "Authorization" => "key=$SERVER_API_KEY",
         ])->post('https://fcm.googleapis.com/fcm/send', $data);
     }
+}
 
+if (!function_exists('OtpLink')) {
 
-    if(!function_exists('OtpLink')){
-
-        function OtpLink($phone,$otp)
-        { 
-        $apiUrl = "https://api.oursms.com/api-a/msgs";
-        $token = " ";
-        $src = 'CODE CAR';
-        $dests = "$phone";
+    function OtpLink($phone, $otp)
+    {
+        $username = "0562222170";
+        $password = "Aa@987654321";
+        $tagname = "CODECAR";
+        $recepientNumber = $phone;
         $appName = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
 
-        $body = <<<msg
-                مرحبًا بك في $appName ! رمز التسجيل: $otp
-                شكرًا لك!
-             msg;
-                
-        $response = \Illuminate\Support\Facades\Http::asForm()->post($apiUrl, [
-            'token' => $token,
-            'src' => $src,
-            'dests' => $dests,
-            'body' => $body,
+        // Format the OTP message
+        $formattedMessage = "مرحبًا بك في $appName! رمز التسجيل: $otp\nشكرًا لك!";
+
+        // Build the URL for the Yamamah API request
+        $apiUrl = "https://api1.yamamah.com/SendSMSV2";
+        $queryParams = http_build_query([
+            'Username' => $username,
+            'Password' => $password,
+            'Tagname' => $tagname,
+            'RecepientNumber' => $recepientNumber,
+            'Message' => $formattedMessage,
+            'SendDateTime' => 0,
+            'EnableDR' => false,
+            'SentMessageID' => true,
         ]);
 
-        
+        $url = "$apiUrl?$queryParams";
+
+        // Send the request
+        $response = \Illuminate\Support\Facades\Http::get($url);
 
         if ($response->successful()) {
-            // Request successful
+            // SMS sent successfully
             // echo "SMS sent successfully.";
         } else {
-            // Request failed
+            // Failed to send SMS
             echo "Failed to send SMS. Error: " . $response->body();
         }
-        }
-    
     }
-    
+
 }
+
+    
+
 
 /**
  * push firebase notification .
