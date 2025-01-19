@@ -26,4 +26,7 @@ Route::group(['namespace' => 'Home' , 'middleware' => 'set_locale', 'as' => 'hom
     Route::post('/amount-calculator','CalculatorController@calculate')->name('amount-calculator');
     Route::post('/calculate-installments','CalculatorController@calculateInstallmentss')->name('calculateInstallments');
     Route::post('/individuals-finance','OrderController@individualsFinance')->name('individualsFinance');
+    
+    Route::get('/slider/{name}', 'HomeController@slider')->name('slider.web');
 });
+

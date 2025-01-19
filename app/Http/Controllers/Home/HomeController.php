@@ -26,4 +26,10 @@ class HomeController extends Controller
     }
 
 
+    public function slider($name = null)
+    {
+       //dd( $name);
+       return view('web.slider', ['name' => $name]);
+    }
+
 }
