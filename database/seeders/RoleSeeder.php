@@ -21,6 +21,8 @@ class RoleSeeder extends Seeder
         $categories  =
         [
             'employees',
+            'mobile',
+            'splash_screen',
             'vendors',
             'brands',
             'models',
@@ -113,8 +115,8 @@ class RoleSeeder extends Seeder
 
         Employee::find(1)->assignRole($superAdminRole);
         Employee::find(1)->assignRole($employeeRole);
-        Employee::find(2)->assignRole($superAdminRole);
-        Employee::find(2)->assignRole($employeeRole);
+        // Employee::find(2)->assignRole($superAdminRole);
+        // Employee::find(2)->assignRole($employeeRole);
 
     }
 }

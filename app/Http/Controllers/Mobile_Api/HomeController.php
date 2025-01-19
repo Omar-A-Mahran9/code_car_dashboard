@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Models\Brand;
 use App\Models\Bank;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BranResourse;
 use App\Http\Resources\CarResourse;
 use App\Models\Car;
 use Illuminate\Http\Request;
@@ -39,13 +38,17 @@ class HomeController extends Controller
 
 
     public function brands(){
-         try
+        try
         {
             $brands = Brand::withCount('countCars')->with('models')->get();
-     
-         
-            $data=BranResourse::collection( $brands );
-
+             $brands->map(function ($brand) {
+                $brand['image'] = getImagePathFromDirectory($brand['image'], 'Brands');
+                $brand['cover'] = getImagePathFromDirectory($brand['cover'], 'Brands');
+            });
+            $data = [
+                'description' => settings()->getSettings('brand_text_in_home_page_' . getLocale()),
+                'brands' => $brands
+            ];
             return $this->success(data: $data);
         } catch (\Exception $e)
         {

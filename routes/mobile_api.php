@@ -33,8 +33,8 @@ Route::group(['middleware' => ['json.response']], function () {
      Route::post('/resend-otp', 'Api\Auth\ForgetPasswordController@resendOtp');
     Route::post('/reset-password', 'Api\Auth\ForgetPasswordController@resetPassword');
     Route::post('/verify-otp', 'Api\Auth\VerificationController@verifyOtp');
-    Route::post('/resend-otp-order', [FinanceController::class, 'resendOtp']);
     Route::get('/act_mod', 'Api\UserController@act_mod');
+    Route::post('/resend-otp-order', [FinanceController::class, 'resendOtp']);
 
      Route::group(['middleware' => 'auth:sanctum'], function () {
         // Route::post('/resend-otp', 'Api\Auth\VerificationController@resendOtp');
@@ -65,6 +65,7 @@ Route::group(['middleware' => ['json.response']], function () {
     // ------------------------- Home ---------------------------------------
     Route::get('/brand', 'Api\HomeController@brand');
     Route::get('/brands', 'Api\HomeController@brands');
+    Route::get('/splash_screen', [SplashController::class, 'index']);
 
     Route::get('/brand/{id}', 'Api\HomeController@carsbrand');
     Route::get('/why-code-car', 'Api\HomeController@why_code_car');
