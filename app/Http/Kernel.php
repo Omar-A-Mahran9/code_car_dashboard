@@ -47,7 +47,7 @@ class Kernel extends HttpKernel
 
         'mobile_api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:mobile_api',
+            // 'throttle:mobile_api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\ApiLocalization::class,
         ],
