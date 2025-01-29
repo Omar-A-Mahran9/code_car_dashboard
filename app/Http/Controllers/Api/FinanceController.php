@@ -802,8 +802,6 @@ class FinanceController extends Controller
      $step = $request->input('step');
      if (request('type') == 'individual')
     {
-      dd('oamamama');
-
       switch ($step)
       {
         case 2:
