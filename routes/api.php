@@ -35,7 +35,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/verify-otp', 'Api\Auth\VerificationController@verifyOtp');
     Route::post('/resend-otp-order', [FinanceController::class, 'resendOtp']);
     Route::get('/act_mod', 'Api\UserController@act_mod');
-    Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
+    Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard']);
 
      Route::group(['middleware' => 'auth:sanctum'], function () {
         // Route::post('/resend-otp', 'Api\Auth\VerificationController@resendOtp');

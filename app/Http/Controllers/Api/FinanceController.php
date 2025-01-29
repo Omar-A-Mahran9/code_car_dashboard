@@ -193,8 +193,6 @@ class FinanceController extends Controller
           break;
 
         case 5:
-          dd('omaa');
-
           $carResource = CarResourse::make($car)->resolve();
 
           //  DB::beginTransaction();
@@ -596,7 +594,6 @@ class FinanceController extends Controller
           }
           return $this->success(data: $view_selected_Offer ?? []);
         case 5:
-          dd('omaa');
           $car = Car::where('model_id', $request->model)
                 ->where('brand_id', request('brand'))
                 ->where('year', request('year'))
@@ -802,7 +799,7 @@ class FinanceController extends Controller
 
   public function financeOrderDashboard(Request $request)
   {
-      $step = $request->input('step');
+     $step = $request->input('step');
      if (request('type') == 'individual')
     {
       switch ($step)
@@ -912,8 +909,6 @@ class FinanceController extends Controller
           }
           return $this->success(data: $view_selected_Offer ?? []);
         case 5:
-          dd('omaa');
-
           $request->merge([
             'department_loan' => filter_var($request->input('department_loan'), FILTER_VALIDATE_BOOLEAN),
             'driving_license' => filter_var($request->input('driving_license'), FILTER_VALIDATE_BOOLEAN),
