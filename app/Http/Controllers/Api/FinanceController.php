@@ -861,7 +861,7 @@ class FinanceController extends Controller
             'have_life_problem' => ['required', 'boolean'],
                 'department_loan' => ['required', 'boolean'],
     'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
- 'support_price' => [
+    'support_price' => [
          'required_if:department_loan_support,true',
         
     ], 'nationality_id'=>'required|numeric',
