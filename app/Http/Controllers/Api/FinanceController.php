@@ -799,10 +799,11 @@ class FinanceController extends Controller
 
   public function financeOrderDashboard(Request $request)
   {
-    dd('oamamama');
      $step = $request->input('step');
      if (request('type') == 'individual')
     {
+      dd('oamamama');
+
       switch ($step)
       {
         case 2:
