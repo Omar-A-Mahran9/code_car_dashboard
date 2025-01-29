@@ -40,12 +40,13 @@ var KTCreateAccount = (function () {
           var formData = new FormData(i);
 
           formData.append("step", currentStepIndex);
-          clearErrors();
+           clearErrors();
           // Send form data to Laravel route using fetch API
-          fetch("/dashboard/finance-dash", {
+          fetch("/api/finance-dash", {
             method: "POST",
-
+        
             body: formData,
+
           })
             .then((response) => {
               if (!response.ok) {
@@ -58,7 +59,7 @@ var KTCreateAccount = (function () {
               return response.json(); // Parse the JSON response
             })
             .then((data) => {
-              if (data.data.length !== 0 && currentStepIndex == 3) {
+               if (data.data.length !== 0 && currentStepIndex == 3) {
                 const offersContainer =
                   document.getElementById("offers-container");
                 const offers = data.data;
@@ -166,7 +167,9 @@ var KTCreateAccount = (function () {
                             <!--begin::Contact details-->
                             <div class="d-flex flex-column gap-2">
                                 <!--begin::Name-->
-                                <h3 class="mb-0">${orderDetails.car.title}</h3>
+                                <h3 class="mb-0">${
+                                  orderDetails.car.title
+                                }</h3>
                                 <!--end::Name-->
                                 <!--begin::Details-->
                                 <div class="d-flex align-items-center gap-2">
@@ -286,7 +289,7 @@ var KTCreateAccount = (function () {
 
           console.log("validated!"), clearErrors();
           // Send form data to Laravel route using fetch API
-          fetch("/dashboard/finance-dash", {
+          fetch("/api/finance-dash", {
             method: "POST",
             body: formData,
           })

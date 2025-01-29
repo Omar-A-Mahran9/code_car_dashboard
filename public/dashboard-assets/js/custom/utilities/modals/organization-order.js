@@ -42,7 +42,7 @@ var KTCreateAccount = (function () {
           //   formData.append("type", "individual");
           clearErrors();
           // Send form data to Laravel route using fetch API
-          fetch("/dashboard/finance-dash", {
+          fetch("/api/finance-dash", {
             method: "POST",
             body: formData,
           })
@@ -78,7 +78,7 @@ var KTCreateAccount = (function () {
 
           console.log("validated!"), clearErrors();
           // Send form data to Laravel route using fetch API
-          fetch("/dashboard/finance-dash", {
+          fetch("/api/finance-dash", {
             method: "POST",
             body: formData,
           })
