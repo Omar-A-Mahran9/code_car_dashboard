@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Dashboard\CarController;
 use App\Http\Controllers\Dashboard\ChatController;
 use App\Http\Controllers\Dashboard\DelegatesController;
@@ -32,6 +33,7 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dash
     Route::get('/orders_not_approval', [OrderController::class, 'orders_not_approval'])->name('orders.orders_not_approval');
     Route::post('/final_approval', [OrderController::class, 'final_approval'])->name('orders.final_approval');
     Route::post('/filter-cars', [OrderController::class, 'filter_cars']);
+    Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
 
     /** resources routes **/
     Route::resource('orders', 'OrderController');
