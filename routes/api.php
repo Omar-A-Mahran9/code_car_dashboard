@@ -35,6 +35,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/verify-otp', 'Api\Auth\VerificationController@verifyOtp');
     Route::post('/resend-otp-order', [FinanceController::class, 'resendOtp']);
     Route::get('/act_mod', 'Api\UserController@act_mod');
+    Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
 
      Route::group(['middleware' => 'auth:sanctum'], function () {
         // Route::post('/resend-otp', 'Api\Auth\VerificationController@resendOtp');
@@ -56,7 +57,6 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
         Route::get('/requests_auth','Api\RequestController@index')->name('get-requests');
         // Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order');
-        Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
         Route::post('/favorite-auth', 'Api\UserController@favorite');
     });
     Route::post('/favorite-withoutauth', 'Api\UserController@favorite');
