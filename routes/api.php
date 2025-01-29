@@ -155,7 +155,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::get('/requests','Api\RequestController@index')->name('get-requests-without-auth');
     Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order2');
-    Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->middleware(SetLocale::class);
+    Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard']);
 
 });
 
