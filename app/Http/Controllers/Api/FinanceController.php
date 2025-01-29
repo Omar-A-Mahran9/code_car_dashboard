@@ -193,6 +193,8 @@ class FinanceController extends Controller
           break;
 
         case 5:
+          dd('omaa');
+
           $carResource = CarResourse::make($car)->resolve();
 
           //  DB::beginTransaction();
@@ -910,6 +912,8 @@ class FinanceController extends Controller
           }
           return $this->success(data: $view_selected_Offer ?? []);
         case 5:
+          dd('omaa');
+
           $request->merge([
             'department_loan' => filter_var($request->input('department_loan'), FILTER_VALIDATE_BOOLEAN),
             'driving_license' => filter_var($request->input('driving_license'), FILTER_VALIDATE_BOOLEAN),
