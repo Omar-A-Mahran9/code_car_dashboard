@@ -594,6 +594,7 @@ class FinanceController extends Controller
           }
           return $this->success(data: $view_selected_Offer ?? []);
         case 5:
+          dd('omaa');
           $car = Car::where('model_id', $request->model)
                 ->where('brand_id', request('brand'))
                 ->where('year', request('year'))
@@ -799,7 +800,7 @@ class FinanceController extends Controller
 
   public function financeOrderDashboard(Request $request)
   {
-     $step = $request->input('step');
+      $step = $request->input('step');
      if (request('type') == 'individual')
     {
       switch ($step)
