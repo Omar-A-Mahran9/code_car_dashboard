@@ -234,7 +234,7 @@ class FinanceController extends Controller
             'salary' => $request->salary,
             'commitments' => $request->Monthly_cometment,
             'having_loan' => $request->department_loan,
-            'having_loan_support' => $request->department_loan_support,
+            'having_loan_support' => $request->department_loan_support??0,
             'having_loan_support_price' => $request->support_price??0,
 
             'traffic_violations'=>$request->traffic_violations,
@@ -640,7 +640,7 @@ class FinanceController extends Controller
 
             'commitments' => $request->Monthly_cometment,
             'having_loan' => $request->department_loan,
-            'having_loan_support' => $request->department_loan_support,
+            'having_loan_support' => $request->department_loan_support??0,
             'having_loan_support_price' => $request->support_price??0,
 
             'driving_license' =>  $request->driving_license === '1'? 'available' : 'doesnt_exist',
@@ -954,7 +954,7 @@ class FinanceController extends Controller
 
             'commitments' => $request->Monthly_cometment,
             'having_loan' => $request->department_loan ,
-            'having_loan_support' => $request->department_loan_support,
+            'having_loan_support' => $request->department_loan_support??0,
             'having_loan_support_price' => $request->support_price??0,
 
             'driving_license' =>  $request->driving_license === '1'? 'available' : 'doesnt_exist',
@@ -998,6 +998,12 @@ class FinanceController extends Controller
           $ordersTableData['Adminstrative_fees'] = $view_selected_Offer['sectorAdministrative_fees'];
           $ordersTableData['Monthly_installment'] = $view_selected_Offer['monthly_installment'];
 
+          $ordersTableData['first_payment_value'] = str_replace(',', '', $view_selected_Offer['firs_installment']);
+          $ordersTableData['last_payment_value'] = str_replace(',', '', $view_selected_Offer['last_installment']);
+          $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
+          $ordersTableData['Adminstrative_fees'] = str_replace(',', '', $view_selected_Offer['sectorAdministrative_fees']);
+          $ordersTableData['Monthly_installment'] = str_replace(',', '', $view_selected_Offer['monthly_installment']);
+  
           $ordersTableData['order_id'] = $order->id;
           $ordersTableData['type'] = $request->type;
           $ff=CarOrder::create($ordersTableData);    
