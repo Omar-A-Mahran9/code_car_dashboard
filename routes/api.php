@@ -56,6 +56,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
         Route::get('/requests_auth','Api\RequestController@index')->name('get-requests');
         // Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order');
+        Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard']);
         Route::post('/favorite-auth', 'Api\UserController@favorite');
     });
     Route::post('/favorite-withoutauth', 'Api\UserController@favorite');
@@ -154,8 +155,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::get('/requests','Api\RequestController@index')->name('get-requests-without-auth');
     Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order2');
-    // Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard']);
-    Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
+    // Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->middleware(SetLocale::class);
 
 });
 
