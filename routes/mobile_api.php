@@ -64,6 +64,8 @@ Route::group(['middleware' => ['json.response']], function () {
 
     // ------------------------- Home ---------------------------------------
     Route::get('/brand', 'Api\HomeController@brand');
+    Route::get('/home', 'Api\HomeController@allhome');
+
     Route::get('/brands', 'Api\HomeController@brands');
     Route::get('/splash_screen', [SplashController::class, 'index']);
 
@@ -148,7 +150,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/amount-calculator','Home\CalculatorController@calculate')->name('amount-calculator');
     Route::post('/calculate-installments','CalculatorController@calculateInstallmentss')->name('calculateInstallments');
     Route::post('/individuals-finance','OrderController@individualsFinance')->name('individualsFinance');
-
+ 
 
     // Route::get('/requests','Api\RequestController@index')->name('get-requests');
     Route::get('/requests-search','Api\RequestController@search');
