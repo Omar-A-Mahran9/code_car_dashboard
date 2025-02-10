@@ -23,7 +23,7 @@ class CarResourse extends JsonResource
     {
          $statue=CarStatus::from($this->status)->name;
         $order = Order::where('car_id', $this->id)->get();
-       
+
 
         $financeOrdersCountPerCar = Order::where('car_id', $this->id)->whereHas('orderDetailsCar', function ($query) {
             $query->where('payment_type', 'finance');
@@ -42,9 +42,9 @@ class CarResourse extends JsonResource
                 }
             });
         })
-        ->exists();  
+        ->exists();
         $priceaftervat = floatval($this->getPriceAfterVatAttribute());
-        
+
         return [
             'id' => $this->id,
             'title' => Str::limit($this->name, 35),
@@ -104,7 +104,7 @@ class CarResourse extends JsonResource
                 'title'=>$this->city->name,
             ],
             'color'=>$this->color,
-        
+
             // 'color' => [
             //     'id'=>$this->color->id,
             //     'title'=>$this->color->name,
@@ -124,7 +124,7 @@ class CarResourse extends JsonResource
             'images' => $this->images->map(function ($image) {
                 return getImagePathFromDirectory($image->image, 'Cars');
             })->toArray()
-            
+
         ];
     }
 }

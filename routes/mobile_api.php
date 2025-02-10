@@ -30,20 +30,20 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/register', 'Api\Auth\AuthController@register');
     Route::post('/login', 'Api\Auth\AuthController@login');
     Route::post('/send-otp', 'Api\Auth\ForgetPasswordController@sendOtp');
-     Route::post('/resend-otp', 'Api\Auth\ForgetPasswordController@resendOtp');
+    Route::post('/resend-otp', 'Api\Auth\ForgetPasswordController@resendOtp');
     Route::post('/reset-password', 'Api\Auth\ForgetPasswordController@resetPassword');
     Route::post('/verify-otp', 'Api\Auth\VerificationController@verifyOtp');
     Route::get('/act_mod', 'Api\UserController@act_mod');
     Route::post('/resend-otp-order', [FinanceController::class, 'resendOtp']);
 
-     Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::group(['middleware' => 'auth:sanctum'], function () {
         // Route::post('/resend-otp', 'Api\Auth\VerificationController@resendOtp');
         Route::post('/logout', 'Api\Auth\AuthController@logout');
         Route::post('/add-Your-addss', [AdsController::class, 'store']);
         Route::delete('/addss/delete/{id}', 'Api\UserController@destroy');
         Route::get('/addss/edit/{id}', 'Api\UserController@edit');
-        Route::get('/notification','Api\UserController@notification');
-        Route::get('/changestatuenotificaton','Api\UserController@changestatue');
+        Route::get('/notification', 'Api\UserController@notification');
+        Route::get('/changestatuenotificaton', 'Api\UserController@changestatue');
 
         Route::post('/addss/update/{id}', 'Api\UserController@update');
 
@@ -54,13 +54,14 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/update-status/{id}', 'Api\UserController@updateAdsShowInHomePage');
         Route::get('/filter-addss', 'Api\UserController@filter');
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
-        Route::get('/requests_auth','Api\RequestController@index')->name('get-requests');
+        Route::get('/requests_auth', 'Api\RequestController@index')->name('get-requests');
         Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order');
         Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
         Route::post('/favorite-auth', 'Api\UserController@favorite');
     });
     Route::post('/favorite-withoutauth', 'Api\UserController@favorite');
     Route::post('/add-favorite-withoutauth', 'Api\FavoriteController@store');
+    Route::post('/add-array-favorite', 'Api\FavoriteController@storeFavArray');
 
     // ------------------------- Home ---------------------------------------
     Route::get('/brand', 'Api\HomeController@brand');
@@ -144,21 +145,20 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/search', [SearchController::class, 'search']);
     Route::get('/categories', [CategoryController::class, 'categories']);
     Route::get('/car-type', [CarController::class, 'cartype']);
- 
 
-    Route::get('/calculator','Home\CalculatorController@index')->name('calculator');
-    Route::post('/amount-calculator','Home\CalculatorController@calculate')->name('amount-calculator');
-    Route::post('/calculate-installments','CalculatorController@calculateInstallmentss')->name('calculateInstallments');
-    Route::post('/individuals-finance','OrderController@individualsFinance')->name('individualsFinance');
- 
+
+    Route::get('/calculator', 'Home\CalculatorController@index')->name('calculator');
+    Route::post('/amount-calculator', 'Home\CalculatorController@calculate')->name('amount-calculator');
+    Route::post('/calculate-installments', 'CalculatorController@calculateInstallmentss')->name('calculateInstallments');
+    Route::post('/individuals-finance', 'OrderController@individualsFinance')->name('individualsFinance');
+
 
     // Route::get('/requests','Api\RequestController@index')->name('get-requests');
-    Route::get('/requests-search','Api\RequestController@search');
-    Route::post('/find','Api\financecalc@encry');
+    Route::get('/requests-search', 'Api\RequestController@search');
+    Route::post('/find', 'Api\financecalc@encry');
 
-    Route::get('/requests','Api\RequestController@index')->name('get-requests-without-auth');
+    Route::get('/requests', 'Api\RequestController@index')->name('get-requests-without-auth');
     Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order2');
     Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->middleware(SetLocale::class);
 
 });
-
