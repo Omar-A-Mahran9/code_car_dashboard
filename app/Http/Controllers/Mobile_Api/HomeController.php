@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Models\Brand;
 use App\Models\Bank;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BranResourse;
 use App\Http\Resources\CarResourse;
+use App\Http\Resources\SplashResourse;
 use App\Models\Car;
+use App\Models\Splash;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 use Storage;
@@ -17,7 +21,7 @@ class HomeController extends Controller
     {
         try
         {
-         $perPage = 18; 
+         $perPage = 18;
             $brands = Brand::withCount('countCars')->paginate($perPage);
             $brands->map(function ($brand) {
                 $brand['image'] = getImagePathFromDirectory($brand['image'], 'Brands');
@@ -27,7 +31,7 @@ class HomeController extends Controller
                 'description' => settings()->getSettings('brand_text_in_home_page_' . getLocale()),
                 'brands' => $this->successWithPagination(message:"All Pagination brand",data: $brands)
             ];
-            
+
             return $this->success(data: $data);
         } catch (\Exception $e)
         {
@@ -53,7 +57,7 @@ class HomeController extends Controller
         } catch (\Exception $e)
         {
             return $this->failure(message: $e->getMessage());
-        } 
+        }
     }
 
     public function carsbrand($id){
@@ -108,16 +112,83 @@ class HomeController extends Controller
             return $this->failure(message: $e->getMessage());
         }
     }
-    public function act_mod(){
-        dd('omaa');
-        }  
- 
- 
+    public function allhome()
+    {
+        try {
+            // Fetch brands with related models and car count
+            $brands = Brand::withCount('countCars')->with('models')->get();
+            $brandsData = BranResourse::collection($brands);
+
+            // Get the query parameter
+            $tag = request('tag');
+
+            // Prepare the query for cars
+            $query = Car::query();
+
+            if ($tag) {
+                // Fetch the tag with related cars
+                $tagModel = Tag::with('cars')->find($tag);
+
+                if ($tagModel) {
+                    $carIds = $tagModel->cars->pluck('id')->toArray();
+                    $query->whereIn('id', $carIds);
+                }
+            }
+
+            // Sorting (default: latest cars)
+            $orderDirection = request('order', 'desc');
+            $query->orderBy('created_at', $orderDirection);
+
+            // Pagination
+            $perPage = 9;
+            $carsPaginated = $query->paginate($perPage);
+            $carsData = CarResourse::collection($carsPaginated);
+
+      // Get cars for specific tags (Limited to 5 per category)
+            $modernCars = Car::whereHas('tags', function ($q) {
+                $q->where('tags.id', 6);
+            })->where('status', 2)
+            ->latest() // Order by latest cars
+            ->take(5)
+            ->get();
+
+            $exclusiveCars = Car::whereHas('tags', function ($q) {
+                $q->where('tags.id', 7);
+            })->where('status', 2)
+            ->latest()
+            ->take(5)
+            ->get();
+
+            $agenciesCars = Car::whereHas('tags', function ($q) {
+                $q->where('tags.id', 11);
+            })->where('status', 2)
+            ->latest()
+            ->take(5)
+            ->get();
+
+             $splash = Splash::get();
+
+
+
+
+            return $this->success(data: [
+                'banners'=>SplashResourse::collection( $splash ),
+                'brands' => $brandsData,
+                'modern_cars' => CarResourse::collection($modernCars),
+                'exclusive_cars' => CarResourse::collection($exclusiveCars),
+                'agencies_cars' => CarResourse::collection($agenciesCars),
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->failure(message: $e->getMessage());
+        }
+    }
+
     public function financing_bodies()
     {
          try
         {
-              $perPage = 18; 
+              $perPage = 18;
             $banks = Bank::paginate($perPage);
             $banks->map(function ($bank) {
                 $bank['image'] = getImagePathFromDirectory($bank['image'], 'Banks');
