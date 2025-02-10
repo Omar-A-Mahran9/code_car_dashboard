@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\StoreFavoriteArrayRequest;
 use App\Http\Requests\Site\StoreFavoriteRequest;
 use Auth;
 
