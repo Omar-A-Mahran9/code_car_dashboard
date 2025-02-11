@@ -6,9 +6,11 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\citiyController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\FinanceController;
+use App\Http\Controllers\Api\GlobalController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Mobile_Api\GlobalController as Mobile_ApiGlobalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SetLocale;
@@ -130,7 +132,12 @@ Route::group(['middleware' => ['json.response']], function () {
 
 
     Route::get('/cities', [citiyController::class, 'index']);
+    Route::get('/citiesData', [Mobile_ApiGlobalController::class, 'cityData']);
 
+    Route::get('/banksData', [Mobile_ApiGlobalController::class, 'bankData']);
+    Route::get('/colores', [Mobile_ApiGlobalController::class, 'colorsData']);
+    Route::get('/organization_type', [Mobile_ApiGlobalController::class, 'organizationTypes']);
+    Route::get('/Organization_active', [Mobile_ApiGlobalController::class, 'Organizationactive']);
 
 
 
