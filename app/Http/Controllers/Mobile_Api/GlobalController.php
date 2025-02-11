@@ -7,8 +7,10 @@ use App\Http\Resources\ColorResourse;
 use App\Models\Bank;
 use App\Models\City;
 use App\Models\Color;
+use App\Models\Nationality;
 use App\Models\Organizationactive;
 use App\Models\OrganizationType;
+use App\Models\Sector;
 use Illuminate\Http\Request;
 
 class GlobalController extends Controller
@@ -76,70 +78,27 @@ class GlobalController extends Controller
 
     }
 
+    public function SectorsData(){
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $sectors = Sector::get();
+        $Active = $sectors->map(function ($sector) {
+             return [
+                'id' => $sector->id,
+                'title' => $sector->name,
+            ];
+        })->toArray();
+
+        return $this->success(data: $Active);
+
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+
+    public function Nationality(){
+        $nationality = Nationality::get();
+
+        return $this->success(data: $nationality);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
