@@ -47,7 +47,7 @@ class FinanceController extends Controller
         'organization_age' => ['bail', 'required', 'numeric', 'min:1'],
         'city_id' => ['bail', 'required', 'nullable'],
         'bank_id' => ['bail', 'required', 'nullable', Rule::exists('banks', 'id')],
-        'color_id' => ['bail', 'required', 'nullable'],
+        'color_id' => ['bail', 'nullable'],
         'car_count' => ['required', 'numeric', 'max:255'],
       ]);
       $request->merge([
@@ -109,7 +109,7 @@ class FinanceController extends Controller
               "installment" => "required|numeric"
                       ]);
                       $carResource = CarResourse::make($car)->resolve();
-        
+
 
                       return [
                         "brand" => $carResource['brand']['title'],
@@ -119,11 +119,11 @@ class FinanceController extends Controller
                         "gear_shifter"=>$carResource['gear_shifter'],
                         "color"=>$carResource['color'],
                          ];
-              break;          
+              break;
         case 2:
                     $request->validate([
                      "color_id" => "required|numeric",
-        
+
                       ]);
 
           break;
@@ -147,7 +147,7 @@ class FinanceController extends Controller
     'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
  'support_price' => [
          'required_if:department_loan_support,true',
-      
+
     ],
     'nationality_id' => 'required|numeric',
 
@@ -174,16 +174,16 @@ class FinanceController extends Controller
 
             $request->validate([
               "bank_offer_id" => 'required|numeric',
-              'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
-              'License_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
-              'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
+              'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+              'License_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+              'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
               'Insurance_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
             ]);
             $request['car']=$car;
             $data = $this->calculateInstallmentscar($request);
             $view_selected_Offer = null;
            foreach ($data as $selectedOffer) {
-               if ($selectedOffer['bank_offer_id'] == $request['bank_offer_id']) { 
+               if ($selectedOffer['bank_offer_id'] == $request['bank_offer_id']) {
                    $view_selected_Offer = $selectedOffer;
                    break; // Exit the loop once a matching offer is found
                }
@@ -239,7 +239,7 @@ class FinanceController extends Controller
 
             'traffic_violations'=>$request->traffic_violations,
             'driving_license' =>  $request->driving_license === '1' ? 'available' : 'doesnt_exist',
- 
+
             'birth_date' => $request->birth_date,
             'bank_id' => $request->bank,
             'sector_id' => $request->sector,
@@ -281,7 +281,7 @@ class FinanceController extends Controller
 
           $ordersTableData['order_id'] = $order->id;
           $ordersTableData['type'] = $request->type;
- 
+
         $ordersTableData['first_payment_value'] = str_replace(',', '', $view_selected_Offer['firs_installment']);
         $ordersTableData['last_payment_value'] = str_replace(',', '', $view_selected_Offer['last_installment']);
         $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
@@ -318,7 +318,7 @@ class FinanceController extends Controller
             $carOrdersTableData = $request->validate([
             'color_id' => ['bail', 'required', 'nullable'],
           ]);
-           break; 
+           break;
 
         case 1:
           $carOrdersTableData = $request->validate([
@@ -479,7 +479,7 @@ class FinanceController extends Controller
 
   public function financeOrder(Request $request)
   {
-   
+
     $step = $request->input('step');
     if (request('type') == 'individual')
     {
@@ -501,7 +501,7 @@ class FinanceController extends Controller
             "gear_shifter" => "required",
             "color_id" => "required|numeric"
           ]);
-          
+
             $car = Car::where('model_id', $request->model)
                     ->where('brand_id', request('brand'))
                     ->where('year', request('year'))
@@ -511,14 +511,14 @@ class FinanceController extends Controller
 
             if($car){
                 if($car->have_discount==1){
-                                 $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;          
+                                 $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
 
                 }else{
                                  $car->price = $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
 
                 }
             return $this->success(data: ['car' => $car]);
-            
+
             }
             else{
                 return $this->success('car Not found');
@@ -540,20 +540,20 @@ class FinanceController extends Controller
             'Monthly_cometment'=>'required|numeric',
             'driving_license' =>  ['required', 'boolean'],
             'traffic_violations' =>  ['required', 'boolean'],
-          
+
             'have_life_problem' => ['required', 'boolean'],
              'department_loan' => ['required', 'boolean'],
     'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
  'support_price' => [
          'required_if:department_loan_support,true',
-        
+
     ],
 
             'nationality_id'=>'required|numeric',
           ]);
           $ordersTableData['phone'] = convertArabicNumbers($request->phone);
           $request->merge(['phone' => $ordersTableData['phone']]);
-         
+
         $request->validate([
             'phone' => [
               'required',
@@ -565,7 +565,7 @@ class FinanceController extends Controller
           $data= [];
 
         }else{
-          
+
           $data=$this->calculateInstallmentscar($request);
         }
          return $this->success(data: $data);
@@ -575,9 +575,9 @@ class FinanceController extends Controller
           $request->validate([
             'bank_offer_id' => 'required|exists:bank_offers,id',
 
-            'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
-            'License_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
-            'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
+            'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'License_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
             'Insurance_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
           ]);
 
@@ -601,7 +601,7 @@ class FinanceController extends Controller
                 ->where('category_id',request('category'))
                 ->first();
             if($car->have_discount==1){
-                                 $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;          
+                                 $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
 
                 }else{
                                  $car->price = $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
@@ -822,7 +822,7 @@ class FinanceController extends Controller
             "gear_shifter" => "required",
             "color_id" => "required|numeric"
           ]);
-          
+
             $car = Car::where('model_id', $request->model)
                     ->where('brand_id', request('brand'))
                     ->where('year', request('year'))
@@ -863,12 +863,12 @@ class FinanceController extends Controller
     'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
     'support_price' => [
          'required_if:department_loan_support,true',
-        
+
     ], 'nationality_id'=>'required|numeric',
           ]);
           $ordersTableData['phone'] = convertArabicNumbers($request->phone);
           $request->merge(['phone' => $ordersTableData['phone']]);
-         
+
         $request->validate([
             'phone' => [
               'required',
@@ -880,7 +880,7 @@ class FinanceController extends Controller
           $data= [];
 
         }else{
-          
+
           $data=$this->calculateInstallmentscar($request);
         }
          return $this->success(data: $data);
@@ -890,9 +890,9 @@ class FinanceController extends Controller
           $request->validate([
             'bank_offer_id' => 'required|exists:bank_offers,id',
 
-            'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
-            'License_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
-            'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048', 
+            'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'License_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
             'Insurance_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
           ]);
 
@@ -969,7 +969,7 @@ class FinanceController extends Controller
           $ordersTableData['type'] = 'car';
           $ordersTableData['car_name'] = $car->name;
           $ordersTableData['phone'] = convertArabicNumbers($ordersTableData['phone']);
- 
+
           $ordersTableData['payment_type'] = 'finance';
           $ordersTableData['client_id'] = Auth::user()->id ?? null;
           ;
@@ -1003,11 +1003,11 @@ class FinanceController extends Controller
           $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
           $ordersTableData['Adminstrative_fees'] = str_replace(',', '', $view_selected_Offer['sectorAdministrative_fees']);
           $ordersTableData['Monthly_installment'] = str_replace(',', '', $view_selected_Offer['monthly_installment']);
-  
+
           $ordersTableData['order_id'] = $order->id;
           $ordersTableData['type'] = $request->type;
-          $ff=CarOrder::create($ordersTableData);    
-    
+          $ff=CarOrder::create($ordersTableData);
+
 
           $notify = [
             'vendor_id' => Auth::id() ?? null,
