@@ -45,8 +45,6 @@ class HomeController extends Controller
          try
         {
             $brands= Brand::withCount('countCars')->with('models')->get();
-
-
             $data=BranResourse::collection( $brands );
 
             return $this->success(data: $data);

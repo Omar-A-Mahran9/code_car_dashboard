@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Mobile_Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BranResourse;
 use App\Http\Resources\ColorResourse;
+use App\Http\Resources\ModelResourse;
 use App\Models\Bank;
 use App\Models\Brand;
 use App\Models\Car;
+use App\Models\CarModel;
 use App\Models\City;
 use App\Models\Color;
 use App\Models\Nationality;
@@ -15,6 +17,7 @@ use App\Models\Organizationactive;
 use App\Models\OrganizationType;
 use App\Models\Sector;
 use Illuminate\Http\Request;
+use Reliese\Coders\Model\Model;
 
 class GlobalController extends Controller
 {
@@ -159,5 +162,19 @@ class GlobalController extends Controller
        }
    }
 
+   public function get_model_by_brand($id){
+    try
+    {
+        $models= CarModel::where('brand_id',$id)->get();
+
+
+        $data=ModelResourse::collection( $models );
+
+        return $this->success(data: $data);
+    } catch (\Exception $e)
+    {
+        return $this->failure(message: $e->getMessage());
+    }
+   }
 
 }

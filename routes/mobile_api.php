@@ -144,6 +144,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/advanced_search', [Mobile_ApiGlobalController::class, 'some_data'] );
 
     Route::get('/mobile_brands', [Mobile_ApiGlobalController::class, 'brands'] );
+    Route::get('/get_model_by_brand/{id}', [Mobile_ApiGlobalController::class, 'get_model_by_brand']);
 
     // ----------------------- Offer ----------------------
     Route::get('/offer/show/{id}', 'Api\OfferController@show');
