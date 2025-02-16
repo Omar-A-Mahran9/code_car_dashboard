@@ -113,7 +113,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::get('/careers', 'Api\CareerController@index');
     Route::get('/cars', [CarController::class, 'carsdetails']);
-    Route::post('/cars', [CarController::class, 'carsdetails_fav']);
 
     Route::get('/car-option', [CarController::class, 'CarOption']);
 
@@ -147,6 +146,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::get('/mobile_brands', [Mobile_ApiGlobalController::class, 'brands'] );
     Route::get('/get_model_by_brand/{id}', [Mobile_ApiGlobalController::class, 'get_model_by_brand']);
+    Route::post('/cars', [Mobile_ApiGlobalController::class, 'carsdetails_fav']);
 
     // ----------------------- Offer ----------------------
     Route::get('/offer/show/{id}', 'Api\OfferController@show');

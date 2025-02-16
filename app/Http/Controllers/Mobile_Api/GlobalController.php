@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mobile_Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BranResourse;
+use App\Http\Resources\CarResourse;
 use App\Http\Resources\ColorResourse;
 use App\Http\Resources\ModelResourse;
 use App\Models\Bank;
@@ -161,6 +162,40 @@ class GlobalController extends Controller
            return $this->failure(message: $e->getMessage());
        }
    }
+
+
+   public function carsdetails_fav(Request $request) {
+    $validated = $request->validate([
+        'car_ids' => ['required', 'array', 'min:1'], // Must be an array with at least one item
+        'car_ids.*' => ['integer', 'exists:cars,id'], // Each item must be an integer and exist in the cars table
+    ]);
+
+    $car_ids = $validated['car_ids'];
+    $carDetails = [];
+
+    foreach ($car_ids as $id) {
+        $car = Car::find($id);
+
+        if ($car) {
+            $car->increment('viewers');
+
+            $related = Car::where('brand_id', $car->brand_id)
+                ->where('id', '!=', $car->id)
+                ->where('publish', 1)
+                ->take(10)
+                ->get();
+
+            $related_car = CarResourse::collection($related);
+            $data = CarResourse::make($car)->resolve();
+            $data['related_cars'] = $related_car;
+
+            $carDetails[] = $data;
+        }
+    }
+
+    return $this->success(data: ['carsDetails' => $carDetails]);
+}
+
 
    public function get_model_by_brand($id){
     try
