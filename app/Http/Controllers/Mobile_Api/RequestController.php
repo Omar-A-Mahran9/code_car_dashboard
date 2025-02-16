@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CarResourse;
@@ -20,13 +20,15 @@ class RequestController extends Controller
     use Calculations;
 
     public function index(){
+
       try
         {
             $type=request()->type;
+
             $allOrders=[];
 
-      if (auth()->check()) { 
- 
+      if (auth()->check()) {
+
                 if(Auth::user()){
 
                      if(request('filter')=='complete'){
@@ -38,14 +40,14 @@ class RequestController extends Controller
 
                       }else{
                         $orders = Order::where('phone', Auth::user()->phone)->where('verified',1)->with('car','orderDetailsCar')->whereNull('deleted_at')->get();
-                      }      
+                      }
                       foreach ($orders as $order) {
                          $orderDetails=$order->orderDetailsCar;
                          if ($orderDetails->type == 'organization'&& $orderDetails->cars !== null) {
                             $cars=$order['orderDetailsCar']['cars'];
                                $carsArray = json_decode($cars);
                                $cars_in_orders=[];
-             
+
                                foreach($carsArray as $car){
                                   $carconvert=Car::find($car->car_id);
                                   $carDetails=CarResourse::make($carconvert)->resolve();
@@ -57,7 +59,7 @@ class RequestController extends Controller
                                      'carcount'=>$car->count
                                            ];
                                   $cars_in_orders[]=$carData;
-                                            }   
+                                            }
                                   $allOrders[]=['cars'=>$cars_in_orders,'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),'OrderPaymentType'=>$orderDetails->payment_type,'OrderType'=>$orderDetails->type];
 
                                 }
@@ -80,19 +82,19 @@ class RequestController extends Controller
 
                             if($orderDetails->payment_type == 'finance'){
                             $bankOffer=BankOffer::with('sectors')->find($order['orderDetailsCar']['bank_offer_id']);
-                          
+
                             $fundingAmount = $order['orderDetailsCar']['finance_amount'];;
                             $installment_years=$order['orderDetailsCar']['installment'];
                             $last_installment=$order['orderDetailsCar']['last_payment_value'];
                             $first_installment=$order['orderDetailsCar']['last_payment_value'];
                             $monthlyInstallment=$order['orderDetailsCar']['Monthly_installment'];
                             $adminstrativefees=$order['orderDetailsCar']['Adminstrative_fees'];
-            
-          
-                     
 
- 
-             
+
+
+
+
+
                             $order=[
                                 'order_id'=>$order['id'],
                                 'car_title'=>$carDetails['main_title'],
@@ -129,21 +131,25 @@ class RequestController extends Controller
                                 ];
                             }
 
-                            
+
                             $allOrders[] =$order;
 
                     }
                         }
                         }
-    
-                   return $this->success(data:$allOrders);    
- 
-                }  
-            else{
+
+                   return $this->success(data:$allOrders);
+
+     }
+      else{
+
                 $order_number=request('order_number');
+
                 $allOrders=$this->search($order_number);
-            }
-         
+                return $this->success(data:[$allOrders]);
+
+     }
+
 
         } catch (\Exception $e)
         {
@@ -153,12 +159,14 @@ class RequestController extends Controller
 
 
 
-    public function search(Request $request){    
- 
-         $ordernumber=$request->order_number;
-          $order=Order::where('id',$ordernumber)->where('verified',1)->whereNull('deleted_at')->with('orderDetailsCar')->first();
+    public function search($order_number){
+
+         $ordernumber= $order_number;
+           $order=Order::where('id',$ordernumber)->where('verified',1)->whereNull('deleted_at')->with('orderDetailsCar')->first();
            if($order){
+
              if($order->orderDetailsCar->type=='organization' && $order->orderDetailsCar->cars != null){
+
                 $cars=$order['orderDetailsCar']['cars'];
                 $carsArray = json_decode($cars);
                 $cars_in_orders=[];
@@ -176,10 +184,11 @@ class RequestController extends Controller
                     'OrderType'=>$order['orderDetailsCar']['type'],
                     ];
                     $cars_in_orders[]=$carData;
-                }   
+                }
                 $allOrders =['cars'=>$cars_in_orders,'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),'OrderPaymentType'=>$order->orderDetailsCar['payment_type'],'OrderType'=>$order->orderDetailsCar['type']];
             }
           elseif($order->orderDetailsCar->type=='organization' &&$order->car_id!=null){
+
                 $car=Car::find($order->car_id);
                     $carDetails=CarResourse::make($car)->resolve();
                     $carData=[
@@ -196,15 +205,17 @@ class RequestController extends Controller
                     $allOrders=['cars'=>$cars_in_orders,'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),'OrderPaymentType'=>$order->orderDetailsCar['payment_type'],'OrderType'=>$order->orderDetailsCar['type']];
                 }
 
- 
+
               $orderDetails=$order->orderDetailsCar;
 
             //   $carDetails=CarResourse::make($order->car)->resolve();
          if($order->orderDetailsCar->type=='individual' ){
 
                     $orderDetails=$order->orderDetailsCar;
+
                     $carDetails=CarResourse::make($order->car)->resolve();
                     if($orderDetails->payment_type == 'finance'){
+
                         $bankOffer=BankOffer::with('sectors')->find($order['orderDetailsCar']['bank_offer_id']);
                          $fundingAmount = $order['orderDetailsCar']['finance_amount'];;
                         $installment_years=$order['orderDetailsCar']['installment'];
@@ -212,7 +223,7 @@ class RequestController extends Controller
                         $first_installment=$order['orderDetailsCar']['first_payment_value'];
                         $monthlyInstallment=$order['orderDetailsCar']['Monthly_installment'];
                         $adminstrativefees=$order['orderDetailsCar']['Adminstrative_fees'];
-        
+
                             //  $this->calculateInstallmentscarOrders($order);
                             $order=[
                                 'order_id'=>$order['id'],
@@ -232,9 +243,10 @@ class RequestController extends Controller
                                 'OrderPaymentType'=>$orderDetails->payment_type,
                                 'OrderType'=>$orderDetails->type
                             ];
+
                     }
-             else{
-                         $order=[
+         else{
+                     $order=[
                             'order_id'=>$order['id'],
                             'car_title'=>$carDetails['main_title'],
                             'cash_order'=>$carDetails['price_after_tax'],
@@ -247,16 +259,18 @@ class RequestController extends Controller
                             'OrderType'=>$orderDetails->type
                         ];
                   }
+
               $allOrders=$order??[] ;
 
-            
+
                     }
 
-                     return $this->success(data:[$allOrders]);
+
+            return  $allOrders;
 
     }
 
-  
+
 else{
     return $this->success(data:[]);
 }

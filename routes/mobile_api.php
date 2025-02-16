@@ -171,7 +171,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/requests-search', 'Api\RequestController@search');
     Route::post('/find', 'Api\financecalc@encry');
 
-    Route::get('/requests', 'Api\RequestController@index')->name('get-requests-without-auth');
+    Route::get('/requests', 'mobile_api\RequestController@index')->name('get-requests-without-auth');
     Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order2');
     Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->middleware(SetLocale::class);
 
