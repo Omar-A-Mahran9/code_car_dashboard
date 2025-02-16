@@ -16,12 +16,12 @@ class BankOfferController extends Controller
 {
     public function index(Request $request)
     {
-  
+
 
         if ($request->ajax()){
             if(isset(request()->bank_id) && request()->bank_id != null && request()->bank_id != ''){
                 return response()->json(getModelData( model: new BankOffer() , andsFilters: [ [ 'bank_id' , '=' , request()->bank_id ] ]  ,relations:[ 'bank' => ['id','name_' .getLocale()]],));
-                
+
             }else{
                 return response()->json(getModelData( model: new BankOffer() ,relations:[ 'bank' => ['id','name_' .getLocale()]],));
 
@@ -32,7 +32,7 @@ class BankOfferController extends Controller
     }
 
     public function create(){
-        
+
         $banks =  Bank::get();
         $sectors =  Sector::get();
         $brnads = Brand::select('name_'.getLocale(),'id')->get();
@@ -40,7 +40,7 @@ class BankOfferController extends Controller
         return view('dashboard.bank_offers.create',compact('banks','brnads','sectors'));
     }
 
-    
+
 
     public function validateRequestData()
     {
@@ -65,40 +65,30 @@ class BankOfferController extends Controller
     public function store(Request $request){
         $data = $this->validateRequestData();
 
-        $checkBrands = collect(DB::select("SELECT 
+        $checkBrands = collect(DB::select("SELECT
             bank_offers.id as bank_offer_id,
             bank_offer_brand.brand_id as barnd_id,
             brands.name_".getLocale()." as brand_name,
             bank_offers.from as date_from,
-            bank_offers.to as date_to 
-            FROM 
-                `bank_offer_brand` 
+            bank_offers.to as date_to
+            FROM
+                `bank_offer_brand`
                     JOIN
-                        bank_offers ON bank_offer_brand.bank_offer_id = bank_offers.id 
-                    JOIN 
-                        brands on bank_offer_brand.brand_id = brands.id 
-                    JOIN 
-                        banks on bank_offers.bank_id = banks.id 
-            WHERE 
+                        bank_offers ON bank_offer_brand.bank_offer_id = bank_offers.id
+                    JOIN
+                        brands on bank_offer_brand.brand_id = brands.id
+                    JOIN
+                        banks on bank_offers.bank_id = banks.id
+            WHERE
                 bank_offer_brand.brand_id in (".implode(",",$request->brand_id).")
             AND
                 banks.id = ".$request->bank_id."
-            and 
+            and
                 bank_offers.to > '".$request->from."';
         "));
 
-        // if(count($checkBrands) > 0){
-        //     $checkBrands = $checkBrands->pluck('brand_name')->toArray();
-            
-        //     return response()->json([
-        //         'errors' => [
-        //             'brand_id' => ['( '.implode(",",$checkBrands).' ) '.__('These brands have been used before and cannot be used before the expiry date assigned to them  in other offers')]
-        //         ]
-        //     ],422);
-        // }
-        
         $data['image'] = uploadImage( $request->file('image') ,"BankOffers");
-        
+
 
         $bankOffer  = BankOffer::create([
             'image' =>  $data['image'],
@@ -112,9 +102,8 @@ class BankOfferController extends Controller
         ]);
 
         $bankOffer->attachSectors($data);
-        
-        $bankOffer->brnads()->attach($data['brand_id']??[]);
 
+        $bankOffer->brnads()->attach($data['brand_id']??[]);
     }
 
 
@@ -123,19 +112,19 @@ class BankOfferController extends Controller
         $bankOffer->brnads = $bankOffer->brnads;
         $bankOffer->sectors = $bankOffer->sectors;
         $selectedBrandIds = $bankOffer->brnads->pluck('id')->toArray();
-        
+
         $sectors =  Sector::get();
         $brnads = Brand::select('name_'.getLocale(),'id')->get();
 
         return view('dashboard.bank_offers.edit',compact('banks','brnads','sectors','bankOffer','selectedBrandIds'));
     }
-    
+
         public function show(BankOffer $bankOffer){
         $banks =  Bank::get();
         $bankOffer->brnads = $bankOffer->brnads;
         $bankOffer->sectors = $bankOffer->sectors;
         $selectedBrandIds = $bankOffer->brnads->pluck('id')->toArray();
-        
+
         $sectors =  Sector::get();
         $brnads = Brand::select('name_'.getLocale(),'id')->get();
 
@@ -166,39 +155,39 @@ class BankOfferController extends Controller
 
         $data = $this->validateRequestUpdateData($bankOffer->id);
 
-        $checkBrands = collect(DB::select("SELECT 
+        $checkBrands = collect(DB::select("SELECT
             bank_offers.id as bank_offer_id,
             bank_offer_brand.brand_id as barnd_id,
             brands.name_".getLocale()." as brand_name,
             bank_offers.from as date_from,
-            bank_offers.to as date_to 
-            FROM 
-                `bank_offer_brand` 
+            bank_offers.to as date_to
+            FROM
+                `bank_offer_brand`
                     JOIN
-                        bank_offers ON bank_offer_brand.bank_offer_id = bank_offers.id 
-                    JOIN 
-                        brands on bank_offer_brand.brand_id = brands.id 
-                    JOIN 
-                        banks on bank_offers.bank_id = banks.id 
-            WHERE 
+                        bank_offers ON bank_offer_brand.bank_offer_id = bank_offers.id
+                    JOIN
+                        brands on bank_offer_brand.brand_id = brands.id
+                    JOIN
+                        banks on bank_offers.bank_id = banks.id
+            WHERE
                 bank_offer_brand.brand_id in (".implode(",",$request->brand_id).")
-            and 
+            and
                 banks.id = ".$request->bank_id."
             and
                 bank_offers.to > '".$request->from."'
-            and 
+            and
             bank_offers.id <> ".$bankOffer->id.";
         "));
         // if(count($checkBrands) > 0){
         //     $checkBrands = $checkBrands->pluck('brand_name')->toArray();
-            
+
         //     return response()->json([
         //         'errors' => [
         //             'brand_id' => ['( '.implode(",",$checkBrands).' ) '.__('These brands have been used before and cannot be used before the expiry date assigned to them  in other offers')]
         //         ]
         //     ],422);
         // }
-        
+
         $bankOfferUpdatedData = [
             'title_ar' =>  $data['title_ar'],
             'title_en' =>  $data['title_en'],
@@ -212,7 +201,7 @@ class BankOfferController extends Controller
             $bankOfferUpdatedData['image'] = $data['image'];
         }
         $bankOffer->update($bankOfferUpdatedData);
-      
+
         $bankOffer->attachSectors($data);
         $bankOffer->brnads()->detach();
         $bankOffer->brnads()->attach($data['brand_id']??[]);

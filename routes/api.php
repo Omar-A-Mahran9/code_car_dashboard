@@ -141,7 +141,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/search', [SearchController::class, 'search']);
     Route::get('/categories', [CategoryController::class, 'categories']);
     Route::get('/car-type', [CarController::class, 'cartype']);
- 
+
 
     Route::get('/calculator','Home\CalculatorController@index')->name('calculator');
     Route::post('/amount-calculator','Home\CalculatorController@calculate')->name('amount-calculator');

@@ -4,7 +4,6 @@
     <div class="toolbar">
 
         <div class="container-fluid d-flex flex-stack">
-
             <div data-kt-swapper="true" data-kt-swapper-mode="prepend"
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
@@ -43,7 +42,7 @@
             <!-- begin :: Form -->
             {{-- <form action="{{ route('dashboard.bank-offers.store') }}" class="form" method="post" data-redirection-url="{{ route('dashboard.banks.index') }}"> --}}
             <form action="{{ route('dashboard.bank-offers.store') }}" class="form" method="post" id="submitted-form"
-                data-redirection-url="{{ route('dashboard.banks.index') }}">
+                data-redirection-url="{{ route('dashboard.bank-offers.index', ['bank_id' => request()->query('bank_id')]) }}">
                 @csrf
                 <!-- begin :: Card header -->
                 <div class="card-header d-flex align-items-center">

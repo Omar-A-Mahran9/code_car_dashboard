@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mobile_Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ColorResourse;
 use App\Models\Bank;
+use App\Models\Car;
 use App\Models\City;
 use App\Models\Color;
 use App\Models\Nationality;
@@ -98,6 +99,47 @@ class GlobalController extends Controller
         $nationality = Nationality::get();
 
         return $this->success(data: $nationality);
+    }
+
+    public function some_data(){
+        $colors=Color::get();
+        $years = Car::distinct()->pluck('year')->sortBy(function ($year) {
+            return (int) $year;
+        })->values()->toArray();
+        $ranges = [
+            0 => [800, 1200],
+            1 => [1300, 1400],
+            2 => [1500, 1600],
+            3 => [1800, 2000],
+            4 => [2200, 3000],
+            5 => 'greater_than_3000', // Special case for > 3000
+        ];
+
+        $fuel_tank_capacity_results = [];
+
+        foreach ($ranges as $index => $range) {
+            // For each range, we'll count the cars that fit the criteria
+            if ($range === 'greater_than_3000') {
+                $count = Car::where('fuel_tank_capacity', '>', 3000)->where('publish',1)->count();
+                $title = 'More than 3000';
+            } else {
+                $count = Car::whereBetween('fuel_tank_capacity', $range)->where('publish',1)->count();
+                $title = "{$range[0]} - {$range[1]}";
+            }
+
+            $fuel_tank_capacity_results[] = [
+                'title' => $title,
+                'car_count' => $count,
+            ];
+        }
+
+        return $this->success(data: [
+            'colors' => ColorResourse::collection($colors),
+            'year' => $years,
+            'capacity' => $fuel_tank_capacity_results,
+
+
+        ]);
     }
 
 
