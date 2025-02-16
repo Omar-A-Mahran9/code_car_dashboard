@@ -113,6 +113,8 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::get('/careers', 'Api\CareerController@index');
     Route::get('/cars', [CarController::class, 'carsdetails']);
+    Route::post('/cars', [CarController::class, 'carsdetails_fav']);
+
     Route::get('/car-option', [CarController::class, 'CarOption']);
 
     Route::get('/car/{id}', [CarController::class, 'cardetails']);
