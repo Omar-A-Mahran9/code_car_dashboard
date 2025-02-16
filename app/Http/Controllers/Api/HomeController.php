@@ -7,10 +7,8 @@ use App\Models\Bank;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BranResourse;
 use App\Http\Resources\CarResourse;
-use App\Http\Resources\ColorResourse;
 use App\Http\Resources\SplashResourse;
 use App\Models\Car;
-use App\Models\Color;
 use App\Models\Splash;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -43,7 +41,20 @@ class HomeController extends Controller
     }
 
 
-   
+    public function brands(){
+         try
+        {
+            $brands= Brand::withCount('countCars')->with('models')->get();
+
+
+            $data=BranResourse::collection( $brands );
+
+            return $this->success(data: $data);
+        } catch (\Exception $e)
+        {
+            return $this->failure(message: $e->getMessage());
+        }
+    }
 
     public function allhome()
     {

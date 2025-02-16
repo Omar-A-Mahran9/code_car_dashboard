@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Mobile_Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BranResourse;
 use App\Http\Resources\ColorResourse;
 use App\Models\Bank;
+use App\Models\Brand;
 use App\Models\Car;
 use App\Models\City;
 use App\Models\Color;
@@ -141,6 +143,21 @@ class GlobalController extends Controller
 
         ]);
     }
+
+    public function brands(){
+        try
+       {
+           $brands= Brand::withCount('countCars')->with('models')->get();
+
+
+           $data=BranResourse::collection( $brands );
+
+           return $this->success(data: $data);
+       } catch (\Exception $e)
+       {
+           return $this->failure(message: $e->getMessage());
+       }
+   }
 
 
 }
