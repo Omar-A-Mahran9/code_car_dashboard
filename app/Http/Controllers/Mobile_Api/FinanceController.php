@@ -663,8 +663,7 @@ class FinanceController extends Controller
 
           if ($request->file('Insurance_Image'))
             $ordersTableData['Insurance_Image'] = uploadImage($request->file('Insurance_Image'), "Orders");
-        dd($ordersTableData);
-          $order = Order::create($ordersTableData);
+           $order = Order::create($ordersTableData);
 
           $this->distribute($order->id);
 
