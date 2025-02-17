@@ -530,7 +530,7 @@ class FinanceController extends Controller
                'Monthly_cometment'=>'required|numeric',
               'driving_license' =>  ['required', 'boolean'],
               'traffic_violations' =>  ['required', 'boolean'],
-
+                'sex'=>['required'],
               'have_life_problem' => ['required', 'boolean'],
                'department_loan' => ['required', 'boolean'],
       'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
