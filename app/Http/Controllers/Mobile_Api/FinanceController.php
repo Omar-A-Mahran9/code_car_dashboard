@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SendOtpRquest;
@@ -11,7 +11,7 @@ use App\Models\Order;
 use App\Traits\NotificationTrait;
 use Cache;
 use Illuminate\Http\Request;
-use App\Http\Traits\Calculations;
+use App\Http\Traits\MobileCalc;
 use App\Models\Bank;
 use App\Models\Employee;
 use App\Models\OrderNotification;
@@ -24,7 +24,7 @@ use DB;
 
 class FinanceController extends Controller
 {
-  use Calculations, NotificationTrait;
+  use MobileCalc, NotificationTrait;
 
   private $car;
   public function __construct(Car $car)
@@ -479,100 +479,90 @@ class FinanceController extends Controller
 
   public function financeOrder(Request $request)
   {
-
-    $step = $request->input('step');
+     $step = $request->input('step');
     if (request('type') == 'individual')
     {
       switch ($step)
       {
+        case 0:
+            $request->validate([
+                "brand" => "required|numeric",
+            ]);
+
+            $cars = Car::where('brand_id', $request->input('brand'))->get();
+
+            if ($cars->isEmpty()) {
+                return $this->error(message: "No cars found for this brand.");
+            }
+
+            // Process each car
+            $cars->transform(function ($car) {
+                $profitPercentage = settings()->getSettings('percentage_profit_for_car') / 100;
+
+                if ($car->have_discount == 1) {
+                    $car->discount_price += $car->discount_price * $profitPercentage;
+                } else {
+                    $car->price += $car->price * $profitPercentage;
+                }
+
+                return $car;
+            });
+
+            // Return processed cars
+            return $this->success(data: ['cars' => CarResourse::collection($cars)]);
+            break;
         case 1:
           $request->validate([
-            "first_batch" => "required|numeric",
-            "last_batch" => "required|numeric",
-            "installment" => "required|numeric"
+            "car_id" => "required|numeric",
+            "color_id" => "required|numeric",
           ]);
-          break;
-        case 2:
-          $request->validate([
-            "brand" => "required|numeric",
-            "model" => "required|numeric",
-            "category" => "required|numeric",
-            "year" => "required|numeric",
-            "gear_shifter" => "required",
-            "color_id" => "required|numeric"
-          ]);
-
-            $car = Car::where('model_id', $request->model)
-                    ->where('brand_id', request('brand'))
-                    ->where('year', request('year'))
-                    ->where('gear_shifter',request('gear_shifter'))
-                    ->where('category_id',request('category'))
-                    ->first();
-
-            if($car){
-                if($car->have_discount==1){
-                                 $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
-
-                }else{
-                                 $car->price = $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
-
-                }
-            return $this->success(data: ['car' => $car]);
-
-            }
-            else{
-                return $this->success('car Not found');
-            }
+          return $this->success(data: "selected car and color successfully");
 
           break;
-        case 3:
-          $request->validate([
-            "client_name" =>['required' , 'string',new NotNumbersOnly],
-            'email' => ['bail', 'max:255'],
-            'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
-            "sex" => "required",
-            'birth_date' => 'required|date|before_or_equal:' . Carbon::now()->subYears(16)->toDateString(),
-            "city_id"=>"required|numeric",
-            'identity_no' => 'nullable|unique:orders,identity_no|numeric|digits:10',
-            'sector'=>"required|numeric",
-            'salary'=>"required|numeric",
-            'bank'=>'required|numeric',
-            'Monthly_cometment'=>'required|numeric',
-            'driving_license' =>  ['required', 'boolean'],
-            'traffic_violations' =>  ['required', 'boolean'],
+          case 2:
+            $request->validate([
+              "first_batch" => "required|numeric",
+              "last_batch" => "required|numeric",
+              "installment" => "required|numeric",
+              'salary'=>"required|numeric",
+              'sector'=>"required|numeric",
+              'bank'=>'required|numeric',
+              "sex" => "required",
+              'Monthly_cometment'=>'required|numeric',
+              'driving_license' =>  ['required', 'boolean'],
+              'traffic_violations' =>  ['required', 'boolean'],
 
-            'have_life_problem' => ['required', 'boolean'],
-             'department_loan' => ['required', 'boolean'],
-    'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
- 'support_price' => [
-         'required_if:department_loan_support,true',
+              'have_life_problem' => ['required', 'boolean'],
+               'department_loan' => ['required', 'boolean'],
+      'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+   'support_price' => [
+           'required_if:department_loan_support,true',
 
-    ],
-
-            'nationality_id'=>'required|numeric',
-          ]);
-          $ordersTableData['phone'] = convertArabicNumbers($request->phone);
-          $request->merge(['phone' => $ordersTableData['phone']]);
-
-        $request->validate([
-            'phone' => [
-              'required',
-            //   Rule::unique('orders', 'phone'),
-            ]
+      ],
+      'nationality_id'=>'required|numeric',
+    //   "client_name" =>['required' , 'string',new NotNumbersOnly],
+    //   'email' => ['bail', 'max:255'],
+    //   'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
+    //   'birth_date' => 'required|date|before_or_equal:' . Carbon::now()->subYears(16)->toDateString(),
+    //   "city_id"=>"required|numeric",
+    //   'identity_no' => 'nullable|unique:orders,identity_no|numeric|digits:10',
 
             ]);
-        if($request->have_life_problem==true || $request->Monthly_cometment<0){
-          $data= [];
 
-        }else{
+          if($request->have_life_problem==true || $request->Monthly_cometment<0){
+            $data= [];
 
-          $data=$this->calculateInstallmentscar($request);
-        }
-         return $this->success(data: $data);
-        break;
+          }else{
 
-        case 4:
+            $data=$this->calculateInstallmentscar($request);
+          }
+           return $this->success(data: $data);
+            break;
+
+        case 3:
           $request->validate([
+         "client_name" =>['required' , 'string',new NotNumbersOnly],
+         'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
             'bank_offer_id' => 'required|exists:bank_offers,id',
 
             'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
@@ -580,7 +570,16 @@ class FinanceController extends Controller
             'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
             'Insurance_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
           ]);
+            $ordersTableData['phone'] = convertArabicNumbers($request->phone);
+            $request->merge(['phone' => $ordersTableData['phone']]);
 
+          $request->validate([
+              'phone' => [
+                'required',
+              //   Rule::unique('orders', 'phone'),
+              ]
+
+              ]);
           $data = $this->calculateInstallmentscar($request);
           $view_selected_Offer = null;
 
@@ -592,14 +591,10 @@ class FinanceController extends Controller
               break; // Exit the loop once a matching offer is found
             }
           }
-          return $this->success(data: $view_selected_Offer ?? []);
-        case 5:
-          $car = Car::where('model_id', $request->model)
-                ->where('brand_id', request('brand'))
-                ->where('year', request('year'))
-                ->where('gear_shifter',request('gear_shifter'))
-                ->where('category_id',request('category'))
-                ->first();
+        //   return $this->success(data: $view_selected_Offer ?? []);
+        // case 5:
+
+          $car = Car::where('id', $request->car_id)->first();
             if($car->have_discount==1){
                                  $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
 
@@ -624,11 +619,10 @@ class FinanceController extends Controller
             'color_id' => $request->color_id,
 
             'name' => $request->client_name,
-            'email' => $request->email,
 
             'phone' => convertArabicNumbers($request->phone),
             'nationality_id' => $request->nationality_id,
-            'identity_no' => $request->identity_no,
+            // 'identity_no' => $request->identity_no,
             'sex' => $request->sex,
             'price' => $car->getPriceAfterVatAttribute(),
             'car_name' => $car->name,
@@ -644,7 +638,7 @@ class FinanceController extends Controller
             'having_loan_support_price' => $request->support_price??0,
 
             'driving_license' =>  $request->driving_license === '1'? 'available' : 'doesnt_exist',
-            'birth_date' => $request->birth_date,
+            // 'birth_date' => $request->birth_date,
             'bank_id' => $request->bank,
             'sector_id' => $request->sector,
             'bank_offer_id' => $view_selected_Offer['bank_offer_id'],
@@ -670,22 +664,27 @@ class FinanceController extends Controller
 
           if ($request->file('Insurance_Image'))
             $ordersTableData['Insurance_Image'] = uploadImage($request->file('Insurance_Image'), "Orders");
-
           $order = Order::create($ordersTableData);
+
           $this->distribute($order->id);
 
           $order->sendOTP();
 
         $ordersTableData['first_payment_value'] = str_replace(',', '', $view_selected_Offer['firs_installment']);
+
         $ordersTableData['last_payment_value'] = str_replace(',', '', $view_selected_Offer['last_installment']);
+
         $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
         $ordersTableData['Adminstrative_fees'] = str_replace(',', '', $view_selected_Offer['sectorAdministrative_fees']);
         $ordersTableData['Monthly_installment'] = str_replace(',', '', $view_selected_Offer['monthly_installment']);
+         $ordersTableData['having_loan_support'] = $request->department_loan_support??0;
 
 
           $ordersTableData['order_id'] = $order->id;
           $ordersTableData['type'] = $request->type;
+
           CarOrder::create($ordersTableData);
+
           $notify = [
             'vendor_id' => Auth::id() ?? null,
             'order_id' => $order->id,

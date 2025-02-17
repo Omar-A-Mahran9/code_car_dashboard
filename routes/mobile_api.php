@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\GlobalController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Mobile_Api\FinanceController as Mobile_ApiFinanceController;
 use App\Http\Controllers\Mobile_Api\GlobalController as Mobile_ApiGlobalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -57,7 +58,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::get('/filter-addss', 'Api\UserController@filter');
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
         Route::get('/requests_auth', 'Api\RequestController@index')->name('get-requests');
-        Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order');
+        Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order');
         Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
         Route::post('/favorite-auth', 'Api\UserController@favorite');
     });
@@ -172,7 +173,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/find', 'Api\financecalc@encry');
 
     Route::get('/requests', 'mobile_api\RequestController@index')->name('get-requests-without-auth');
-    Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order2');
+    Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order2');
     Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->middleware(SetLocale::class);
 
 });

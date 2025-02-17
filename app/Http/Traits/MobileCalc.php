@@ -14,7 +14,7 @@ use Http;
 use Illuminate\Validation\Rule;
 
 
-trait Calculations{
+trait MobileCalc{
 
     /*
         -- some Notes
@@ -104,18 +104,13 @@ trait Calculations{
 
     public function calculateInstallmentscar($request)
     {
-      // URL
+       // URL
          $databaseConfig = config('database.connections.mysql');
          $currentUrl = url('/');
         $bankOffer=null;
         $AllAvailableOffers=[];
          $salary_after_plus=($request->salary + ($request->support_price ?? 0));
-        $car = Car::where('model_id', $request->model)
-        ->where('brand_id', request('brand'))
-        ->where('year', request('year'))
-        ->where('gear_shifter',request('gear_shifter'))
-        ->where('category_id',request('category'))
-        ->first()??$request->car;
+        $car = Car::where('id', $request->car_id)->first()??$request->car;
             if($car->have_discount==1){
                                  $car->discount_price = $car->discount_price+($car->discount_price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
 
@@ -123,7 +118,7 @@ trait Calculations{
                                  $car->price = $car->price+($car->price * (settings()->getSettings('percentage_profit_for_car')/100)) ;
 
                 }
-        $bank = Bank::find($request->bank);
+         $bank = Bank::find($request->bank);
 
         if($salary_after_plus < $bank->min_salary ){
             return $AllAvailableOffers;

@@ -93,7 +93,7 @@ return [
     'present' => 'يجب تقديم ( :attribute )',
     'regex' => 'صيغة ( :attribute ) .غير صحيحة',
     'required' => 'حقل ( :attribute ) مطلوب',
-    
+
     'required_if' => '( :attribute ) مطلوب في حال ما إذا كان :other يساوي :values',
     'required_unless' => '( :attribute ) مطلوب في حال ما لم يكن :other يساوي :values',
     'required_with' => '( :attribute ) مطلوب إذا كان :values',
@@ -213,6 +213,7 @@ return [
         'low_price' => 'سيارة مخفضة',
         'supplier' => 'المورد',
         'status' => 'الحالة',
+        'car_id' => 'السيارة',
         'is_new' => 'حالة السيارة',
         'main_image' => 'الصورة الرئيسية',
         'cover_image' => 'صورة الغلاف',
@@ -539,7 +540,7 @@ return [
         'banks'=>'بنك',
         'monthlyـcometment' => 'الالتزمات الشهرية',
         'monthly cometment' => 'الالتزمات الشهرية',
-    
+
         '' => '',
         '' => '',
         '' => '',
@@ -606,7 +607,7 @@ return [
         'price_field_status' => [
             'other' => 'آخر'
         ],
-    
+
 
 
     ]
