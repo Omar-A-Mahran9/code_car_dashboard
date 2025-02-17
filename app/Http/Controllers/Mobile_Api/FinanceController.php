@@ -527,8 +527,7 @@ class FinanceController extends Controller
               'salary'=>"required|numeric",
               'sector'=>"required|numeric",
               'bank'=>'required|numeric',
-              "sex" => "required",
-              'Monthly_cometment'=>'required|numeric',
+               'Monthly_cometment'=>'required|numeric',
               'driving_license' =>  ['required', 'boolean'],
               'traffic_violations' =>  ['required', 'boolean'],
 
