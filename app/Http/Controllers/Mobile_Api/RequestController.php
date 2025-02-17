@@ -159,10 +159,12 @@ class RequestController extends Controller
 
 
 
-    public function search($order_number){
+    public function search(Request $request){
 
-         $ordernumber= $order_number;
+         $ordernumber= $request->order_number;
+
            $order=Order::where('id',$ordernumber)->where('verified',1)->whereNull('deleted_at')->with('orderDetailsCar')->first();
+
            if($order){
 
              if($order->orderDetailsCar->type=='organization' && $order->orderDetailsCar->cars != null){
@@ -210,8 +212,7 @@ class RequestController extends Controller
 
             //   $carDetails=CarResourse::make($order->car)->resolve();
          if($order->orderDetailsCar->type=='individual' ){
-
-                    $orderDetails=$order->orderDetailsCar;
+                     $orderDetails=$order->orderDetailsCar;
 
                     $carDetails=CarResourse::make($order->car)->resolve();
                     if($orderDetails->payment_type == 'finance'){
