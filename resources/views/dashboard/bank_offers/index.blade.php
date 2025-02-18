@@ -60,20 +60,28 @@
                 <!-- end   :: General Search -->
 
                 <!-- begin :: Toolbar -->
-                <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
+                <div class="d-flex justify-content-end gap-3" data-kt-docs-table-toolbar="base">
+                    <div>
+                        <a href="{{ route('dashboard.bank-offers.create', ['bank_id' => request()->query('bank_id')]) }}"
+                            class="btn btn-primary" data-bs-toggle="tooltip">
 
+                            <span class="svg-icon svg-icon-2">
+                                <i class="fa fa-plus fa-lg"></i>
+                            </span>
+
+                            {{ __('Add new bank offer') }}
+
+                        </a>
+                    </div>
                     <!-- begin :: Add Button -->
-                    <a href="{{ route('dashboard.bank-offers.create', ['bank_id' => request()->query('bank_id')]) }}"
-                        class="btn btn-primary" data-bs-toggle="tooltip">
+                    <div>
+                        <!-- end   :: Add Button -->
+                        <button id="delete-selected" class="btn btn-danger"
+                            style="display: none;">{{ __('Delete Selected') }}</button>
 
-                        <span class="svg-icon svg-icon-2">
-                            <i class="fa fa-plus fa-lg"></i>
-                        </span>
 
-                        {{ __('Add new bank offer') }}
+                    </div>
 
-                    </a>
-                    <!-- end   :: Add Button -->
 
                 </div>
                 <!-- end   :: Toolbar -->
@@ -88,15 +96,16 @@
 
                 <thead>
                     <tr class="text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                        <th><input type="checkbox" id="select-all" /></th> <!-- Add this line -->
                         <th>#</th>
-                        <th>{{ __('arabic title') }}</th>
-                        <th>{{ __('english title') }}</th>
+                        <th>{{ __('title') }}</th>
                         <th>{{ __('image') }}</th>
                         <th>{{ __('created date') }}</th>
                         <th>{{ __('bank') }}</th>
                         <th class="min-w-100px">{{ __('actions') }}</th>
                     </tr>
                 </thead>
+
 
                 <tbody class="text-gray-600 fw-bold text-center">
 

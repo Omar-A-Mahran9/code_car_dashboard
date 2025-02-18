@@ -228,4 +228,16 @@ class BankOfferController extends Controller
             $bankOffer->delete();
         }
     }
+
+
+    // In your controller
+public function deleteSelected(Request $request)
+{
+
+    $ids = $request->input('ids');
+    dd($ids);
+    BankOffer::whereIn('id', $ids)->delete();
+    return response()->json(['message' => 'Selected records deleted successfully']);
+}
+
 }

@@ -533,13 +533,13 @@ class FinanceController extends Controller
                 'sex'=>['required'],
               'have_life_problem' => ['required', 'boolean'],
                'department_loan' => ['required', 'boolean'],
-      'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
-   'support_price' => [
+              'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+            'support_price' => [
            'required_if:department_loan_support,true',
 
-      ],
-      'nationality_id'=>'required|numeric',
-    //   "client_name" =>['required' , 'string',new NotNumbersOnly],
+            ],
+           'nationality_id'=>'required|numeric',
+              //   "client_name" =>['required' , 'string',new NotNumbersOnly],
     //   'email' => ['bail', 'max:255'],
     //   'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
     //   'birth_date' => 'required|date|before_or_equal:' . Carbon::now()->subYears(16)->toDateString(),
@@ -560,8 +560,8 @@ class FinanceController extends Controller
 
         case 3:
           $request->validate([
-         "client_name" =>['required' , 'string',new NotNumbersOnly],
-         'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
+             "client_name" =>['required' , 'string',new NotNumbersOnly],
+            'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
             'bank_offer_id' => 'required|exists:bank_offers,id',
 
             'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
@@ -692,7 +692,7 @@ class FinanceController extends Controller
             'type' => 'order',
 
           ];
-          OrderNotification::create($notify);
+     OrderNotification::create($notify);
           // OtpLink( $order->phone,$order->verification_code);
 
           return $this->success(data: ['Order_Number' => $order->id, 'verification_code' => '-']);

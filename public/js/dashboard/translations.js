@@ -34,6 +34,7 @@ let translations = {
     Delete: "حذف",
     "car details": "بيانات السيارة",
     "Offer details": "بيانات العرض",
+    "deleting selected records ...": "البيانات المحددة",
 
     "monthly installment": "القسط الشهري",
     "Monthly installment": "القسط الشهري",
