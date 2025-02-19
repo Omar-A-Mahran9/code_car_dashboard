@@ -20,28 +20,25 @@ class DataController extends Controller
             // Fetch only brands that have at least one related model
             $brands = Brand::has('models')->get();
 
-            return $this->success(data: BrandsResourseOnly::collection($brands));
+            return $this->success(data: $brands->isEmpty() ? [] : BrandsResourseOnly::collection($brands)); // Return empty array if no brands found
         } catch (\Exception $e) {
             return $this->failure(message: $e->getMessage());
         }
     }
 
+
     public function get_models($brand_id)
-{
-    try {
-        // Fetch models that belong to the given brand ID
-        $models = CarModel::where('brand_id', $brand_id)->get();
+    {
+        try {
+            // Fetch models that belong to the given brand ID
+            $models = CarModel::where('brand_id', $brand_id)->get();
 
-        // Check if models exist for the given brand
-        if ($models->isEmpty()) {
-            return $this->failure(message: 'No models found for this brand.');
+            return $this->success(data: $models->isEmpty() ? [] : ModelsResourseOnly::collection($models)); // Return empty array if no models found
+        } catch (\Exception $e) {
+            return $this->failure(message: $e->getMessage());
         }
-
-        return $this->success(data: ModelsResourseOnly::collection($models));
-    } catch (\Exception $e) {
-        return $this->failure(message: $e->getMessage());
     }
-}
+
 
 public function availableYears($brand_id, $model_id)
 {
@@ -54,16 +51,12 @@ public function availableYears($brand_id, $model_id)
                     ->orderBy('year', 'desc')
                     ->pluck('year');
 
-        // Check if years exist
-        if ($years->isEmpty()) {
-            return $this->failure(message: 'No available years found for this brand and model.');
-        }
-
-        return $this->success(data: $years);
+        return $this->success(data: $years->isEmpty() ? [] : $years); // Return empty array if no years found
     } catch (\Exception $e) {
         return $this->failure(message: $e->getMessage());
     }
 }
+
 
 public function availableGearShifters($brand_id, $model_id, $year)
 {
@@ -76,16 +69,12 @@ public function availableGearShifters($brand_id, $model_id, $year)
                            ->distinct()
                            ->pluck('gear_shifter');
 
-        // Check if gear shifters exist
-        if ($gearShifters->isEmpty()) {
-            return $this->failure(message: 'No available gear shifters found for this brand, model, and year.');
-        }
-
-        return $this->success(data: $gearShifters);
+        return $this->success(data: $gearShifters->isEmpty() ? [] : $gearShifters); // Return empty array if no gear shifters
     } catch (\Exception $e) {
         return $this->failure(message: $e->getMessage());
     }
 }
+
 
 public function availableCategories($brand_id, $model_id, $year, $gear_shifter)
 {
@@ -97,20 +86,16 @@ public function availableCategories($brand_id, $model_id, $year, $gear_shifter)
                                   ->where('year', $year)
                                   ->where('gear_shifter', $gear_shifter);
                         })
-                        ->select('id','name_ar','name_en') // Get category ID & localized name
+                        ->select('id', 'name_'.getLocale().' as name') // Get localized category name
                         ->distinct()
                         ->get();
 
-        // Check if categories exist
-        if ($categories->isEmpty()) {
-            return $this->failure(message: 'No available categories found for the selected filters.');
-        }
-
-        return $this->success(data: $categories);
+        return $this->success(data: $categories->isEmpty() ? [] : $categories); // Return empty array if no categories
     } catch (\Exception $e) {
         return $this->failure(message: $e->getMessage());
     }
 }
+
 public function availableColors($brand_id, $model_id, $year, $gear_shifter, $category_id)
 {
     try {
