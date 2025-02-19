@@ -26,6 +26,29 @@ class BranResourse extends JsonResource
                     'id'=>$model->id,
                     'name'=>$model->name,
                     'cars_count' => $model->countCars->count(), // Directly count the related cars
+                  'available_years' => $model->availableYears()->map(function ($year) use ($model) {
+                        return [
+                            'year' => $year,
+                            'available_types' => $model->availableTypesByYear($year)->map(function ($type) use ($model, $year) {
+                                return [
+                                    'value' => $type['value'],
+                                    'title' => $type['title'],
+                                    'available_type_gearshifter' => $model->availableGearShiftersByYearAndType($year, $type['value'])->map(function ($gear) use ($model, $year, $type) {
+                                        return [
+                                            'value' => $gear['value'],
+                                            'title' => $gear['title'],
+                                            'available_colors' => $model->availableColorsByYearTypeAndGear($year, $type['value'], $gear['value']) // ✅ Fetch available colors
+                                        ];
+                                    })
+                                ];
+                            })
+                        ];
+                    }),
+
+                    // 'available_type' => $model->availableTypes(),
+                    // 'available_type_gearshifter' => $model->availableGearshifters(),
+                    'available_colors' => $model->availableColors(),
+
                     'Categories' => $model->categories->map(function ($categorie) {
                         return [
                             'id'=>$categorie->id,
