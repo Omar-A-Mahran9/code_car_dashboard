@@ -30,6 +30,7 @@ class AdsController extends Controller
     }
     private function setCarName(&$data)
     {
+        dd($data);
          $brand           = Brand::find($data['brand_id'], ['id', 'name_ar', 'name_en']);
         $model           = CarModel::find($data['model_id'], ['id', 'name_ar', 'name_en']);
         $data['name_ar'] = $brand->name_ar??"" . ' ' . $model->name_ar??"" . ' ' . $data['year'];
