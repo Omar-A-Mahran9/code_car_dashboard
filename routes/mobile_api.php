@@ -170,7 +170,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
 
     // Route::get('/requests','Api\RequestController@index')->name('get-requests');
-    Route::post('/requests-search', 'mobile_api\RequestController@search');
+    Route::post('/requests-search', [RequestController::class,'search']);
     Route::post('/find', 'Api\financecalc@encry');
 
     Route::get('/requests', 'mobile_api\RequestController@index')->name('get-requests-without-auth');
