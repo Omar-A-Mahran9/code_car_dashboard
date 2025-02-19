@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_Api;
 
 use App\Enums\CarStatus;
 use App\Http\Controllers\Controller;
@@ -30,10 +30,10 @@ class AdsController extends Controller
     }
     private function setCarName(&$data)
     {
-        $brand           = Brand::find($data['brand_id'], ['id', 'name_ar', 'name_en']);
+         $brand           = Brand::find($data['brand_id'], ['id', 'name_ar', 'name_en']);
         $model           = CarModel::find($data['model_id'], ['id', 'name_ar', 'name_en']);
-        $data['name_ar'] = $brand->name_ar . ' ' . $model->name_ar . ' ' . $data['year'];
-        $data['name_en'] = $brand->name_en . ' ' . $model->name_en . ' ' . $data['year'];
+        $data['name_ar'] = $brand->name_ar??"" . ' ' . $model->name_ar . ' ' . $data['year'];
+        $data['name_en'] = $brand->name_en??"" . ' ' . $model->name_en . ' ' . $data['year'];
     }
     public function storeBrandCarsTypeCount($carType, $brandId)
     {
@@ -59,7 +59,7 @@ class AdsController extends Controller
     }
     public function store(Request $request)
     {
- 
+
         // Check if 'step' is present in the request
         if ($request->has('step'))
         {
@@ -124,7 +124,7 @@ class AdsController extends Controller
                     'price' => $request['Car_Price'],
                     'car_body' => $request['Car_style'],
                     'discount_price' => $request['Car_Price_after_Discount'],
-                    'main_image' => uploadImage($request['Main_Image'], "Cars"),
+                    'main_image' => uploadImage($request['Main_Image'], "Cars")??"",
                 ];
 
                 $this->setCarName($data);

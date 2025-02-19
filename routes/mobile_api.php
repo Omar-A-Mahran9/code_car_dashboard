@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AdsController;
+use App\Http\Controllers\Mobile_Api\AdsController;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\citiyController;
