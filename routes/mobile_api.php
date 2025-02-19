@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\citiyController;
 use App\Http\Controllers\Api\ContactController;
-use App\Http\Controllers\Api\FinanceController;
+use App\Http\Controllers\Mobile_Api\FinanceController;
 use App\Http\Controllers\Api\GlobalController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
