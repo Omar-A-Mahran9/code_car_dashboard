@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\SplashController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Mobile_Api\FinanceController as Mobile_ApiFinanceController;
 use App\Http\Controllers\Mobile_Api\GlobalController as Mobile_ApiGlobalController;
+use App\Http\Controllers\Mobile_Api\RequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SetLocale;
@@ -57,7 +58,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/update-status/{id}', 'Api\UserController@updateAdsShowInHomePage');
         Route::get('/filter-addss', 'Api\UserController@filter');
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
-        Route::get('/requests_auth', 'mobile_api\RequestController@index')->name('get-requests');
+        Route::get('/requests_auth', [RequestController::class,'index'])->name('get-requests');
         Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order');
         Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
         Route::post('/favorite-auth', 'Api\UserController@favorite');
