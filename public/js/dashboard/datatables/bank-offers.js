@@ -38,7 +38,7 @@ let KTDatatable = (function () {
         {
           data: null,
           render: function () {
-            return '<input type="checkbox" class="select-row" />';
+            return '<input type="checkbox" class="orm-check-input mx-2 select-row" />';
           },
         }, // Checkbox for each row
         { data: "id" },
@@ -163,7 +163,7 @@ $('#delete-selected').on('click', function () {
             if (result.value) {
                 loadingAlert(__("deleting now ..."));
                 $.ajax({
-                    method: "delete",
+                    method: "post",
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                     },

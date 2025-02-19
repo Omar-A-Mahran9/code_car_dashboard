@@ -16,6 +16,7 @@ let translations = {
 
     "something went wrong": "حدث خطأ ما",
     "Error !": "خطـأ !",
+    "Deleted successfully!": "تم الحذف بنجاح !",
 
     "Operation done successfully": "تمت العملية بنجاح",
     "This action is unauthorized.": "ليس لديك صلاحية لهذا الاجراء",

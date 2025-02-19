@@ -230,14 +230,24 @@ class BankOfferController extends Controller
     }
 
 
-    // In your controller
-public function deleteSelected(Request $request)
-{
+    public function deleteSelected(Request $request)
+    {
+        $ids = $request->input('ids');
 
-    $ids = $request->input('ids');
-    dd($ids);
-    BankOffer::whereIn('id', $ids)->delete();
-    return response()->json(['message' => 'Selected records deleted successfully']);
-}
+        // Fetch the BankOffer records
+        $bankOffers = BankOffer::whereIn('id', $ids)->get();
 
+        foreach ($bankOffers as $bankOffer) {
+            // Detach related brands
+            $bankOffer->brnads()->detach();
+
+            // Detach related sectors
+            $bankOffer->detachSectors();
+        }
+
+        // Now delete the bank_offers
+        BankOffer::whereIn('id', $ids)->delete();
+
+        return response()->json(['message' => 'Selected records deleted successfully']);
+    }
 }

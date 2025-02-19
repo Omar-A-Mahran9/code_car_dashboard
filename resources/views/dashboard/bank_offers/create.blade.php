@@ -151,7 +151,6 @@
                     <div class="row mb-10">
                         <!-- begin :: Column -->
                         <div class="col-md-6 fv-row">
-
                             <label class="fs-5 fw-bold mb-2">{{ __('Bank') }}</label>
                             <select class="form-select" data-control="select2" name="bank_id" id="bank-sp"
                                 data-placeholder="{{ __('Choose the bank') }}"
@@ -162,9 +161,7 @@
                                 @endforeach
                             </select>
                             <p class="invalid-feedback" id="bank_id"></p>
-
                         </div>
-                        <!-- end   :: Column -->
 
                         <!-- begin :: Column -->
                         <div class="col-md-6 fv-row">
@@ -325,5 +322,38 @@
         $(document).ready(() => {
             initTinyMc();
         })
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let selectBank = $("#bank-sp");
+            let form = document.getElementById("submitted-form");
+
+            // Check if select2 is applied
+            if (selectBank.data('select2')) {
+                // Use select2 event listener
+                selectBank.on("select2:select", function(e) {
+                    let selectedBankId = e.params.data.id;
+                    console.log("Selected Bank ID:", selectedBankId); // Debugging
+
+                    if (selectedBankId) {
+                        let redirectUrl = "{{ route('dashboard.bank-offers.index') }}?bank_id=" +
+                            selectedBankId;
+                        form.setAttribute("data-redirection-url", redirectUrl);
+                    }
+                });
+            } else {
+                // Fallback if select2 is not applied
+                selectBank.on("change", function() {
+                    let selectedBankId = this.value;
+                    console.log("Selected Bank ID:", selectedBankId); // Debugging
+
+                    if (selectedBankId) {
+                        let redirectUrl = "{{ route('dashboard.bank-offers.index') }}?bank_id=" +
+                            selectedBankId;
+                        form.setAttribute("data-redirection-url", redirectUrl);
+                    }
+                });
+            }
+        });
     </script>
 @endpush

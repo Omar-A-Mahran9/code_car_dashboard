@@ -96,7 +96,8 @@
 
                 <thead>
                     <tr class="text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                        <th><input type="checkbox" id="select-all" /></th> <!-- Add this line -->
+                        <th><input class="form-check-input mx-1" type="checkbox" id="select-all" /></th>
+                        <!-- Add this line -->
                         <th>#</th>
                         <th>{{ __('title') }}</th>
                         <th>{{ __('image') }}</th>
