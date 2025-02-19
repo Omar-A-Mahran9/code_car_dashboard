@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\citiyController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\DataController;
 use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
@@ -156,6 +157,15 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/requests','Api\RequestController@index')->name('get-requests-without-auth');
     Route::post('/finance-Order', [FinanceController::class, 'financeOrder'])->name('finance.order2');
     // Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->middleware(SetLocale::class);
+
+
+    Route::get('/get_brands', [DataController::class, 'get_brand']);
+    Route::get('/get_models_by_brands/{brand_id}', [DataController::class, 'get_models']);
+    Route::get('/available-years/{brand_id}/{model_id}', [DataController::class, 'availableYears']);
+    Route::get('/available-gear-shifters/{brand_id}/{model_id}/{year}', [DataController::class, 'availableGearShifters']);
+    Route::get('/available-categories/{brand_id}/{model_id}/{year}/{gear_shifter}', [DataController::class, 'availableCategories']);
+    Route::get('/available-colors/{brand_id}/{model_id}/{year}/{gear_shifter}/{category_id}',[DataController::class, 'availableColors']);
+
 
 });
 
