@@ -32,11 +32,15 @@ class AdsController extends Controller
     {
 
         $brand           = Brand::find(+$data['brand_id'], ['id', 'name_ar', 'name_en']);
-        dd($brand);
-
         $model           = CarModel::find(+$data['model_id'], ['id', 'name_ar', 'name_en']);
-        $data['name_ar'] = $brand->name_ar??"" . ' ' . $model->name_ar??"" . ' ' . $data['year'];
-        $data['name_en'] = $brand->name_en??"" . ' ' . $model->name_en??"" . ' ' . $data['year'];
+        if ( $brand  && $model){
+            $data['name_ar'] = $brand->name_ar??"" . ' ' . $model->name_ar??"" . ' ' . $data['year'];
+            $data['name_en'] = $brand->name_en??"" . ' ' . $model->name_en??"" . ' ' . $data['year'];
+        }else{
+            return response()->json(['error' => 'Invalid or missing brand or model'], 400);
+
+        }
+
     }
     public function storeBrandCarsTypeCount($carType, $brandId)
     {
