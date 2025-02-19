@@ -19,7 +19,7 @@ class UploadController extends Controller
             $imageName = uploadImage($request->file('file'), "offers/tiny");
 
             return response()->json([
-                'location' => getImagePathFromDirectory($imageName, 'offers/tinies')
+                'location' => getImagePathFromDirectory($imageName, 'Offers/tinies')
             ]);
         }
 
