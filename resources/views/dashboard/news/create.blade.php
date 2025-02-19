@@ -134,13 +134,13 @@
                         <!-- begin :: Column -->
                         <!-- <div class="col-md-6 fv-row">
 
-                                                                                <label class="fs-5 fw-bold mb-2">{{ __('tags') }}</label>
+                                                                                                    <label class="fs-5 fw-bold mb-2">{{ __('tags') }}</label>
 
-                                                                                <input type="text" class="form-control" id="tags_inp" name="tags" placeholder="{{ __('Enter the tags of the news') }}" />
+                                                                                                    <input type="text" class="form-control" id="tags_inp" name="tags" placeholder="{{ __('Enter the tags of the news') }}" />
 
-                                                                                <p class="invalid-feedback" id="tags"></p>
+                                                                                                    <p class="invalid-feedback" id="tags"></p>
 
-                                                                            </div> -->
+                                                                                                </div> -->
                         <!-- end   :: Column -->
 
                     </div>
@@ -153,7 +153,7 @@
                         <div class="col-md-6 fv-row">
 
                             <label class="fs-5 fw-bold mb-2">{{ __('Description in arabic') }}</label>
-                            <textarea class="form-control" rows="4" name="description_ar" id="meta_tag_description_en_inp"
+                            <textarea class="form-control tinymce-editor" rows="4" name="description_ar" id="meta_tag_description_ar_inp"
                                 data-kt-autosize="true"></textarea>
                             <p class="text-danger invalid-feedback" id="description_ar"></p>
 
@@ -164,7 +164,7 @@
                         <div class="col-md-6 fv-row">
 
                             <label class="fs-5 fw-bold mb-2">{{ __('Description in english') }}</label>
-                            <textarea class="form-control" rows="4" name="description_en" id="meta_tag_description_en_inp"
+                            <textarea class="form-control tinymce-editor" rows="4" name="description_en" id="meta_tag_description_en_inp"
                                 data-kt-autosize="true"></textarea>
                             <p class="text-danger invalid-feedback" id="description_en"></p>
 
@@ -213,6 +213,53 @@
             new Tagify(document.getElementById('tags_inp'), {
                 originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
             });
+
+
+
+
+            tinymce.init({
+                selector: '.tinymce-editor',
+                plugins: 'image media link code',
+                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | link image media | code',
+                images_upload_url: '/dashboard/upload-image',
+                images_upload_credentials: true,
+                automatic_uploads: true,
+                file_picker_types: 'image',
+                relative_urls: false, // ✅ Force absolute URLs
+                remove_script_host: false, // ✅ Ensure full URL is included
+                document_base_url: "{{ env('APP_URL') }}",
+
+                images_upload_handler: function(blobInfo, success, failure) {
+                    let formData = new FormData();
+                    formData.append('file', blobInfo.blob());
+                    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                    $.ajax({
+                        url: '/dashboard/upload-image',
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            if (response.location) {
+                                success(response
+                                    .location); // ✅ Ensure full URL is returned
+                            } else {
+                                failure('Invalid response from server.');
+                            }
+                        },
+                        error: function(xhr) {
+                            failure('Image upload failed: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+
+            // ✅ Ensure TinyMCE syncs content before submission
+            $('form').on('submit', function() {
+                tinymce.triggerSave();
+            });
+
 
         });
     </script>
