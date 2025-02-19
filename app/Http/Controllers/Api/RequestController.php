@@ -20,6 +20,8 @@ class RequestController extends Controller
     use Calculations;
 
     public function index(){
+
+        dd('ss');
       try
         {
             $type=request()->type;
@@ -154,7 +156,6 @@ class RequestController extends Controller
 
 
     public function search(Request $request){
- dd($request);
          $ordernumber=$request->order_number;
           $order=Order::where('id',$ordernumber)->where('verified',1)->whereNull('deleted_at')->with('orderDetailsCar')->first();
            if($order){

@@ -20,7 +20,6 @@ class RequestController extends Controller
     use Calculations;
 
     public function index(){
-
       try
         {
             $type=request()->type;
@@ -164,8 +163,7 @@ class RequestController extends Controller
          $ordernumber= $request->order_number;
 
            $order=Order::where('id',$ordernumber)->where('verified',1)->whereNull('deleted_at')->with('orderDetailsCar')->first();
-
-           if($order){
+            if($order!=null){
 
              if($order->orderDetailsCar->type=='organization' && $order->orderDetailsCar->cars != null){
 
