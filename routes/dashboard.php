@@ -6,6 +6,8 @@ use App\Http\Controllers\Dashboard\ChatController;
 use App\Http\Controllers\Dashboard\DelegatesController;
 use App\Http\Controllers\Dashboard\FinanceApprovalsController;
 use App\Http\Controllers\Dashboard\OrderController;
+use App\Http\Controllers\Dashboard\UploadController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/send', function () {
@@ -124,5 +126,9 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dash
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
         ]);
     })->name('files.download')->middleware('auth');
+
+
+    Route::post('/upload-image', [UploadController::class, 'upload'])->name('dashboard.upload.image');
+
 
 });

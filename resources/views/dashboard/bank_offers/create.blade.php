@@ -323,37 +323,36 @@
             initTinyMc();
         })
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let selectBank = $("#bank-sp");
-            let form = document.getElementById("submitted-form");
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let selectBank = $("#bank-sp");
+    let form = document.getElementById("submitted-form");
 
-            // Check if select2 is applied
-            if (selectBank.data('select2')) {
-                // Use select2 event listener
-                selectBank.on("select2:select", function(e) {
-                    let selectedBankId = e.params.data.id;
-                    console.log("Selected Bank ID:", selectedBankId); // Debugging
+    // Check if select2 is applied
+    if (selectBank.data('select2')) {
+        // Use select2 event listener
+        selectBank.on("select2:select", function (e) {
+            let selectedBankId = e.params.data.id;
+            console.log("Selected Bank ID:", selectedBankId); // Debugging
 
-                    if (selectedBankId) {
-                        let redirectUrl = "{{ route('dashboard.bank-offers.index') }}?bank_id=" +
-                            selectedBankId;
-                        form.setAttribute("data-redirection-url", redirectUrl);
-                    }
-                });
-            } else {
-                // Fallback if select2 is not applied
-                selectBank.on("change", function() {
-                    let selectedBankId = this.value;
-                    console.log("Selected Bank ID:", selectedBankId); // Debugging
-
-                    if (selectedBankId) {
-                        let redirectUrl = "{{ route('dashboard.bank-offers.index') }}?bank_id=" +
-                            selectedBankId;
-                        form.setAttribute("data-redirection-url", redirectUrl);
-                    }
-                });
+            if (selectedBankId) {
+                let redirectUrl = "{{ route('dashboard.bank-offers.index') }}?bank_id=" + selectedBankId;
+                form.setAttribute("data-redirection-url", redirectUrl);
             }
         });
-    </script>
+    } else {
+        // Fallback if select2 is not applied
+        selectBank.on("change", function () {
+            let selectedBankId = this.value;
+            console.log("Selected Bank ID:", selectedBankId); // Debugging
+
+            if (selectedBankId) {
+                let redirectUrl = "{{ route('dashboard.bank-offers.index') }}?bank_id=" + selectedBankId;
+                form.setAttribute("data-redirection-url", redirectUrl);
+            }
+        });
+    }
+});
+</script>
+
 @endpush

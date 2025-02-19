@@ -58,8 +58,8 @@
                                 type="checkbox" checked />
                             <label class="form-check-label" for="flexSwitchChecked"></label>
                         </div>
-                        
-                            <div class="form-check form-switch form-check-custom form-check-solid mb-2">
+
+                        <div class="form-check form-switch form-check-custom form-check-solid mb-2">
                             <label class="fs-5 fw-bold mx-4">{{ __('highlighted') }}</label>
                             <input class="form-check-input mx-2" style="height: 18px;width:36px;" name="highlighted"
                                 type="checkbox" checked />
@@ -73,7 +73,7 @@
                 <!-- begin :: Inputs wrapper -->
                 <div class="inputs-wrapper">
 
-                
+
                     <div class="row mb-10">
 
                         <!-- begin :: Column -->
@@ -86,7 +86,8 @@
                                     <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
                                         placeholder="default.jpg" type="editable"></x-dashboard.upload-image-inp>
                                 </div>
-                            <p class='text-danger'>{{__('image dimensions of 310 pixels in width and 170 pixels in height.')}}</p>
+                                <p class='text-danger'>
+                                    {{ __('image dimensions of 310 pixels in width and 170 pixels in height.') }}</p>
 
                                 <p class="invalid-feedback" id="image"></p>
                                 <!-- end   :: Upload image component -->
@@ -99,7 +100,8 @@
                                     <x-dashboard.upload-image-inp name="cover" :image="null" :directory="null"
                                         placeholder="default.jpg" type="editable"></x-dashboard.upload-image-inp>
                                 </div>
-              <p class='text-danger'>{{__("cover dimensions of 900 pixels in width and 300 pixels in height.")}}</p>
+                                <p class='text-danger'>
+                                    {{ __('cover dimensions of 900 pixels in width and 300 pixels in height.') }}</p>
 
                                 <p class="invalid-feedback" id="cover"></p>
                                 <!-- end   :: Upload image component -->
@@ -110,9 +112,9 @@
 
                     </div>
                     <!-- end   :: Row -->
-                        <!-- end   :: Column -->
+                    <!-- end   :: Column -->
 
-                  
+
 
                     <!-- begin :: Row -->
                     <div class="row mb-10">
@@ -189,7 +191,7 @@
 
                             <label class="fs-5 fw-bold mb-2">{{ __('Description in arabic') }}</label>
 
-                            <textarea class="form-control" rows="4" name="description_ar" id="meta_tag_description_ar_inp"
+                            <textarea class="form-control tinymce-editor" rows="4" name="description_ar" id="meta_tag_description_ar_inp"
                                 data-kt-autosize="true"></textarea>
 
                             <p class="text-danger invalid-feedback" id="description_ar"></p>
@@ -202,7 +204,7 @@
                         <div class="col-md-6 fv-row">
 
                             <label class="fs-5 fw-bold mb-2">{{ __('Description in english') }}</label>
-                            <textarea class="form-control" rows="4" name="description_en" id="meta_tag_description_en_inp"
+                            <textarea class="form-control tinymce-editor" rows="4" name="description_en" id="meta_tag_description_en_inp"
                                 data-kt-autosize="true"></textarea>
 
                             <p class="text-danger error-element" id="description_en"></p>
@@ -274,7 +276,8 @@
 
         $(document).ready(() => {
 
-            initTinyMc(true);
+            // Remove this if TinyMCE is already initialized below
+            // initTinyMc(true);
 
             $("#discount-price-switch").change(function() {
                 discountInp.prop('disabled', !$(this).prop('checked'))
@@ -284,6 +287,48 @@
                 templateResult: function(item) {
                     return format(item);
                 }
+            });
+
+            tinymce.init({
+                selector: '.tinymce-editor',
+                plugins: 'image media link code',
+                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | link image media | code',
+                images_upload_url: '/dashboard/upload-image',
+                images_upload_credentials: true,
+                automatic_uploads: true,
+                file_picker_types: 'image',
+                relative_urls: false, // ✅ Force absolute URLs
+                remove_script_host: false, // ✅ Ensure full URL is included
+                document_base_url: "{{ env('APP_URL') }}",
+
+                images_upload_handler: function(blobInfo, success, failure) {
+                    let formData = new FormData();
+                    formData.append('file', blobInfo.blob());
+                    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                    $.ajax({
+                        url: '/dashboard/upload-image',
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            if (response.location) {
+                                success(response.location); // ✅ Ensure full URL is returned
+                            } else {
+                                failure('Invalid response from server.');
+                            }
+                        },
+                        error: function(xhr) {
+                            failure('Image upload failed: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+
+            // ✅ Ensure TinyMCE syncs content before submission
+            $('form').on('submit', function() {
+                tinymce.triggerSave();
             });
 
         });

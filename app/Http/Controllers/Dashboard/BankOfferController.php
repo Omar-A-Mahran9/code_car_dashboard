@@ -238,6 +238,11 @@ class BankOfferController extends Controller
         $bankOffers = BankOffer::whereIn('id', $ids)->get();
 
         foreach ($bankOffers as $bankOffer) {
+            // Delete the associated image
+            if ($bankOffer->image) {
+                deleteImage($bankOffer->image, "Banks");
+            }
+
             // Detach related brands
             $bankOffer->brnads()->detach();
 
