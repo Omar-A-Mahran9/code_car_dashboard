@@ -126,10 +126,10 @@ Route::group(['middleware' => ['json.response']], function () {
     // Route::post('/add-Your-Ad/{step}', [AdsController::class, 'store']);
 
     // Route::post('/send-otp', [FinanceController::class, 'sendOtp']);
-    Route::post('/verify-otp-order', [FinanceController::class, 'verifyOtp']);
+    Route::post('/verify-otp-order', [Mobile_ApiFinanceController::class, 'verifyOtp']);
     // Route::post('/cash-Order', [FinanceController::class, 'sendOtp']);
-    Route::post('/cash-Order', [FinanceController::class, 'validationcash']);
-    Route::post('/financecar-Order', [FinanceController::class, 'validationfinance']);
+    Route::post('/cash-Order', [Mobile_ApiFinanceController::class, 'validationcash']);
+    Route::post('/financecar-Order', [Mobile_ApiFinanceController::class, 'validationfinance']);
 
 
 
