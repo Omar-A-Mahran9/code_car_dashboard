@@ -67,13 +67,18 @@ public function availableGearShifters($brand_id, $model_id, $year)
                            ->where('year', $year)
                            ->select('gear_shifter')
                            ->distinct()
-                           ->pluck('gear_shifter');
+                           ->get()
+                           ->map(function ($car) {
+                               return [
+                                   'name' => $car->gear_shifter,
+                                   'value' => $car->gear_shifter,
+                               ];
+                           });
 
-        return $this->success(data: $gearShifters->isEmpty() ? [] : $gearShifters); // Return empty array if no gear shifters
+        return $this->success(data: $gearShifters->isEmpty() ? [] : $gearShifters);
     } catch (\Exception $e) {
         return $this->failure(message: $e->getMessage());
-    }
-}
+    }}
 
 
 public function availableCategories($brand_id, $model_id, $year, $gear_shifter)

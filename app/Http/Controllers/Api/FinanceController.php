@@ -94,15 +94,15 @@ class FinanceController extends Controller
 
   public function validationfinance(Request $request)
   {
+
     $step = $request->input('step');
     $car  = $this->car->findOrFail($request->id);
-
     if (request('type') == 'individual')
     {
+
       switch ($step)
       {
         case 1:
-
             $request->validate([
               "first_batch" => "required|numeric",
               "last_batch" => "required|numeric",
@@ -152,7 +152,7 @@ class FinanceController extends Controller
                 'nationality_id' => 'required|numeric',
 
           ]);
-          
+
           $request->merge(['phone' => $request->phone]);
           $request->validate([
             'phone' => [
@@ -195,7 +195,6 @@ class FinanceController extends Controller
 
         case 5:
           $carResource = CarResourse::make($car)->resolve();
-
           //  DB::beginTransaction();
           // try {
           $car = Car::where('model_id', $request->model)
@@ -205,7 +204,9 @@ class FinanceController extends Controller
                 ->where('category_id',request('category'))
                 ->first() ?? $car;
           $request['car'] = $car;
+
           $data = $this->calculateInstallmentscar($request);
+
           foreach ($data as $selectedOffer)
           {
             if ($selectedOffer['bank_offer_id'] == $request['bank_offer_id'])
@@ -213,6 +214,7 @@ class FinanceController extends Controller
               $view_selected_Offer = $selectedOffer;
             }
           }
+
           $ordersTableData = [
             // Orders Table Data
             'first_installment' => $request->first_batch,
@@ -249,13 +251,14 @@ class FinanceController extends Controller
             'nationality_id' => $request->nationality_id,
 
           ];
+
            $ordersTableData['type'] = 'car';
           $ordersTableData['car_name'] = $car->name;
           $ordersTableData['phone'] = convertArabicNumbers($ordersTableData['phone']);
 
           $ordersTableData['payment_type'] = 'finance';
           $ordersTableData['client_id'] = Auth::user()->id ?? null;
-          ;
+
           $ordersTableData['status_id'] = 1;
 
           if ($request->file('identity_Card'))
@@ -275,7 +278,9 @@ class FinanceController extends Controller
           $ordersTableData['last_payment_value'] = $view_selected_Offer['last_installment'];
           $ordersTableData['finance_amount'] = $view_selected_Offer['fundingAmount'];
           $ordersTableData['Adminstrative_fees'] = $view_selected_Offer['sectorAdministrative_fees'];
+
           $order = Order::create($ordersTableData);
+
           $this->distribute($order->id);
 
           $order->sendOTP();
