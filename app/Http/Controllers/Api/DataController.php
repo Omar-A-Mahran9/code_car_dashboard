@@ -86,7 +86,7 @@ public function availableCategories($brand_id, $model_id, $year, $gear_shifter)
                                   ->where('year', $year)
                                   ->where('gear_shifter', $gear_shifter);
                         })
-                        ->select('id', 'name_'.getLocale().' as name') // Get localized category name
+                        ->select('id', 'name_ar','name_en') // Get localized category name
                         ->distinct()
                         ->get();
 
