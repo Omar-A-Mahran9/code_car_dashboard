@@ -122,7 +122,9 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/verify-otp-order', [FinanceController::class, 'verifyOtp']);
     // Route::post('/cash-Order', [FinanceController::class, 'sendOtp']);
     Route::post('/cash-Order', [FinanceController::class, 'validationcash']);
-    Route::post('/financecar-Order', [FinanceController::class, 'validationfinance']);
+    Route::post('/financecar-Order', function(){
+        dd('ddss');
+    });
 
 
     Route::get('/cities', [citiyController::class, 'index']);
