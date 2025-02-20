@@ -5,7 +5,6 @@ use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\citiyController;
 use App\Http\Controllers\Api\ContactController;
-use App\Http\Controllers\Mobile_Api\FinanceController;
 use App\Http\Controllers\Api\GlobalController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
@@ -38,7 +37,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/reset-password', 'Api\Auth\ForgetPasswordController@resetPassword');
     Route::post('/verify-otp', 'Api\Auth\VerificationController@verifyOtp');
     Route::get('/act_mod', 'Api\UserController@act_mod');
-    Route::post('/resend-otp-order', [FinanceController::class, 'resendOtp']);
+    Route::post('/resend-otp-order', [Mobile_ApiFinanceController::class, 'resendOtp']);
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
         // Route::post('/resend-otp', 'Api\Auth\VerificationController@resendOtp');
@@ -60,7 +59,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
         Route::get('/requests_auth', [RequestController::class,'index'])->name('get-requests');
         Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order');
-        Route::post('/finance-dash', [FinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
+        Route::post('/finance-dash', [Mobile_ApiFinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
         Route::post('/favorite-auth', 'Api\UserController@favorite');
     });
     Route::post('/favorite-withoutauth', 'Api\UserController@favorite');
