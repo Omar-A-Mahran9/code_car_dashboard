@@ -21,8 +21,7 @@ class RequestController extends Controller
 
     public function index(){
 
-        dd('ss');
-      try
+       try
         {
             $type=request()->type;
             $allOrders=[];
