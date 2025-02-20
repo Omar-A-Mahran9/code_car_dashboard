@@ -22,7 +22,7 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 
-class FinanceController extends Controller
+class MobileFinanceController extends Controller
 {
   use MobileCalc, NotificationTrait;
 

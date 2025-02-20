@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\GlobalController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
 use App\Http\Controllers\Mobile_Api\UserController;
-use App\Http\Controllers\Mobile_Api\FinanceController as Mobile_ApiFinanceController;
+use App\Http\Controllers\Mobile_Api\MobileFinanceController as Mobile_ApiFinanceController;
 use App\Http\Controllers\Mobile_Api\GlobalController as Mobile_ApiGlobalController;
 use App\Http\Controllers\Mobile_Api\RequestController;
 use Illuminate\Http\Request;
