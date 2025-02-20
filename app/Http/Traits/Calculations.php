@@ -104,9 +104,8 @@ trait Calculations{
 
     public function calculateInstallmentscar($request)
     {
-      // URL
-         $databaseConfig = config('database.connections.mysql');
-         $currentUrl = url('/');
+
+
         $bankOffer=null;
         $AllAvailableOffers=[];
          $salary_after_plus=($request->salary + ($request->support_price ?? 0));
@@ -172,7 +171,7 @@ trait Calculations{
           return $AllAvailableOffers;
         }
 
-                    if($car){
+        if($car){
         $carDetails = CarResourse::make($car)->resolve();
         $brandId = $carDetails['brand']['id'];
         $sectorBenefit = null;
@@ -217,7 +216,7 @@ trait Calculations{
             }else{
                 $price=$price-($price * $sectorSupport);
             }
-            $parameters = [
+             $parameters = [
                 'r-last_batch'=>$request->last_batch,
                 'r-first_batch'=>$request->first_batch,
                 'r-installment'=>$request->installment,
@@ -231,13 +230,7 @@ trait Calculations{
                 'tax'=>settings()->getSettings('tax')/100,
                 'insurance_female'=>settings()->getSettings('females_insurance'),
                 'insurance_man'=>settings()->getSettings('males_insurance'),
-                'src_ur'=>$currentUrl,
-                'Database_connection' => [
-                    'servername' => $databaseConfig['host'],
-                    'username' => $databaseConfig['username'],
-                    'password' => $databaseConfig['password'],
-                    'database' => $databaseConfig['database'],
-                ],
+
              ];
 
           $response = $this->calc_function($parameters);

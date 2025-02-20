@@ -143,15 +143,16 @@ class FinanceController extends Controller
             'driving_license' => ['required', 'boolean'],
             'traffic_violations' => ['required', 'boolean'],
             'have_life_problem' => ['required', 'boolean'],
-   'department_loan' => ['required', 'boolean'],
-    'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
- 'support_price' => [
-         'required_if:department_loan_support,true',
+            'department_loan' => ['required', 'boolean'],
+                'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+                'support_price' => [
+                    'required_if:department_loan_support,true',
 
-    ],
-    'nationality_id' => 'required|numeric',
+                ],
+                'nationality_id' => 'required|numeric',
 
           ]);
+          
           $request->merge(['phone' => $request->phone]);
           $request->validate([
             'phone' => [
@@ -396,6 +397,7 @@ class FinanceController extends Controller
   // create order cash or finance
   public function store($request)
   {
+
     $car = $this->car->findOrFail($request->id);
     if ($request->type == 'organization')
     {
@@ -543,14 +545,15 @@ class FinanceController extends Controller
 
             'have_life_problem' => ['required', 'boolean'],
              'department_loan' => ['required', 'boolean'],
-    'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
- 'support_price' => [
-         'required_if:department_loan_support,true',
+            'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+            'support_price' => [
+                'required_if:department_loan_support,true',
 
     ],
 
             'nationality_id'=>'required|numeric',
           ]);
+
           $ordersTableData['phone'] = convertArabicNumbers($request->phone);
           $request->merge(['phone' => $ordersTableData['phone']]);
 
