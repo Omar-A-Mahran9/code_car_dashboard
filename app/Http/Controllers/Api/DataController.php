@@ -122,7 +122,7 @@ public function availableColors($brand_id, $model_id, $year, $gear_shifter, $cat
     }
 }
 
-public function availableColorswitoutcatgory($brand_id, $model_id, $year, $gear_shifter, $category_id)
+public function availableColorswitoutcatgory($brand_id, $model_id, $year, $gear_shifter)
 {
     try {
         // Fetch distinct colors based on car records matching the given parameters
