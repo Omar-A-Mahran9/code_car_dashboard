@@ -163,7 +163,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/available-years/{brand_id}/{model_id}', [DataController::class, 'availableYears']);
     Route::get('/available-gear-shifters/{brand_id}/{model_id}/{year}', [DataController::class, 'availableGearShifters']);
     Route::get('/available-categories/{brand_id}/{model_id}/{year}/{gear_shifter}', [DataController::class, 'availableCategories']);
-    Route::get('/available-colors/{brand_id}/{model_id}/{year}/{gear_shifter}', [DataController::class, 'availableColorswitoutcatgory']);
+    Route::get('/available-color/{brand_id}/{model_id}/{year}/{gear_shifter}', [DataController::class, 'availableColorswitoutcatgory']);
     Route::get('/available-colors/{brand_id}/{model_id}/{year}/{gear_shifter}/{category_id}', [DataController::class, 'availableColors']);
 
 
