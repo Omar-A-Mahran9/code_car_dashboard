@@ -122,6 +122,26 @@ public function availableColors($brand_id, $model_id, $year, $gear_shifter, $cat
     }
 }
 
+public function availableColorswitoutcatgory($brand_id, $model_id, $year, $gear_shifter, $category_id)
+{
+    try {
+        // Fetch distinct colors based on car records matching the given parameters
+        $colors = Color::whereHas('cars', function ($query) use ($brand_id, $model_id, $year, $gear_shifter) {
+                        $query->where('brand_id', $brand_id)
+                              ->where('model_id', $model_id)
+                              ->where('year', $year)
+                              ->where('gear_shifter', $gear_shifter);
+                    })
+                    ->select('id', 'name_ar','name_en', 'hex_code') // Include color name and hex code
+                    ->distinct()
+                    ->get();
+
+        return $this->success(data: $colors);
+    } catch (\Exception $e) {
+        return $this->failure(message: $e->getMessage());
+    }
+}
+
 
 
 
