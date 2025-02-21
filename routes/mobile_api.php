@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Mobile_Api\AdsController;
+use App\Http\Controllers\Mobile_api\AdsController;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\citiyController;
@@ -8,10 +8,10 @@ use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\GlobalController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
-use App\Http\Controllers\Mobile_Api\UserController;
-use App\Http\Controllers\Mobile_Api\MobileFinanceController as Mobile_ApiFinanceController;
-use App\Http\Controllers\Mobile_Api\GlobalController as Mobile_ApiGlobalController;
-use App\Http\Controllers\Mobile_Api\RequestController;
+use App\Http\Controllers\Mobile_api\UserController;
+use App\Http\Controllers\Mobile_api\MobileFinanceController as Mobile_ApiFinanceController;
+use App\Http\Controllers\Mobile_api\GlobalController as Mobile_ApiGlobalController;
+use App\Http\Controllers\Mobile_api\RequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SetLocale;
@@ -172,7 +172,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/requests-search', [RequestController::class,'search']);
     Route::post('/find', 'Api\financecalc@encry');
 
-    Route::get('/requests', 'mobile_api\RequestController@index')->name('get-requests-without-auth');
+    Route::get('/requests', 'Mobile_api\RequestController@index')->name('get-requests-without-auth');
     Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order2');
     Route::post('/finance-dash', [Mobile_ApiFinanceController::class, 'financeOrderDashboard'])->middleware(SetLocale::class);
 
