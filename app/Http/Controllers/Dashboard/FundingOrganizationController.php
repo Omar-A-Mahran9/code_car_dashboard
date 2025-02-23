@@ -36,7 +36,6 @@ class FundingOrganizationController extends Controller
         $this->authorize('create_funding_organizations');
 
         $data=  $request->validate([
-            // 'image'            => ['required','mimes:jpeg,jpg,png,gif,svg','max:5120'],
             'image'            => ['required','file','max:5120'],
             'name_ar'          => ['required','string','max:255','unique:funding_organizations'],
             'name_en'          => ['required','string','max:255','unique:funding_organizations'],

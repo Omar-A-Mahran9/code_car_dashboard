@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CarOrder extends Model
 {
     use HasFactory;
- 
+
     protected $table = 'cars_orders';
     protected $guarded = ['name', 'phone', 'price', 'car_name', 'car_id', 'city_id', 'status', 'client_id'];
     protected $casts   = [
@@ -31,7 +31,7 @@ class CarOrder extends Model
     public function bank_offer(){
         return $this->belongsTo(BankOffer::class,'bank_offer_id');
 
-        
+
     }
-   
+
 }

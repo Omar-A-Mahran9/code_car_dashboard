@@ -112,16 +112,16 @@
                     <div class="card card-flush  flex-row-fluid">
                         <!--begin::Card header-->
                         <div class="card-header">
-                       <div class="card-title d-flex justify-content-between w-100">
-                            <div>
-                                <h2>{{ __('Order Details') }} ( #{{ $order['id'] }} )</h2>
+                            <div class="card-title d-flex justify-content-between w-100">
+                                <div>
+                                    <h2>{{ __('Order Details') }} ( #{{ $order['id'] }} )</h2>
+                                </div>
+                                @if ($order['edited'])
+                                    <div>
+                                        <span class="badge badge-warning me-3">{{ __('edited') }}</span>
+                                    </div>
+                                @endif
                             </div>
-                            @if($order['edited'])
-                            <div>
-                                <span class="badge badge-warning me-3">{{__('edited')}}</span>
-                            </div>
-                            @endif
-                        </div>
 
 
                         </div>
@@ -495,20 +495,28 @@
                                                             {{ $order['orderDetailsCar']['having_loan'] ? __('Yes') : __('No') }}
                                                         </td>
                                                     </tr>
-                                                     <tr>
-                                                        <td class="fw-boldest">{{ __('Is there a supported mortgage loan') }}
+                                                    <tr>
+                                                        <td class="fw-boldest">
+                                                            {{ __('Is there a supported mortgage loan') }}
                                                         </td>
                                                         <td class="text-end fw-boldest" colspan="4">
                                                             {{ $order['orderDetailsCar']['having_loan_support'] ? __('Yes') : __('No') }}
                                                         </td>
                                                     </tr>
-                                                      <tr>
+                                                    <tr>
                                                         <td class="fw-boldest">{{ __('mortgage loan price') }}
                                                         </td>
                                                         <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $order['orderDetailsCar']['having_loan_support_price']  }}
+                                                            {{ $order['orderDetailsCar']['having_loan_support_price'] }}
                                                         </td>
                                                     </tr>
+                                                    {{-- <tr>
+                                                        <td class="fw-boldest">{{ __('support price') }}
+                                                        </td>
+                                                        <td class="text-end fw-boldest" colspan="4">
+                                                            {{ $order['orderDetailsCar']['having_loan_support_price'] }}
+                                                        </td>
+                                                    </tr> --}}
                                                     <tr>
                                                         <td class="fw-boldest" style="font-weight:900">
                                                             {{ __('Max limit to monthely installment') . ' ' }}
@@ -577,14 +585,14 @@
                                                     @endif
 
                                                     @if ($order['orderDetailsCar']['Adminstrative_fees'])
-                                                    <tr>
-                                                        <td class="fw-boldest">{{ __('adminstrative fees') }}
-                                                        </td>
-                                                        <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $order['orderDetailsCar']['Adminstrative_fees'] . ' ' . currency() }}
-                                                        </td>
-                                                    </tr>
-                                                @endif 
+                                                        <tr>
+                                                            <td class="fw-boldest">{{ __('adminstrative fees') }}
+                                                            </td>
+                                                            <td class="text-end fw-boldest" colspan="4">
+                                                                {{ $order['orderDetailsCar']['Adminstrative_fees'] . ' ' . currency() }}
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                     @if ($order['orderDetailsCar']['finance_amount'])
                                                         <tr>
                                                             <td class="fw-boldest">{{ __('Finance amounts') }}
@@ -702,7 +710,7 @@
                                                         <tr>
                                                             <td class="fw-boldest">{{ __('Total Price') }}</td>
                                                             <td class="text-end fw-boldest" colspan="4">
-                                                                {{ $order['price']  . ' ' . currency() }}
+                                                                {{ $order['price'] . ' ' . currency() }}
                                                             </td>
                                                         </tr>
                                                     @endif
@@ -1212,14 +1220,14 @@
                                             <th class="min-w-70px">{{ __('Order Status') }}</th>
                                             <th class="min-w-175px">{{ __('Comment') }}</th>
                                             <th class="min-w-100px">{{ __('employee') }}</th>
- 
-                                            <th class="min-w-100px">{{ __('assign to') }}</th>
-                              
-                                            
-                 
-                                        <th class="min-w-100px">{{ __('edited by') }}</th>
 
-                            
+                                            <th class="min-w-100px">{{ __('assign to') }}</th>
+
+
+
+                                            <th class="min-w-100px">{{ __('edited by') }}</th>
+
+
 
                                             <th class="min-w-100px">{{ __('Date') }}</th>
                                         </tr>
@@ -1241,11 +1249,11 @@
 
                                                 <td>{{ $record['comment'] ?? '-' }}</td>
                                                 <td>{{ $record['employee']['name'] }}</td>
-                                                
-                                                 <td>{{ $record['assign']['name'] ?? '-' }}</td>
-                                                 
-                                                 <td>{{ $record['edited']['name'] ?? '-' }}</td>
- 
+
+                                                <td>{{ $record['assign']['name'] ?? '-' }}</td>
+
+                                                <td>{{ $record['edited']['name'] ?? '-' }}</td>
+
                                                 <td>
                                                     {{ date('Y-m-d', strtotime($record['created_at'])) . ' / ' . date('H:i a', strtotime($record['created_at'])) }}
                                                 </td>
@@ -2636,7 +2644,7 @@
 
 
                                                     <div>
-                                                         <h3 class="text-center mb-4" style="font-weight: 900">
+                                                        <h3 class="text-center mb-4" style="font-weight: 900">
                                                             {{ __('Car Data') }}</h3>
                                                         <!-- begin :: Row -->
                                                         <div class="row mb-10">

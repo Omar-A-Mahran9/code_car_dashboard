@@ -687,11 +687,12 @@
   "Commitment amount in SAR": "فيمة الالتزام بالريال السعودي",
   "Is there a mortgage loan": "هل يوجد قرض عقاري ؟",
   "Is there a supported mortgage loan": "هل يوجد قرض عقاري مدعوم ؟",
-  "mortgage loan price": "قيمة الدعم",
+  "mortgage loan price": "قيمة الدعم العقاري",
   "The last installment": "نسبة الدفعة الاخيرة",
   "The last installment amount": "قيمة الدفعة الأخيرة",
   "The first installment": "نسبة الدفعة الأولى",
   "The first installment amount": "قيمة الدفعة الاولى",
+  "support price": "قيمة الدعم",
 
   "Employer": "قطاع العمل",
   "Bank account": "راتبك على اي بنك",

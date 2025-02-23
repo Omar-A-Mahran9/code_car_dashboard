@@ -35,7 +35,7 @@ class BankOffer extends Model
     }
     public function attachSectors($pivotData)
     {
- 
+
         $this->sectors()->detach();
         foreach (Sector::get() as $sector) {
             $this->sectors()->attach($sector, [
@@ -64,5 +64,9 @@ class BankOffer extends Model
     //         ]);
     //     }
     // }
-    
+
+
+
+
+
 }
