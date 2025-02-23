@@ -70,7 +70,7 @@ public function availableGearShifters($brand_id, $model_id, $year)
                            ->get()
                            ->map(function ($car) {
                                return [
-                                   'name' => $car->gear_shifter,
+                                   'name' => __($car->gear_shifter),
                                    'value' => $car->gear_shifter,
                                ];
                            });
