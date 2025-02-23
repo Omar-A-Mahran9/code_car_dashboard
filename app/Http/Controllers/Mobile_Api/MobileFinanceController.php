@@ -140,19 +140,20 @@ class MobileFinanceController extends Controller
                 $request['car'] = $car;
                 $data           = $this->calculateInstallmentscar($request);
               }
-           $carResource = CarResourse::make($car)->resolve();
-
-
-           return $this->success(data:[
-            'offers' => $data,
-            'car_details' => [
-                "color" => $carResource['color'],
-            ]
-        ]);
-
+              return $this->success(data: $data);
               break;
 
+                    //   $carResource = CarResourse::make($car)->resolve();
 
+
+                    //   return [
+                    //     "brand" => $carResource['brand']['title'],
+                    //     "model" => $carResource['model']['title'],
+                    //     "category" => $carResource['categories']['title']??null,
+                    //     "year" => $carResource['year'],
+                    //     "gear_shifter"=>$carResource['gear_shifter'],
+                    //     "color"=>$carResource['color'],
+                    //      ];
               break;
         case 2:
             $request->validate([
