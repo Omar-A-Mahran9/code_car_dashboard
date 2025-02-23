@@ -65,8 +65,4 @@ class BankOffer extends Model
     //     }
     // }
 
-
-
-
-
 }
