@@ -57,7 +57,7 @@ class SettingController extends Controller
     {
         try
         {
-    $newses = News::latest()->take(6)->get();
+    $newses = News::latest()->get();
             $newses->map(function ($news) {
                 $news['highlighted_image'] = getImagePathFromDirectory($news['highlighted_image'], 'News');
                 $news['main_image']        = getImagePathFromDirectory($news['main_image'], 'News');
@@ -88,7 +88,7 @@ class SettingController extends Controller
     {
         try
         {
-            
+
             $data = [
                 'description' => settings()->getSettings('contact_us_text_in_contact_us_page_' . getLocale()),
                 'email' => settings()->getSettings('email'),
@@ -163,7 +163,7 @@ class SettingController extends Controller
                 'icon_card_right' => getImagePathFromDirectory(settings()->getSettings('about_us_card_right_icon'), 'Settings'),
                 'faq' => Faq::get(),
             ];
- 
+
             return $this->success(data: $data);
         } catch (\Exception $e)
         {
@@ -172,25 +172,25 @@ class SettingController extends Controller
     }
     public function filter_count(){
         $car=Car::get();
- 
+
         // Assuming 'status' is the attribute that indicates whether a car is new or used
         $usedCount = $car->where('is_new', '0')->count();
         $newCount = $car->where('is_new', '1')->count();
         $automatic_gear = $car->where('gear_shifter', 'automatic')->count();
         $manual_gear = $car->where('gear_shifter', 'manual')->count();
 
-        
+
         $data = [
             'used' => $usedCount,
             'new' => $newCount,
             'automatic'=>$automatic_gear,
             'automatic'=>$manual_gear,
 
-            
+
         ];
         return $this->success(data: $data);
 
-     
+
 
     }
 
@@ -235,7 +235,7 @@ class SettingController extends Controller
 
     }
     public function AllDescription(){
-        
+
         $data = [
             'financeDescription' => settings()->getSettings('finance_text_in_home_page_' . getLocale()),
             'followyourOrder' => settings()->getSettings('track_order_text_in_track_order_page_' . getLocale()),

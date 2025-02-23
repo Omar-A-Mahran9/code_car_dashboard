@@ -12,9 +12,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        
-        $cars    = Car::take(6)->select( [ 'show_in_home_page' , ... Car::$carCardColumns] )->where('show_in_home_page', 1)->orderBy('created_at', 'desc')->get();
-        
+
+        $cars    = Car::select( [ 'show_in_home_page' , ... Car::$carCardColumns] )->where('show_in_home_page', 1)->orderBy('created_at', 'desc')->get();
+
         $tags    = Tag::has('cars')->select('id','name_' . getLocale())->get();
 
         return view('web.index',compact('cars','tags'));

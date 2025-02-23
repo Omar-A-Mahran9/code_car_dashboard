@@ -57,7 +57,7 @@ class SettingController extends Controller
     {
         try
         {
-    $newses = News::latest()->take(6)->get();
+    $newses = News::latest()->get();
             $newses->map(function ($news) {
                 $news['highlighted_image'] = getImagePathFromDirectory($news['highlighted_image'], 'News');
                 $news['main_image']        = getImagePathFromDirectory($news['main_image'], 'News');
