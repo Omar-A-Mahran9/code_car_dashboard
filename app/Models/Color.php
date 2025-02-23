@@ -24,6 +24,6 @@ class Color extends Model
 
     public function cars()
     {
-        return $this->hasMany(Car::class);
+        return $this->belongsToMany(Car::class);
     }
 }
