@@ -55,20 +55,26 @@ class SettingController extends Controller
     }
     public function cars_news()
     {
-        try
-        {
-    $newses = News::latest()->get();
-            $newses->map(function ($news) {
+        try {
+            // Get paginated news with 9 items per page
+            $newses = News::latest()->paginate(9);
+
+            // Transform each news item
+            $newses->getCollection()->transform(function ($news) {
                 $news['highlighted_image'] = getImagePathFromDirectory($news['highlighted_image'], 'News');
                 $news['main_image']        = getImagePathFromDirectory($news['main_image'], 'News');
+                return $news;
             });
+
+            // Prepare response data
             $data = [
                 'description' => settings()->getSettings('cars_news_text_in_cars_news_page_' . getLocale()),
-                'news' => $newses
+                'news'        => $newses
             ];
+
+            // Return paginated response
             return $this->success(data: $data);
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->failure(message: $e->getMessage());
         }
     }
