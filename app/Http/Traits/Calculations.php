@@ -214,7 +214,7 @@ trait Calculations{
             if($offer->support >= 100){
                 $price = 0;
             }else{
-                $price=$price-($price * $sectorSupport);
+                $price=$price+($price * $sectorSupport);
             }
              $parameters = [
                 'r-last_batch'=>$request->last_batch,

@@ -48,13 +48,9 @@ class FundingOrganizationController extends Controller
 
         if ($request->file('image'))
             $data['image'] = uploadImage( $request->file('image') , "FundingOrganizations");
-
-
         try {
-            //code...
             FundingOrganization::create($data);
         } catch (\Throwable $th) {
-            //throw $th;
             deleteImage($data['image'], "FundingOrganizations");
             return response()->json(["error" => "something went wrong"], 500);
         }
