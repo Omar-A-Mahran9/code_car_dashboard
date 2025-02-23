@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Mobile_Api;
+namespace App\Http\Controllers\Mobile_api;
+namespace App\Http\Controllers\Mobile_api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BranResourse;
@@ -22,14 +23,9 @@ use Reliese\Coders\Model\Model;
 
 class GlobalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function cityData(){
         $cities = City::get();
-
         return $this->success(data: $cities);
 
     }
