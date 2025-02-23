@@ -102,211 +102,197 @@ class MobileFinanceController extends Controller
       switch ($step)
       {
         case 1:
-
             $request->validate([
-              "first_batch" => "required|numeric",
-              "last_batch" => "required|numeric",
-              "installment" => "required|numeric"
-                      ]);
-                      $carResource = CarResourse::make($car)->resolve();
+                "first_batch" => "required|numeric",
+                "last_batch" => "required|numeric",
+                "installment" => "required|numeric",
+                "sex" => "required",
+                'sector' => "required|numeric",
+                'salary' => "required|numeric",
+                'bank' => 'required|numeric',
+                'Monthly_cometment' => 'required|numeric',
+                'driving_license' => ['required', 'boolean'],
+                'traffic_violations' => ['required', 'boolean'],
+                'have_life_problem' => ['required', 'boolean'],
+                'department_loan' => ['required', 'boolean'],
+                'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+                'support_price' => [
+                'required_if:department_loan_support,true',
+                ],
+                'nationality_id' => 'required|numeric',
+              ]);
+              $carResource = CarResourse::make($car)->resolve();
 
 
-                      return [
-                        "brand" => $carResource['brand']['title'],
-                        "model" => $carResource['model']['title'],
-                        "category" => $carResource['categories']['title']??null,
-                        "year" => $carResource['year'],
-                        "gear_shifter"=>$carResource['gear_shifter'],
-                        "color"=>$carResource['color'],
-                         ];
+              $car = Car::where('model_id', $request->model)
+                    ->where('brand_id', request('brand'))
+                    ->where('year', request('year'))
+                    ->where('gear_shifter',request('gear_shifter'))
+                    ->where('category_id',request('category'))
+                    ->first() ?? $car;
+              $request['car'] = $car;
+
+              if ($request->have_life_problem == true || $request->Monthly_cometment < 0)
+              {
+                $data = [];
+              } else
+              {
+                $request['car'] = $car;
+                $data           = $this->calculateInstallmentscar($request);
+              }
+              return $this->success(data: $data);
+              break;
+
+                    //   $carResource = CarResourse::make($car)->resolve();
+
+
+                    //   return [
+                    //     "brand" => $carResource['brand']['title'],
+                    //     "model" => $carResource['model']['title'],
+                    //     "category" => $carResource['categories']['title']??null,
+                    //     "year" => $carResource['year'],
+                    //     "gear_shifter"=>$carResource['gear_shifter'],
+                    //     "color"=>$carResource['color'],
+                    //      ];
               break;
         case 2:
-                    $request->validate([
-                     "color_id" => "required|numeric",
-
-                      ]);
-
-          break;
-        case 3:
-          $request->validate([
-            "client_name" => ['required' , 'string',new NotNumbersOnly],
-            'email' => ['bail','max:255'],
-            'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
-            "sex" => "required",
-            'birth_date' => 'required|date|before_or_equal:' . Carbon::now()->subYears(16)->toDateString(),
-            "city_id"=>"required|numeric",
-            'identity_no' => 'nullable|unique:orders,identity_no|numeric|digits:10',
-            'sector' => "required|numeric",
-            'salary' => "required|numeric",
-            'bank' => 'required|numeric',
-            'Monthly_cometment' => 'required|numeric',
-            'driving_license' => ['required', 'boolean'],
-            'traffic_violations' => ['required', 'boolean'],
-            'have_life_problem' => ['required', 'boolean'],
-   'department_loan' => ['required', 'boolean'],
-    'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
- 'support_price' => [
-         'required_if:department_loan_support,true',
-
-    ],
-    'nationality_id' => 'required|numeric',
-
-          ]);
-          $request->merge(['phone' => $request->phone]);
-          $request->validate([
-            'phone' => [
-              'required',
-            //   Rule::unique('orders', 'phone'),
-            ]
-          ]);
-          if ($request->have_life_problem == true || $request->Monthly_cometment < 0)
-          {
-            $data = [];
-          } else
-          {
-            $request['car'] = $car;
-            $data           = $this->calculateInstallmentscar($request);
-          }
-          return $this->success(data: $data);
-          break;
-
-        case 4:
-
             $request->validate([
-              "bank_offer_id" => 'required|numeric',
-              'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
-              'License_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
-              'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
-              'Insurance_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
-            ]);
-            $request['car']=$car;
-            $data = $this->calculateInstallmentscar($request);
-            $view_selected_Offer = null;
-           foreach ($data as $selectedOffer) {
-               if ($selectedOffer['bank_offer_id'] == $request['bank_offer_id']) {
-                   $view_selected_Offer = $selectedOffer;
-                   break; // Exit the loop once a matching offer is found
+                "bank_offer_id" => 'required|numeric',
+                "color_id" => "required|numeric",
+                "client_name" => ['required' , 'string',new NotNumbersOnly],
+                'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
+                'identity_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+                'License_Card' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+                'Hr_Letter_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+                'Insurance_Image' => 'file|mimes:jpeg,png,jpg,pdf|max:2048',
+
+                "first_batch" => "required|numeric",
+                "last_batch" => "required|numeric",
+                "installment" => "required|numeric",
+                "sex" => "required",
+                'sector' => "required|numeric",
+                'salary' => "required|numeric",
+                'bank' => 'required|numeric',
+                'Monthly_cometment' => 'required|numeric',
+                'driving_license' => ['required', 'boolean'],
+                'traffic_violations' => ['required', 'boolean'],
+                'have_life_problem' => ['required', 'boolean'],
+                'department_loan' => ['required', 'boolean'],
+                'department_loan_support' => ['required_if:department_loan,true', 'boolean'],
+                'support_price' => [
+                'required_if:department_loan_support,true',
+                ],
+                'nationality_id' => 'required|numeric',
+              ]);
+
+              $request['car']=$car;
+
+             $data = $this->calculateInstallmentscar($request);
+
+             foreach ($data as $selectedOffer)
+             {
+
+               if ($selectedOffer['bank_offer_id'] == $request['bank_offer_id'])
+               {
+                 $view_selected_Offer = $selectedOffer;
                }
-           }
-           return $this->success(data: $view_selected_Offer ??[]);
 
-          break;
+             }
 
-        case 5:
-          $carResource = CarResourse::make($car)->resolve();
+             $ordersTableData = [
+               // Orders Table Data
+               'first_installment' => $request->first_batch,
+               'last_installment' => $request->last_batch,
+               'installment' => $view_selected_Offer['years'],
+               'car_id' => $car->id,
+               'color_id' => $request->color_id,
+               'name' => $request->client_name,
+               'email' => $request->email,
 
-          //  DB::beginTransaction();
-          // try {
-          $car = Car::where('model_id', $request->model)
-                ->where('brand_id', request('brand'))
-                ->where('year', request('year'))
-                ->where('gear_shifter',request('gear_shifter'))
-                ->where('category_id',request('category'))
-                ->first() ?? $car;
-          $request['car'] = $car;
-          $data = $this->calculateInstallmentscar($request);
-          foreach ($data as $selectedOffer)
-          {
-            if ($selectedOffer['bank_offer_id'] == $request['bank_offer_id'])
-            {
-              $view_selected_Offer = $selectedOffer;
-            }
-          }
-          $ordersTableData = [
-            // Orders Table Data
-            'first_installment' => $request->first_batch,
-            'last_installment' => $request->last_batch,
-            'installment' => $view_selected_Offer['years'],
-            'car_id' => $car->id,
-            'color_id' => $request->color_id,
-            'name' => $request->client_name,
-            'email' => $request->email,
+               'phone' => convertArabicNumbers($request->phone),
+               'sex' => $request->sex,
+               'price' => $car->getPriceAfterVatAttribute(),
+               'car_name' => $car->name,
+               'city_id' => $request->city_id,
+               'identity_no' => $request->identity_no,
 
-            'phone' => convertArabicNumbers($request->phone),
-            'sex' => $request->sex,
-            'price' => $car->getPriceAfterVatAttribute(),
-            'car_name' => $car->name,
-            'city_id' => $request->city_id,
-            'identity_no' => $request->identity_no,
+               // CarOrder Table Data
+               'payment_type' => 'finance',
+               'salary' => $request->salary,
+               'commitments' => $request->Monthly_cometment,
+               'having_loan' => $request->department_loan,
+               'having_loan_support' => $request->department_loan_support??0,
+               'having_loan_support_price' => $request->support_price??0,
 
-            // CarOrder Table Data
-            'payment_type' => 'finance',
-            'salary' => $request->salary,
-            'commitments' => $request->Monthly_cometment,
-            'having_loan' => $request->department_loan,
-            'having_loan_support' => $request->department_loan_support,
-            'having_loan_support_price' => $request->support_price??0,
+               'traffic_violations'=>$request->traffic_violations,
+               'driving_license' =>  $request->driving_license === '1' ? 'available' : 'doesnt_exist',
 
-            'traffic_violations'=>$request->traffic_violations,
-            'driving_license' =>  $request->driving_license === '1' ? 'available' : 'doesnt_exist',
+               'birth_date' => $request->birth_date,
+               'bank_id' => $request->bank,
+               'sector_id' => $request->sector,
+               'bank_offer_id' => $view_selected_Offer['bank_offer_id'],
+               'transfer' => $request->transferd_type,
+               'nationality_id' => $request->nationality_id,
 
-            'birth_date' => $request->birth_date,
-            'bank_id' => $request->bank,
-            'sector_id' => $request->sector,
-            'bank_offer_id' => $view_selected_Offer['bank_offer_id'],
-            'transfer' => $request->transferd_type,
-            'nationality_id' => $request->nationality_id,
+             ];
+              $ordersTableData['type'] = 'car';
+             $ordersTableData['car_name'] = $car->name;
+             $ordersTableData['phone'] = convertArabicNumbers($ordersTableData['phone']);
 
-          ];
-           $ordersTableData['type'] = 'car';
-          $ordersTableData['car_name'] = $car->name;
-          $ordersTableData['phone'] = convertArabicNumbers($ordersTableData['phone']);
+             $ordersTableData['payment_type'] = 'finance';
+             $ordersTableData['client_id'] = Auth::user()->id ?? null;
+             ;
+             $ordersTableData['status_id'] = 1;
 
-          $ordersTableData['payment_type'] = 'finance';
-          $ordersTableData['client_id'] = Auth::user()->id ?? null;
-          ;
-          $ordersTableData['status_id'] = 1;
+             if ($request->file('identity_Card'))
+               $ordersTableData['identity_Card'] = uploadImage($request->file('identity_Card'), "Orders");
 
-          if ($request->file('identity_Card'))
-            $ordersTableData['identity_Card'] = uploadImage($request->file('identity_Card'), "Orders");
+             if ($request->file('License_Card'))
+               $ordersTableData['License_Card'] = uploadImage($request->file('License_Card'), "Orders");
 
-          if ($request->file('License_Card'))
-            $ordersTableData['License_Card'] = uploadImage($request->file('License_Card'), "Orders");
+             if ($request->file('Hr_Letter_Image'))
+               $ordersTableData['Hr_Letter_Image'] = uploadImage($request->file('Hr_Letter_Image'), "Orders");
 
-          if ($request->file('Hr_Letter_Image'))
-            $ordersTableData['Hr_Letter_Image'] = uploadImage($request->file('Hr_Letter_Image'), "Orders");
+             if ($request->file('Insurance_Image'))
+               $ordersTableData['Insurance_Image'] = uploadImage($request->file('Insurance_Image'), "Orders");
 
-          if ($request->file('Insurance_Image'))
-            $ordersTableData['Insurance_Image'] = uploadImage($request->file('Insurance_Image'), "Orders");
+             $ordersTableData['car_id'] = $car->id;
+             $ordersTableData['client_id'] = $car['vendor']['id'];
+             $ordersTableData['last_payment_value'] = $view_selected_Offer['last_installment'];
+             $ordersTableData['finance_amount'] = $view_selected_Offer['fundingAmount'];
+             $ordersTableData['Adminstrative_fees'] = $view_selected_Offer['sectorAdministrative_fees'];
+             $order = Order::create($ordersTableData);
+             $this->distribute($order->id);
 
-          $ordersTableData['car_id'] = $car->id;
-          $ordersTableData['client_id'] = $car['vendor']['id'];
-          $ordersTableData['last_payment_value'] = $view_selected_Offer['last_installment'];
-          $ordersTableData['finance_amount'] = $view_selected_Offer['fundingAmount'];
-          $ordersTableData['Adminstrative_fees'] = $view_selected_Offer['sectorAdministrative_fees'];
-          $order = Order::create($ordersTableData);
-          $this->distribute($order->id);
+             $order->sendOTP();
 
-          $order->sendOTP();
+             $ordersTableData['order_id'] = $order->id;
+             $ordersTableData['type'] = $request->type;
 
-          $ordersTableData['order_id'] = $order->id;
-          $ordersTableData['type'] = $request->type;
+           $ordersTableData['first_payment_value'] = str_replace(',', '', $view_selected_Offer['firs_installment']);
+           $ordersTableData['last_payment_value'] = str_replace(',', '', $view_selected_Offer['last_installment']);
+           $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
+           $ordersTableData['Adminstrative_fees'] = str_replace(',', '', $view_selected_Offer['sectorAdministrative_fees']);
+           $ordersTableData['Monthly_installment'] = str_replace(',', '', $view_selected_Offer['monthly_installment']);
 
-        $ordersTableData['first_payment_value'] = str_replace(',', '', $view_selected_Offer['firs_installment']);
-        $ordersTableData['last_payment_value'] = str_replace(',', '', $view_selected_Offer['last_installment']);
-        $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
-        $ordersTableData['Adminstrative_fees'] = str_replace(',', '', $view_selected_Offer['sectorAdministrative_fees']);
-        $ordersTableData['Monthly_installment'] = str_replace(',', '', $view_selected_Offer['monthly_installment']);
-          CarOrder::create($ordersTableData);
-          $notify = [
-            'vendor_id' => Auth::id() ?? null,
-            'order_id' => $order->id,
-            'is_read' => false,
-            'phone' => auth()->user()->phone ?? $order->phone,
-            'type' => 'order',
-          ];
-          OrderNotification::create($notify);
-          $this->newOrderApiNotification($order);
+           CarOrder::create($ordersTableData);
+             $notify = [
+               'vendor_id' => Auth::id() ?? null,
+               'order_id' => $order->id,
+               'is_read' => false,
+               'phone' => auth()->user()->phone ?? $order->phone,
+               'type' => 'order',
+             ];
+             OrderNotification::create($notify);
 
-          return $this->success(data: ['Order_Number' => $order->id, 'verification_code' => '-']);
+             $this->newOrderApiNotification($order);
 
-        // DB::commit();
-        //  $this->sendEmailToAdmin($order);
+             return $this->success(data: ['Order_Number' => $order->id, 'verification_code' => '-']);
+             break;
+
+
       }
-      //   catch (\Throwable $th) {
-      //     DB::rollBack();
-      //     return response()->json([['error' => "something went wrong"], 500]);
-      // }
+
     }
 
     if (request('type') == 'organization')
