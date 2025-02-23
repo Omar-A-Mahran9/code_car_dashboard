@@ -143,8 +143,8 @@ class MobileFinanceController extends Controller
            $carResource = CarResourse::make($car)->resolve();
 
 
-           return $this->success([
-            'data' => $data,
+           return $this->success(data:[
+            'offers' => $data,
             'car_details' => [
                 "color" => $carResource['color'],
             ]
