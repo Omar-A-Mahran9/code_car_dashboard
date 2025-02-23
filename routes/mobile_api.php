@@ -129,7 +129,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::post('/verify-otp-order', [Mobile_ApiFinanceController::class, 'verifyOtp']);
     // Route::post('/cash-Order', [FinanceController::class, 'sendOtp']);
     Route::post('/cash-Order', [Mobile_ApiFinanceController::class, 'validationcash']);
-    // Route::post('/financecar-Order', [Mobile_ApiFinanceController::class, 'validationfinance']);
+    Route::post('/financecar-Order', [Mobile_ApiFinanceController::class, 'validationfinance']);
 
 
 

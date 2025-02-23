@@ -106,11 +106,8 @@ public function availableColors($brand_id, $model_id, $year, $gear_shifter, $cat
     try {
         // Fetch distinct colors based on car records matching the given parameters
         $colors = Color::whereHas('cars', function ($query) use ($brand_id, $model_id, $year, $gear_shifter, $category_id) {
-                        $query->where('brand_id', $brand_id)
-                              ->where('model_id', $model_id)
-                              ->where('year', $year)
-                              ->where('gear_shifter', $gear_shifter)
-                              ->where('category_id', $category_id);
+                        $query->where('brand_id', $brand_id);
+
                     })
                     ->select('id', 'name_ar','name_en', 'hex_code') // Include color name and hex code
                     ->distinct()
