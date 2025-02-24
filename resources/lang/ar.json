@@ -692,7 +692,8 @@
   "The last installment amount": "قيمة الدفعة الأخيرة",
   "The first installment": "نسبة الدفعة الأولى",
   "The first installment amount": "قيمة الدفعة الاولى",
-  "support price": "قيمة الدعم",
+  "Total Price for offer": "للعرض قيمة الدعم",
+  "Find price for offer": "هل يوجد دعم للعرض",
 
   "Employer": "قطاع العمل",
   "Bank account": "راتبك على اي بنك",

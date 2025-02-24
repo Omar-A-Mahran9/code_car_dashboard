@@ -511,13 +511,19 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="fw-boldest">{{ __('support price') }}
+                                                        <td class="fw-boldest">{{ __('Total Price for offer') }}
                                                         </td>
                                                         <td class="text-end fw-boldest" colspan="4">
                                                             {{ optional($offerSelected->sectors->first())->pivot->support ?? 'N/A' }}
                                                             %
                                                         </td>
 
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fw-boldest">{{ __('Find price for offer') }}</td>
+                                                        <td class="text-end fw-boldest" colspan="4">
+                                                            {{ optional($offerSelected->sectors->first())->pivot->support> ? __('Yes') : __('No') }}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="fw-boldest" style="font-weight:900">
