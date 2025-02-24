@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
+use App\Models\BankOffer;
 use App\Models\Employee;
 use App\Models\Order;
 use App\Models\OrderHistory;
@@ -57,7 +58,7 @@ class OrderController extends Controller
 
         return view('dashboard.orders.index');
     }
- 
+
     public function filter_cars(Request $request)
     {
         // Check if all required inputs are present
@@ -65,10 +66,10 @@ class OrderController extends Controller
             // Return an error response or an empty result
             return response()->json(['error' => 'All filters are required'], 400);
         }
-    
+
         // Initialize the query
         $query = Car::query();
-    
+
         // Apply filters
         $query->where('brand_id', $request->input('brand'))
         ->where('model_id', request('model'))
@@ -105,7 +106,7 @@ class OrderController extends Controller
          }
         // Return the results as JSON
     }
-    
+
 
      public function create(Request $request)
     {
@@ -124,12 +125,12 @@ class OrderController extends Controller
 
         return view('dashboard.orders.create',compact('cars','brands','colors','years','sectors','nationality','banks','cities','organizationTypes','organizationactivities','lang'));
     }
-    
+
     public function store(Request $request)
     {
        dd($request);
     }
-    
+
 public function orders_not_approval(Request $request)
 {
     $this->authorize('view_orders');
@@ -138,7 +139,7 @@ public function orders_not_approval(Request $request)
     {
         $user = Employee::find(Auth::user()->id);
         $params = $request->all();
-        
+
         // Determine if the user has role 1
         $hasRole1 = $user->roles->contains('id', 1);
 
@@ -154,7 +155,7 @@ public function orders_not_approval(Request $request)
         {
             $query->where('verified', '=', 1)
                   ->where('status_id', '=', 7);
-        } 
+        }
         else
         {
             $query->where('employee_id', '=', $user->id)
@@ -252,7 +253,13 @@ public function orders_not_approval(Request $request)
 
     public function show(Order $order)
     {
- 
+        $offerSelected = BankOffer::with(['sectors' => function($query) use ($order) {
+            $query->where('id', $order['orderDetailsCar']['sector_id']);
+        }])
+        ->where('id', $order['orderDetailsCar']['bank_offer_id'])
+        ->first();
+
+
         $finalapproval=Order::where('edited',true)->where('old_order_id',$order->id)->first();
         $brands = Brand::select('id','name_' . getLocale())->get();
         $cities = City::select('id','name_' . getLocale())->get();
@@ -267,23 +274,23 @@ public function orders_not_approval(Request $request)
         $salary             = $order['orderDetailsCar']['salary'];
 
          if (isset($order['orderDetailsCar']['bank']['min_salary'], $order['orderDetailsCar']['bank']['max_salary']) &&
-            $salary >= $order['orderDetailsCar']['bank']['min_salary'] && 
+            $salary >= $order['orderDetailsCar']['bank']['min_salary'] &&
             $salary < $order['orderDetailsCar']['bank']['max_salary']) {
-        
+
             $precentage_approve = !$order['orderDetailsCar']['having_loan']
                 ? ($order['orderDetailsCar']['bank']['Deduction_rate_without_mortgage_min'] ?? 0)
                 : ($order['orderDetailsCar']['having_loan_support']
                     ? ($order['orderDetailsCar']['bank']['Deduction_rate_with_support_mortgage_min'] ?? 0)
                     : ($order['orderDetailsCar']['bank']['Deduction_rate_with_mortgage_max'] ?? 0));
-        
+
         } elseif (isset($order['orderDetailsCar']['bank']['max_salary']) && $salary >= $order['orderDetailsCar']['bank']['max_salary']) {
-        
+
             $precentage_approve = !$order['orderDetailsCar']['having_loan']
                 ? ($order['orderDetailsCar']['bank']['Deduction_rate_without_mortgage_max'] ?? 0)
                 : ($order['orderDetailsCar']['having_loan_support']
                     ? ($order['orderDetailsCar']['bank']['Deduction_rate_with_support_mortgage_max'] ?? 0)
                     : ($order['orderDetailsCar']['bank']['Deduction_rate_with_mortgage_max'] ?? 0));
-        
+
         } else {
             $precentage_approve = 0;
         }
@@ -329,12 +336,12 @@ public function orders_not_approval(Request $request)
             }
         }
 
-        return view('dashboard.orders.show', compact('order', 'finalapproval','organization_activity', 'organization_type', 'employees', 'employee', 'precentage_approve', 'approve_amount','brands','colors','cities','tags','sectors','nationality','organizationTypes','organizationactivities','banks'));
+        return view('dashboard.orders.show', compact('order', 'finalapproval','organization_activity', 'organization_type', 'employees', 'employee', 'precentage_approve', 'approve_amount','brands','colors','cities','tags','sectors','nationality','organizationTypes','organizationactivities','banks','offerSelected'));
     }
 
     public function final_approval(Request $request){
         $old_order = json_decode($request->old_order, true);
-    
+
         $finalapproval=Order::where('edited',true)->where('old_order_id',$old_order['id'])->first();
         if ($old_order['order_details_car']['type'] == 'individual')
         {
@@ -420,14 +427,14 @@ public function orders_not_approval(Request $request)
                 $ordersTableData['installment']=$request->installment;
             }
             $ordersTableData['type'] = 'car';
-            $ordersTableData['car_name'] = $car->name;       
+            $ordersTableData['car_name'] = $car->name;
             $ordersTableData['status_id'] = $old_order['status_id'];
             $ordersTableData['client_id'] = $car['vendor']['id'];
             $ordersTableData['Adminstrative_fees'] =  $request->administrative_fees;
             // $ordersTableData['old_order_id'] =  $old_order['id'];
             $ordersTableData['edited'] =  1;
             $ordersTableData['edited_by'] =  auth()->id();
- 
+
 
 
             if ($finalapproval) {
@@ -456,9 +463,9 @@ public function orders_not_approval(Request $request)
 
             } else{
                 return $this->failure('car Not found');
-            }       
+            }
          }
- 
+
      if ($old_order['order_details_car']['type'] == 'organization'){
         $carOrdersTableData = $request->validate([
             'organization_name' => ['required' , 'string',new NotNumbersOnly],
@@ -472,7 +479,7 @@ public function orders_not_approval(Request $request)
             'bank_id' => ['bail', 'required', 'nullable', Rule::exists('banks', 'id')],
             'car_count' => ['required', 'numeric', 'max:255'],
 
-          ]);  
+          ]);
           $car = Car::where('model_id', $request->model)
           ->where('brand_id', request('brand'))
           ->where('year', request('year'))
@@ -490,7 +497,7 @@ public function orders_not_approval(Request $request)
           $ordersTableData['price'] = $car->getPriceAfterVatAttribute() * $carOrdersTableData['car_count'];
           $ordersTableData['city_id'] = $carOrdersTableData['city_id'];
           $ordersTableData['car_name'] = $car->name;
-          $ordersTableData['clint_id'] = Auth::user()->id ?? null; 
+          $ordersTableData['clint_id'] = Auth::user()->id ?? null;
           $ordersTableData['old_order_id'] =  $old_order['id'];
           $ordersTableData['edited'] =  1;
           $ordersTableData['edited_by'] =  auth()->id();
@@ -516,17 +523,17 @@ public function orders_not_approval(Request $request)
 
           }else{
             return $this->failure('car Not found');
-            }  
+            }
         }
-       
+
          OrderHistory::create([
                 // 'status' => $request['status'],
                 'status' => $order->statue->name_en,
                 'employee_id' => auth()->id(),
                 'edited_by' =>$order['edited_by'],
                 'order_id' => $order['id'],
-            ]); 
-        
+            ]);
+
     }
 
     public function destroy(Request $request, Order $order)
@@ -541,7 +548,7 @@ public function orders_not_approval(Request $request)
 
     public function changeStatus(Order $order, Request $request)
     {
-       
+
         $notify = [
             'oldstatue' => $order->status_id,
         ];
@@ -561,29 +568,29 @@ public function orders_not_approval(Request $request)
 
 
        if($order->orderDetailsCar->payment_type=="finance" && $id==2){
-       
+
         $message = "ﻋزﯾزﻧﺎ اﻟﻌﻣﯾل ﺗم اﺳﺗﻼم طﻠب ﺗﻣوﯾﻠك رﻗم {$order->id} وﺳﯾﺗم اﻟﺗواﺻل ﻣﻌك ﺑﺄﺳرع وﻗت";
         $this->send_message($phone,$message);
        }
-       
+
         if($order->orderDetailsCar->payment_type=="finance" && $id==3){
 
         $message = "ﻋزﯾزﻧﺎ اﻟﻌﻣﯾل ﯾﺳﻌدﻧﺎ اﺑﻼﻏك ﺑﺎﻟﻣواﻓﻘﺔ ﻋﻠﻰ طﻠب اﻟﺗﻣوﯾل اﻟﺧﺎص ﺑك رﻗم {$order->id} وﺳﯾﺗم اﻟﺗواﺻل ﻣﻌك ﺑﺄﺳرع وﻗت";
         $this->send_message($phone,$message);
        }
-       
+
         if($order->orderDetailsCar->payment_type=="finance" && $id==4){
 
         $message = "ﻋزﯾزﻧﺎ اﻟﻌﻣﯾل ﻧﺎﺳف اﺑﻼﻏك اﻧﮫ ﺗم رﻓض طﻠب التﻣوﯾل اﻟﺧﺎص ﺑك رﻗم {$order->id} وﺳﯾﺗم اﻟﺗواﺻل ﻣﻌك ﺑﺄﺳرع وﻗت";
         $this->send_message($phone,$message);
        }
-       
+
          if($order->orderDetailsCar->payment_type=="finance" && $id==7){
 
         $message = "ﻋزﯾزﻧﺎ اﻟﻌﻣﯾل ﯾﺳﻌدﻧﺎ اﺑﻼﻏك اﻧﮫ ﺗم ﺗﻌﻣﯾد طﻠب التﻣوﯾل اﻟﺧﺎص ﺑك رقم {$order->id} وﺳﯾﺗم اﻟﺗواﺻل ﻣﻌك ﺑﺄﺳرع وﻗت";
         $this->send_message($phone,$message);
        }
-       
+
 try
         {
 
@@ -644,8 +651,8 @@ try
         $this->newAssignOrderNotification($order);
 
     }
-    
-        
+
+
 function send_message($phone, $message)
 {
     $username = "0562222170";

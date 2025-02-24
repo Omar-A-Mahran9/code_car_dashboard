@@ -510,13 +510,15 @@
                                                             {{ $order['orderDetailsCar']['having_loan_support_price'] }}
                                                         </td>
                                                     </tr>
-                                                    {{-- <tr>
+                                                    <tr>
                                                         <td class="fw-boldest">{{ __('support price') }}
                                                         </td>
                                                         <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $order['orderDetailsCar']['having_loan_support_price'] }}
+                                                            {{ optional($offerSelected->sectors->first())->pivot->support ?? 'N/A' }}
+                                                            %
                                                         </td>
-                                                    </tr> --}}
+
+                                                    </tr>
                                                     <tr>
                                                         <td class="fw-boldest" style="font-weight:900">
                                                             {{ __('Max limit to monthely installment') . ' ' }}
