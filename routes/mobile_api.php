@@ -188,3 +188,4 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/available-colors/{brand_id}/{model_id}/{year}/{gear_shifter}/{category_id}', [DataController::class, 'availableColors']);
 
 });
+
