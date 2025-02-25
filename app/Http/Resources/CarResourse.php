@@ -22,7 +22,7 @@ class CarResourse extends JsonResource
     public function toArray($request)
     {
         $statue = [
-            'name' => CarStatus::from($this->status)->name,
+            'name' => __(CarStatus::from($this->status)->name),
             'value' => CarStatus::from($this->status),
         ];
 
