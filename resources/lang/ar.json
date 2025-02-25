@@ -999,8 +999,14 @@
   "Enter the google maps url": "ادخل رابط خرائط جوجل",
   "Blocked": "محظور",
   "Pending": "قيد الانتظار",
+  "pending": "قيد الانتظار",
+
   "Approved": "تم الموافقة",
+  "approved": "تم الموافقة",
+
   "Rejected": "مرفوض",
+  "rejected": "مرفوض",
+  
   "Car Body": "هيكل السيارة",
   "Choose the type": "اختر النوع",
   "Type": "النوع",
