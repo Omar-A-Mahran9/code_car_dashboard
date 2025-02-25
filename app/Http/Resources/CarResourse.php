@@ -21,7 +21,11 @@ class CarResourse extends JsonResource
      */
     public function toArray($request)
     {
-         $statue=CarStatus::from($this->status);
+        $statue = [
+            'name' => CarStatus::from($this->status)->name,
+            'value' => CarStatus::from($this->status),
+        ];
+
         $order = Order::where('car_id', $this->id)->get();
 
 
@@ -48,7 +52,7 @@ class CarResourse extends JsonResource
         return [
             'id' => $this->id,
             'title' => Str::limit($this->name, 35),
-            'status'=>$statue,
+            'CarStatus'=>$statue,
             'CarName'=>$this->name_ar,
             'main_title' => $this->brand->name.' '.$this->model->name.' '.$this->year,
             'description'=> getLocale() == 'ar' ? $this->description_ar : $this->description_en ,
