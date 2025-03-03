@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\FinanceController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Mobile_api\CarController as Mobile_apiCarController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SetLocale;
@@ -137,7 +136,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/best-selling-cars', [CarController::class, 'BestSellingCars']);
     Route::get('/cars-biggest-discount', [CarController::class, 'carsWithBiggestDiscount']);
     Route::get('/current-year', [CarController::class, 'currentyear']);
-    Route::get('/filter', [Mobile_apiCarController::class, 'filter']);
+    Route::get('/filter', 'Api\CarController@filter');
     //  -------------------------------------------
     Route::post('/search', [SearchController::class, 'search']);
     Route::get('/categories', [CategoryController::class, 'categories']);
