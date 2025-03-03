@@ -305,8 +305,7 @@ class CarController extends Controller
 
 
     public function filter(){
-        dd('ffddfdf');
-         if (request()->has('search')) {
+          if (request()->has('search')) {
              $searchKeyword = request()->input('search');
              $query = Car::query();
 
