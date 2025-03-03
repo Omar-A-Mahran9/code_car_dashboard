@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Mobile_api;
+namespace App\Http\Controllers\Mobile_Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BrandsResourseOnly;

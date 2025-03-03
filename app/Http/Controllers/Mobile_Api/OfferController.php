@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Mobile_api;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Offer;
 use Illuminate\Http\Request;

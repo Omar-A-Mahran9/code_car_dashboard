@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\Mobile_api\AdsController;
 use App\Http\Controllers\Mobile_api\CarController;
-use App\Http\Controllers\Mobile_api\CategoryController;
-use App\Http\Controllers\Mobile_api\citiyController;
-use App\Http\Controllers\Mobile_api\ContactController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\citiyController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\GlobalController;
-use App\Http\Controllers\Mobile_api\SearchController;
-use App\Http\Controllers\Mobile_api\SplashController;
-use App\Http\Controllers\Mobile_api\DataController;
+use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\SplashController;
+use App\Http\Controllers\Mobile_Api\DataController;
 use App\Http\Controllers\Mobile_api\UserController;
 use App\Http\Controllers\Mobile_api\MobileFinanceController as Mobile_ApiFinanceController;
 use App\Http\Controllers\Mobile_api\GlobalController as Mobile_ApiGlobalController;
