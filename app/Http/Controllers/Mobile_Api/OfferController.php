@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_api;
 
 use App\Models\Offer;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class OfferController extends Controller
 
                 'RelatedCars'=>$cars
                ];
-        
+
           return $this->success(data: $data);
         } catch (\Exception $e)
         {

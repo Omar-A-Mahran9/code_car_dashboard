@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CarResourse;
@@ -20,16 +20,16 @@ class SearchController extends Controller
                 $data = Car::where('brand_id', $request->brand)
                 ->where('is_new', $request->type)
                 ->where('category_id', $request->category)
-                ->get();  
+                ->get();
                 return $this->success(data: $data);
             } catch (\Exception $e)
             {
                 return $this->failure(message: $e->getMessage());
             }
-        
-        
+
+
     }
 
 
-   
+
 }

@@ -1,6 +1,5 @@
 <?php
 
-namespace App\Http\Controllers\Mobile_Api;
 namespace App\Http\Controllers\Mobile_api;
 
 use App\Http\Controllers\Controller;

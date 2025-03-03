@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Mobile_Api;
+namespace App\Http\Controllers\Mobile_api;
 
 use App\Enums\CarStatus;
 use App\Models\Car;

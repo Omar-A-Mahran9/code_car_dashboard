@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_api;
 
 use App\Models\Career;
 use App\Models\Applicant;

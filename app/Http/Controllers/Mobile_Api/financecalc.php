@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_api;
 
 use App\Http\Controllers\Controller;
 use Http;
@@ -22,7 +22,7 @@ class financecalc extends Controller
                 'password' => "amV8rg$,}@i(",
                 'database' => "seclayer_Important_Info",
             ]
-        
+
          ];
 
         $response = Http::asForm()->post('https://cdn.webstdy.com/code_car_cdn/main_fun.php', $parameters);
