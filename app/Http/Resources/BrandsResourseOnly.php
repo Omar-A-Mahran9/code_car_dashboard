@@ -17,6 +17,8 @@ class BrandsResourseOnly extends JsonResource
         return [
             'id' => $this->id,
             'title'=> $this->name,
+            'image' => getImagePathFromDirectory($this->image, 'Brands'),
+            'cars_count' => $this->countCars->count(), // Directly count the related cars
          ];
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Mobile_api\AdsController;
-use App\Http\Controllers\Api\CarController;
+use App\Http\Controllers\Mobile_api\CarController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\citiyController;
 use App\Http\Controllers\Api\ContactController;
@@ -157,6 +157,8 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/cars-biggest-discount', [CarController::class, 'carsWithBiggestDiscount']);
     Route::get('/current-year', [CarController::class, 'currentyear']);
     Route::get('/filter', [CarController::class, 'filter']);
+    Route::get('/filterbrand', [CarController::class, 'filterbrand']);
+
     //  -------------------------------------------
     Route::post('/search', [SearchController::class, 'search']);
     Route::get('/categories', [CategoryController::class, 'categories']);

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BrandsResourseOnly;
 use App\Http\Resources\BranResourse;
 use App\Http\Resources\CarResourse;
 use App\Http\Resources\ColorResourse;
@@ -28,9 +29,9 @@ use function PHPUnit\Framework\returnSelf;
 
 class CarController extends Controller
 {
-   
+
     public function carsdetails(){
-        
+
         $cars = Car::orderBy('created_at', 'desc')->get();
         $data=CarResourse::collection( $cars );
         return $this->success(data: $data);
@@ -41,16 +42,16 @@ class CarController extends Controller
         $car->increment('viewers');
         $related = Car::where('brand_id', $car->brand_id)
          ->where('id', '!=', $car->id)->where('publish',1)
-         ->take(10) 
+         ->take(10)
          ->get();
- 
+
          $related_car=CarResourse::collection( $related );
 
         $car->related_cars = $related_car;
         $data = CarResourse::make($car)->resolve();
 
         return $this->success(data: ['carDetails'=>$data,'Relatedcars'=>$related_car]);
-  
+
     }
 
     public function cartype(){
@@ -69,16 +70,16 @@ class CarController extends Controller
     }
     public function filter_cars(Request $request)
     {
-        
+
         // Check if all required inputs are present
         if (!$request->has(['brand', 'model', 'category',  'year', 'gear_shifter'])) {
             // Return an error response or an empty result
             return response()->json(['error' => 'All filters are required'], 400);
         }
-    
+
         // Initialize the query
         $query = Car::query();
-    
+
         // Apply filters
         $query->where('brand_id', $request->input('brand'))
         ->where('brand_id', request('brand'))
@@ -95,7 +96,7 @@ class CarController extends Controller
                     'title' => $color->name,
                 ];
             })->toArray();
-            
+
             return response()->json([
                 'success' => true,
                 'data' => $data,
@@ -106,9 +107,9 @@ class CarController extends Controller
             return response()->json([
                 'success' => false,
                 'data' => [
-            
+
                     ],
-               
+
             ]);
          }
         // Return the results as JSON
@@ -136,7 +137,7 @@ class CarController extends Controller
         $minPrice = $cars->min('price');
         $brands = Brand::select('id','image','name_en','name_ar', 'car_available_types' )->has('cars')->whereHas('models.cars')->whereNotNull('car_available_types')->get();
         $allbrands = Brand::select('id','image','name_en','name_ar', 'car_available_types' )->get();
-        $color=Color::get(); 
+        $color=Color::get();
         $model=CarModel::has('cars')->get();
         $ModelData=ModelResourse::collection( $model );
         $ColorData = ColorResourse::collection( $color);
@@ -176,9 +177,9 @@ class CarController extends Controller
 
           $years = Car::distinct()->pluck('year')->sortBy(function ($year) {
             return (int) $year;
-        })->values()->toArray();     
+        })->values()->toArray();
 
-////////
+
         $maxYear = Car::max('year');
 
         $car=Car::where('publish',1)->where('show_in_home_page', 1)->get();
@@ -216,9 +217,9 @@ class CarController extends Controller
             4 => [2200, 3000],
             5 => 'greater_than_3000', // Special case for > 3000
         ];
-        
+
         $fuel_tank_capacity_results = [];
-        
+
         foreach ($ranges as $index => $range) {
             // For each range, we'll count the cars that fit the criteria
             if ($range === 'greater_than_3000') {
@@ -228,13 +229,13 @@ class CarController extends Controller
                 $count = Car::whereBetween('fuel_tank_capacity', $range)->where('publish',1)->count();
                 $title = "{$range[0]} - {$range[1]}";
             }
-        
+
             $fuel_tank_capacity_results[] = [
                 'title' => $title,
                 'car_count' => $count,
             ];
         }
- 
+
         $data = [
             'brands' => $BrandData,
             'allbrands'=>$BrandsData,
@@ -272,7 +273,7 @@ class CarController extends Controller
             'sectors'=>Sector::get()->toArray(),
             'banks'=>Bank::where('type','bank')->get()->toArray(),
             'year'=>$years,
-            
+
             'OrganizationType'=> $type,
             'OrganizationActive'=>$Active,
             'nationalities'=> $nationalitydata,
@@ -297,7 +298,7 @@ class CarController extends Controller
 
             ]
 
-           
+
         ];
         return $this->success(data: $data);
     }
@@ -307,31 +308,31 @@ class CarController extends Controller
         if (request()->has('search')) {
              $searchKeyword = request()->input('search');
              $query = Car::query();
-     
+
             $query->where(function ($query) use ($searchKeyword) {
                 $query->where('name_ar', 'LIKE', "%$searchKeyword%")
                 ->orWhere('name_en', 'LIKE', "%$searchKeyword%")->orWhere('description_ar','LIKE', "%$searchKeyword%")->orWhere('description_en', "%$searchKeyword%");
             });
-    
+
             if ($searchKeyword) {
                 $query->with('brand')->orWhereHas('brand', function ($brandQuery) use ($searchKeyword) {
                     $brandQuery->where('name_ar', 'LIKE', "%$searchKeyword%")->orWhere('name_en','LIKE',"%$searchKeyword%")->orWhere('meta_desc_en','LIKE', "%$searchKeyword%")->orWhere('meta_keyword_ar', "%$searchKeyword%")->orWhere('meta_keyword_ar', "%$searchKeyword%");
                 });
             }
-        
+
             if ($searchKeyword) {
                 $query->with('model')->orWhereHas('model', function ($modelQuery) use ($searchKeyword) {
                     $modelQuery->where('name_ar', 'LIKE', "%$searchKeyword%")->orWhere('name_en','LIKE',"%$searchKeyword%")->orWhere('meta_keyword_ar','LIKE',"%$searchKeyword%")->orWhere('meta_keyword_en','LIKE',"%$searchKeyword%")->orWhere('meta_desc_ar','LIKE',"%$searchKeyword%");
                 });
             }
-    
-            $perPage = 9; 
+
+            $perPage = 9;
             $cars = $query->paginate($perPage);
             $data=CarResourse::collection( $cars );
-    
+
             return $this->successWithPagination(message:"All Pagination Car",data: $data);
         } else {
-        
+
         try{
             $tab = request('tag');
             $type = request('type',[]);
@@ -353,23 +354,23 @@ class CarController extends Controller
              //best Selling car
              $query->when($tab, function ($q, $tab) {
                 $tag = Tag::with('cars')->find($tab);
-              
+
                 if ($tag) {
                     $carIds = $tag->cars->pluck('id')->toArray();
                     return $q->whereIn('id', $carIds);
                 }
-                
+
                  });
 
-            $query->when(!empty($type), function ($q) use ($type) { 
+            $query->when(!empty($type), function ($q) use ($type) {
                 if (in_array('all', $type)) {
                     return $q;
                 } else {
                     return $q->whereIn('is_new', $type);
-                }    
-               
+                }
+
             });
-    
+
 
             //gearshifter
             $query->when(!empty($gear_shifters), function ($q) use ($gear_shifters) {
@@ -377,7 +378,7 @@ class CarController extends Controller
                     return $q;
                 } else {
                     return $q->whereIn('gear_shifter', $gear_shifters);
-                }   
+                }
             });
 
             //fuel_type
@@ -387,18 +388,18 @@ class CarController extends Controller
                     return $q;
                 } else {
                     return $q->whereIn('fuel_type', $fuel_types);
-                }   
+                }
 
             });
 
-            
+
                     // Car bodies with multiple values
             $query->when(!empty($car_bodies), function ($q) use ($car_bodies) {
                 if (in_array('all', $car_bodies)) {
                     return $q;
                 } else {
                     return $q->whereIn('car_body', $car_bodies);
-                }    
+                }
                 });
 
                 // Color IDs with multiple values
@@ -407,12 +408,12 @@ class CarController extends Controller
                     return $q;
                 } else {
                     return $q->whereIn('color_id', $color_ids);
-                }    
+                }
                 });
-               
+
                 // Years with multiple values
             $query->when(!empty($years), function ($q) use ($years) {
-                
+
                 if (in_array('all', $years)) {
                     return $q;
                 } else {
@@ -424,20 +425,20 @@ class CarController extends Controller
                            });
                        }
                        return $q->whereIn('year', $years);
-       
+
                    }
-                }    
+                }
                 });
 
-              
-         
+
+
                 // Model IDs with multiple values
             $query->when(!empty($model_ids), function ($q) use ($model_ids) {
                 if (in_array('all', $model_ids)) {
                     return $q;
                 } else {
                     return $q->whereIn('model_id', $model_ids);
-                }  
+                }
                 });
 
                 //brand_id
@@ -446,7 +447,7 @@ class CarController extends Controller
                     return $q;
                 } else {
                     return $q->whereIn('brand_id', $brand_ids);
-                } 
+                }
             });
 
             // Price Range
@@ -483,19 +484,19 @@ class CarController extends Controller
                             default:
                                  $q->WhereBetween('fuel_tank_capacity', [0, 3000]);
                                 break;
-    
-    
+
+
                             // $query->orWhereBetween('fuel_tank_capacity', [0, 3000]);
                         }
                     }
-                } 
-                
+                }
+
             });
             // $query->orderBy('created_at', 'desc');
             $query->orderBy('created_at', $orderDirection?$orderDirection:"desc");
 
 
-            $perPage = 9; 
+            $perPage = 9;
             $que = $query->paginate($perPage);
             $data=CarResourse::collection( $que );
 
@@ -510,6 +511,27 @@ class CarController extends Controller
 
     }
 
+    public function filterbrand()
+    {
+        if (request()->has('search')) {
+            $searchKeyword = request()->input('search');
+
+            $query = Brand::query(); // Search in the Brand model instead of Car
+
+            $query->where('name_ar', 'LIKE', "%$searchKeyword%")
+                ->orWhere('name_en', 'LIKE', "%$searchKeyword%")
+                ->orWhere('meta_desc_en', 'LIKE', "%$searchKeyword%")
+                ->orWhere('meta_keyword_ar', 'LIKE', "%$searchKeyword%");
+
+            $perPage = 9;
+            $brands = $query->paginate($perPage);
+            $data = BrandsResourseOnly::collection($brands); // Use a BrandResource if needed
+
+            return $this->successWithPagination(message: "Brands filtered by search", data: $data);
+        }
+
+        return $this->failure(message: "No search keyword provided.");
+    }
 
 
 }
