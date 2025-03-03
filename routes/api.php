@@ -136,7 +136,9 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/best-selling-cars', [CarController::class, 'BestSellingCars']);
     Route::get('/cars-biggest-discount', [CarController::class, 'carsWithBiggestDiscount']);
     Route::get('/current-year', [CarController::class, 'currentyear']);
-    Route::get('/filter', [CarController::class, 'filter']);
+    Route::get('/filter', function(){
+        dd('fdfddf');
+    });
     //  -------------------------------------------
     Route::post('/search', [SearchController::class, 'search']);
     Route::get('/categories', [CategoryController::class, 'categories']);
