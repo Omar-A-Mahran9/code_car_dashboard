@@ -69,7 +69,7 @@ class Vendor extends Authenticatable
     public function sendOTP()
     {
         // $this->verification_code = rand(1111, 9999);
-        $this->verification_code =2244;
+        $this->verification_code ="2244";
 
         $appName                 = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
         // $this->sendSMS("$appName: $this->verification_code هو رمز الحماية,لا تشارك الرمز");
