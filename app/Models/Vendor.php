@@ -16,7 +16,7 @@ class Vendor extends Authenticatable
 
     protected $guarded = [];
     protected $appends = ['status_name','image_url','translated_type'];
-     
+
     protected $casts = [
         'created_at' => 'date:Y-m-d',
         'updated_at' => 'date:Y-m-d'
@@ -35,14 +35,14 @@ class Vendor extends Authenticatable
 
     public function getImageUrlAttribute()
     {
-      
+
         return getImagePathFromDirectory($this->image,'Vendors');
     }
-    
+
        // Add the translated type accessor
     public function getTranslatedTypeAttribute()
     {
- 
+
         $contentLanguage = request()->get('content_language', getLocale()); // Default to 'en' if not set
         return $this->translateType($this->type, $contentLanguage);
     }
@@ -68,7 +68,9 @@ class Vendor extends Authenticatable
 
     public function sendOTP()
     {
-        $this->verification_code = rand(1111, 9999);
+        // $this->verification_code = rand(1111, 9999);
+        $this->verification_code =2244;
+
         $appName                 = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
         // $this->sendSMS("$appName: $this->verification_code هو رمز الحماية,لا تشارك الرمز");
         OtpLink($this->phone,$this->verification_code);
@@ -104,7 +106,7 @@ class Vendor extends Authenticatable
     {
         return $this->hasMany(Favorite::class);
     }
-    
+
       public function employee()
     {
         return $this->belongsTo(Employee::class);

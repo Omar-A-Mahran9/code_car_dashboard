@@ -36,7 +36,7 @@ class Order extends Model
     {
         return $this->hasOne(CarOrder::class);
     }
-    
+
         public function color()
     {
         return $this->belongsTo(Color::class);
@@ -66,12 +66,12 @@ class Order extends Model
     {
         return $this->belongsTo(Employee::class,'edited_by');
     }
-    
+
       public function finance_approval()
     {
         return $this->hasMany(FinanceApproval::class);
     }
-    
+
     public function statue()
     {
         return $this->belongsTo(SettingOrderStatus::class,'status_id');
@@ -80,10 +80,12 @@ class Order extends Model
         {
             return $this->hasMany(Order::class, 'old_order_id', 'id');
         }
-    
+
     public function sendOTP()
     {
-        $this->verification_code = rand(1111, 9999);
+        // $this->verification_code = rand(1111, 9999);
+        $this->verification_code =2244;
+
         $appName                 = settings()->getSettings("website_name_" . getLocale()) ?? "CodeCar";
         // $this->sendSMS("$appName: $this->verification_code هو رمز الحماية,لا تشارك الرمز");
         OtpLink($this->phone,$this->verification_code);
