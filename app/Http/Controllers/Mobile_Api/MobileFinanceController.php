@@ -1227,12 +1227,17 @@ class MobileFinanceController extends Controller
       // Validate the request data
       $validator = Validator::make($request->all(), [
           'name' => 'required|string|max:255',
-          'phone' => 'required|string|max:15',
+          'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
           'car_details' => 'required|string',
           'more_details' => 'nullable|string',
           'type' => 'required|string|in:individual,organization,another_car', // Added another_car
 
       ]);
+      $request->merge([
+        'phone' => convertArabicNumbers($request->phone),
+      ]);
+      $phone = $request->phone;
+      $request->merge(['phone' => $phone]);
 
       // If validation fails, return an error response
       if ($validator->fails()) {
@@ -1251,6 +1256,7 @@ class MobileFinanceController extends Controller
 
           $order = Order::create($data);
           $this->distribute($order->id);
+          $order->sendOTP();
 
           $notify = [
               'vendor_id' => Auth::id() ?? null,
