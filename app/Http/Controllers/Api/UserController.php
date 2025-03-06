@@ -260,8 +260,10 @@ class UserController extends Controller
                     $data['have_discount'] = 1;
                 }
 
-                $this->setCarName($data);
+                if($data['brand_id']&&$data['model_id']){
+                    $this->setCarName($data);
 
+                }
                 $car = Car::withoutGlobalScope('availableCars')->where('vendor_id', auth()->user()->id)
                 ->where('id', $id)
                 ->first();

@@ -59,6 +59,9 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::get('/filter-addss', 'Api\UserController@filter');
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
         Route::get('/requests_auth', [RequestController::class,'index'])->name('get-requests');
+
+        Route::post('/car-notfound-Order', [Mobile_ApiFinanceController::class, 'notfoundcar']);
+
         Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order');
         Route::post('/finance-dash', [Mobile_ApiFinanceController::class, 'financeOrderDashboard'])->name('finance.orde');
         Route::post('/favorite-auth', 'Api\UserController@favorite');

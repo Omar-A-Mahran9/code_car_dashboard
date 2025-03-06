@@ -21,6 +21,7 @@ use Illuminate\Validation\Rule;
 use Auth;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\Validator;
 
 class MobileFinanceController extends Controller
 {
@@ -1219,6 +1220,51 @@ class MobileFinanceController extends Controller
     $order = Order::where('phone', $phone)->where('id', $request->orderId)->first();
     $order->sendOTP();
     return $this->success(data: ['phone' => $phone]);
+  }
+
+  public function notfoundcar(Request $request)
+  {
+      // Validate the request data
+      $validator = Validator::make($request->all(), [
+          'name' => 'required|string|max:255',
+          'phone' => 'required|string|max:15',
+          'car_details' => 'required|string',
+          'more_details' => 'nullable|string',
+          'type' => 'required|string|in:individual,organization,another_car', // Added another_car
+
+      ]);
+
+      // If validation fails, return an error response
+      if ($validator->fails()) {
+          return response()->json(['errors' => $validator->errors()], 422);
+      }
+
+   if ($request->type == 'another_car') {
+          // Custom logic for another_car type
+          $data = [
+              'name' => $request->name,
+              'phone' => $request->phone,
+              'car_details' => $request->car_details,
+              'more_details' => $request->more_details,
+              'type' => 'car',
+          ];
+
+          $order = Order::create($data);
+          $this->distribute($order->id);
+
+          $notify = [
+              'vendor_id' => Auth::id() ?? null,
+              'order_id' => $order->id,
+              'is_read' => false,
+              'phone' => auth()->user()->phone ?? $request->phone,
+              'type' => 'order',
+          ];
+          OrderNotification::create($notify);
+
+          return response()->json(['message' => 'Another Car order created successfully', 'order' => $order], 201);
+      }
+
+      return response()->json(['message' => 'Invalid request type'], 400);
   }
 
 }
