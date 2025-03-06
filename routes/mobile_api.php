@@ -58,6 +58,8 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/update-status/{id}', 'Api\UserController@updateAdsShowInHomePage');
         Route::get('/filter-addss', 'Api\UserController@filter');
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
+        Route::post('/add-array-favorite', 'Api\FavoriteController@storeFavArray');
+
         Route::get('/requests_auth', [RequestController::class,'index'])->name('get-requests');
 
 
@@ -69,7 +71,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::post('/favorite-withoutauth', 'Api\UserController@favorite');
     Route::post('/add-favorite-withoutauth', 'Api\FavoriteController@store');
-    Route::post('/add-array-favorite', 'Api\FavoriteController@storeFavArray');
 
     // ------------------------- Home ---------------------------------------
     Route::get('/brand', 'Api\HomeController@brand');

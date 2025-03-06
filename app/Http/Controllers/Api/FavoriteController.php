@@ -11,7 +11,7 @@ use Auth;
 
 class FavoriteController extends Controller
 {
-  
+
     public function store(StoreFavoriteRequest $request)
     {
          $ip=$request->ip();
@@ -35,8 +35,7 @@ class FavoriteController extends Controller
     {
         $ip = $request->ip();
         $vendorId = auth()->user()->id ?? null;
-
-        $favorites = [];
+         $favorites = [];
         foreach ($request->car_id as $carId) {
             $favorite = Favorite::where('car_id', $carId)
                 ->where(function ($query) use ($vendorId, $ip) {
