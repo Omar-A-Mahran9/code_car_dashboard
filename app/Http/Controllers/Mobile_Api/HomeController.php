@@ -17,29 +17,63 @@ use Storage;
 
 class HomeController extends Controller
 {
-     public function brand()
+    //  public function brand()
+    // {
+    //     try
+    //     {
+    //      $perPage = 18;
+    //         $brands = Brand::withCount('countCars')->paginate($perPage);
+    //         $brands->map(function ($brand) {
+    //             $brand['image'] = getImagePathFromDirectory($brand['image'], 'Brands');
+    //             $brand['cover'] = getImagePathFromDirectory($brand['cover'], 'Brands');
+    //         });
+    //         $data = [
+    //             'description' => settings()->getSettings('brand_text_in_home_page_' . getLocale()),
+    //             'brands' => $this->successWithPagination(message:"All Pagination brand",data: $brands)
+    //         ];
+
+    //         return $this->success(data: $data);
+    //     } catch (\Exception $e)
+    //     {
+    //         return $this->failure(message: $e->getMessage());
+    //     }
+
+    // }
+
+    public function brand()
     {
-        try
-        {
-         $perPage = 18;
-            $brands = Brand::withCount('countCars')->paginate($perPage);
-            $brands->map(function ($brand) {
+        try {
+            $query = Brand::query()->withCount('countCars');
+
+            if (request()->has('search')) {
+                $searchKeyword = request()->input('search');
+                $query->where('name_ar', 'LIKE', "%$searchKeyword%")
+                    ->orWhere('name_en', 'LIKE', "%$searchKeyword%");
+            }
+
+            $perPage = 18;
+            $brands = $query->paginate($perPage); // ✅ Ensures pagination
+
+            // Transform brand images
+            $brands->getCollection()->transform(function ($brand) {
                 $brand['image'] = getImagePathFromDirectory($brand['image'], 'Brands');
                 $brand['cover'] = getImagePathFromDirectory($brand['cover'], 'Brands');
+                return $brand;
             });
+
             $data = [
                 'description' => settings()->getSettings('brand_text_in_home_page_' . getLocale()),
-                'brands' => $this->successWithPagination(message:"All Pagination brand",data: $brands)
+                'brands' => $this->successWithPagination(
+                    message: request()->has('search') ? "Filtered brands by search" : "All paginated brands",
+                    data: $brands
+                )
             ];
 
             return $this->success(data: $data);
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->failure(message: $e->getMessage());
         }
-
     }
-
 
     public function brands(){
         try
