@@ -1256,6 +1256,7 @@ class MobileFinanceController extends Controller
 
           $order = Order::create($data);
           $this->distribute($order->id);
+ 
           $order->sendOTP();
 
           $notify = [
