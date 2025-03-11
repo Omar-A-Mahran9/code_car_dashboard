@@ -1230,6 +1230,7 @@ class MobileFinanceController extends Controller
           'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
           'car_details' => 'required|string',
           'more_details' => 'nullable|string',
+          'city_id' => ['bail', 'required', 'nullable'],
           'type' => 'required|string|in:individual,organization,another_car', // Added another_car
 
       ]);
@@ -1251,12 +1252,14 @@ class MobileFinanceController extends Controller
               'phone' => $request->phone,
               'car_details' => $request->car_details,
               'more_details' => $request->more_details,
+              'city_id' => $request->city_id,
+
               'type' => 'car',
           ];
 
           $order = Order::create($data);
           $this->distribute($order->id);
- 
+
           $order->sendOTP();
 
           $notify = [
