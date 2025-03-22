@@ -185,6 +185,7 @@
                     </div>
                 @endcanany
 
+
                 @can('create_orders')
                     <div class="menu-item">
                         <a class="menu-link {{ isTabActive('orders') }}" href="{{ route('dashboard.orders.create') }}"
@@ -205,14 +206,12 @@
                             data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
                             data-bs-placement="right">
                             <span class="menu-icon">
-                                <i class="fa fa-users"></i>
+                                <i class="fa fa-shopping-basket"></i>
                             </span>
                             <span class="menu-title"> {{ __('Orders') }}</span>
                         </a>
                     </div>
                 @endcan
-
-
                 <!-- end   :: orders section -->
 
 
@@ -284,15 +283,15 @@
                     </div>
                     <!--end:Menu item-->
                     <!-- <div class="menu-item">
-                                                                                                                                                                                                                                                    <a class="menu-link {{ isTabActive('chat') }}"
-                                                                                                                                                                                                                                                        href="{{ route('dashboard.chats.index') }}" data-bs-toggle="tooltip"
-                                                                                                                                                                                                                                                        data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
-                                                                                                                                                                                                                                                        <span class="menu-icon">
-                                                                                                                                                                                                                                                        <i class="fas fa-comment"></i>
-                                                                                                                                                                                                                                                        </span>
-                                                                                                                                                                                                                                                        <span class="menu-title"> {{ __('chats') }}</span>
-                                                                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                                                                </div> -->
+                                                                                                                                                                                                                                                                        <a class="menu-link {{ isTabActive('chat') }}"
+                                                                                                                                                                                                                                                                            href="{{ route('dashboard.chats.index') }}" data-bs-toggle="tooltip"
+                                                                                                                                                                                                                                                                            data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                                                                                                                                                                                                                                                                            <span class="menu-icon">
+                                                                                                                                                                                                                                                                            <i class="fas fa-comment"></i>
+                                                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                                                            <span class="menu-title"> {{ __('chats') }}</span>
+                                                                                                                                                                                                                                                                        </a>
+                                                                                                                                                                                                                                                                    </div> -->
                 @endcan
 
                 @can('view_contact_us')
@@ -492,7 +491,7 @@
 
                     </div><!--end:Menu sub-->
                 </div>
-                {{-- 
+                {{--
                 @can('view_banks')
                     <div class="menu-item">
                         <a class="menu-link {{ isTabActive('banks') }}"

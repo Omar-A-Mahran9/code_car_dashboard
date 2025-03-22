@@ -37,20 +37,20 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-         $this->authorize('view_orders');
+          $this->authorize('view_orders');
 
         if ($request->ajax())
         {
 
             $user = Employee::find(Auth::user()->id);
+            $model=new Order();
 
             if ($user->roles->contains('id', 1))
             {
-                $data = getModelData(model: new Order(), andsFilters: [['verified', '=', 1],['status_id', '!=', 7]], relations: ['employee' => ['id', 'name']]);
+                $data = getModelData(model:$model , andsFilters: [['verified', '=', 1],['status_id', '!=', 7]], relations: ['orderDetailsCar' => ['id', 'payment_type']]);
             } else
             {
-                // User does not have role 1, return orders where employee_id is the user's ID
-                $data = getModelData(model: new Order(), andsFilters: [['employee_id', '=', $user->id], ['verified', '=', 1],['status_id', '!=', 7]], relations: ['employee' => ['id', 'name']]);
+                 $data = getModelData(model: $model, andsFilters: [['employee_id', '=', $user->id], ['verified', '=', 1],['status_id', '!=', 7]], relations: ['orderDetailsCar' => ['id', 'payment_type']]);
 
             }
             return response()->json($data);

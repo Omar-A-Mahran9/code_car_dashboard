@@ -16,12 +16,10 @@ class Order extends Model
         'created_at' => 'date:Y-m-d',
         'updated_at' => 'date:Y-m-d'
     ];
-    // protected static function booted()
-    // {
-    //     static::addGlobalScope('notEdited', function (Builder $builder) {
-    //         $builder->where('edited', 0);
-    //     });
-    // }
+    public function orderDetailsCar()
+    {
+        return $this->hasOne(CarOrder::class, 'order_id','id'); // Ensure 'order_id' is the correct foreign key
+    }
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
@@ -32,10 +30,7 @@ class Order extends Model
         return $this->belongsTo(Car::class)->withTrashed();
     }
 
-    public function orderDetailsCar()
-    {
-        return $this->hasOne(CarOrder::class);
-    }
+
 
         public function color()
     {

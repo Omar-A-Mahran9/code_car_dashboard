@@ -85,6 +85,14 @@
                         <!--end::Select2-->
                     </div>
 
+                    <select class="form-select form-select-solid w-200px ms-4 border-gray-300 border-1 filter-datatable-inp"
+                        id="payment-type-filter" data-filter-index="7" data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}"
+                        data-control="select2" data-placeholder="{{ __('Payment Type') }}">
+                        <option></option>
+                        <option value="all" selected>{{ __('All') }}</option>
+                        <option value="cash">{{ __('Cash') }}</option>
+                        <option value="finance">{{ __('Finance') }}</option>
+                    </select>
 
 
                 </div>

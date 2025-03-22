@@ -15,7 +15,10 @@ class CarOrder extends Model
         'created_at' => 'date:Y-m-d',
         'updated_at' => 'date:Y-m-d'
     ];
-
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
     public function bank()
     {
         return $this->belongsTo(Bank::class);
@@ -33,5 +36,8 @@ class CarOrder extends Model
 
 
     }
+
+
+
 
 }

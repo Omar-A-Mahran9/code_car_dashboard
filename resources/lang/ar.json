@@ -1000,13 +1000,14 @@
   "Blocked": "محظور",
   "Pending": "قيد الانتظار",
   "pending": "قيد الانتظار",
+  "Financing Orders": "طلبات التمويل",
 
   "Approved": "تم الموافقة",
   "approved": "تم الموافقة",
 
   "Rejected": "مرفوض",
   "rejected": "مرفوض",
-  
+
   "Car Body": "هيكل السيارة",
   "Choose the type": "اختر النوع",
   "Type": "النوع",

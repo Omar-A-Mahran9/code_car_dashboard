@@ -28,7 +28,7 @@ class OrderController extends Controller
         $banks  = Bank::select('id', 'name_'.getLocale())->where('type','bank')->get();
         $sectors = Sector::get();
         $nationality = Nationality::get();
- 
+
 
         return view('web.purchase-car', compact('cars', 'cities', 'banks', 'type','sectors','nationality'));
 

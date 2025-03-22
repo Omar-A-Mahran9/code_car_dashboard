@@ -38,6 +38,8 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dash
 
     /** resources routes **/
     Route::resource('orders', 'OrderController');
+    Route::resource('finance_orders', 'OrderController');
+
     Route::resource('roles', 'RoleController');
     Route::resource('brands', 'BrandController');
     Route::resource('splash', 'SplashController');

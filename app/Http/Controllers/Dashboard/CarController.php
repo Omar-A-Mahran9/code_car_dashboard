@@ -18,6 +18,7 @@ use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\Rule;
 use Storage;
 
 use function App\Http\Controllers\store;
@@ -52,7 +53,7 @@ class CarController extends Controller
 
     public function edit(Car $car)
     {
-           
+
         $this->authorize('update_cars');
 
         $car->load('color');
@@ -70,8 +71,8 @@ class CarController extends Controller
         $selectedtagsIds = $car->tags->pluck('id')->toArray();
         $selectedcolorssIds = $car->color->pluck('id')->toArray();
 
-         
- 
+
+
 
 
          return view('dashboard.cars.edit',compact('brands','colors','car','models','cities','categories','relatedImages','tags','selectedtagsIds','fullYoutubeUrl','selectedcolorssIds'));
@@ -79,7 +80,7 @@ class CarController extends Controller
 
     public function validateStep( Request $request , Car $car = null)
     {
-        $discountPrice = $request['discount_price'] ?? 0;
+         $discountPrice = $request['discount_price'] ?? 0;
             $price         = $request['price'] ?? 0;
             $status= $request['status']?? 1;
             $isVendor = Auth::guard('vendor')->check();
@@ -97,12 +98,24 @@ class CarController extends Controller
                 'publish' => ['required'],
                 'gear_shifter' => ['required'],
                 'video_url' => ['nullable' , 'string','url'],
-                'price' => 'required | numeric|lte:2147483647|not_in:0|gt:' . $discountPrice,
-                'discount_price' => 'required_with:have_discount|nullable|numeric|not_in:0|lt:' . $price,
+                'price' => [
+                        'required',
+                        'numeric',
+                        'lte:2147483647',
+                        Rule::when($request->is_new == 1, 'gte:0', 'not_in:0'), // Allow 0 when is_new = 0
+                        'gt:' . $discountPrice,
+                    ],                'discount_price' => 'required_with:have_discount|nullable|numeric|not_in:0|lt:' . $price,
                 'supplier' => ['required','in:gulf,saudi'],
                 'status' => 'required',
-                'is_new' => ['required'],
-                'show_in_home_page' => ['required', 'in:0,1'],
+                'is_new' => ['required', 'string', Rule::in(['0', '1'])], // Ensures it's a string "0" or "1"
+
+                'price' => [
+                    'required',
+                    'numeric',
+                    'lte:2147483647',
+                    Rule::when(fn () => $request->is_new === '1', ['gt:0', 'gt:' . $discountPrice]), // Must be > 0 and > discountPrice if is_new = "1"
+                    Rule::when(fn () => $request->is_new === '0', ['gte:0']), // Can be 0 or more when is_new = "0"
+                ],                'show_in_home_page' => ['required', 'in:0,1'],
                 'kilometers' => ['required_if:is_new,0', 'numeric', 'nullable', 'min:0'],
                 'colors'      => ['required','array','min:1'],
                 'city_id'=>['required'],
@@ -124,12 +137,19 @@ class CarController extends Controller
                 'publish' => ['required'],
                 'gear_shifter' => ['required'],
                 'video_url' => ['nullable' , 'string','url'],
-                'price' => 'required | numeric|lte:2147483647|not_in:0|gt:' . $discountPrice,
+               'is_new' => ['required', 'string', Rule::in(['0', '1'])], // Ensures it's a string "0" or "1"
+
+                'price' => [
+                    'required',
+                    'numeric',
+                    'lte:2147483647',
+                    Rule::when(fn () => $request->is_new === '1', ['gt:0', 'gt:' . $discountPrice]), // Must be > 0 and > discountPrice if is_new = "1"
+                    Rule::when(fn () => $request->is_new === '0', ['gte:0']), // Can be 0 or more when is_new = "0"
+                ],
                 'discount_price' => 'required_with:have_discount|nullable|numeric|not_in:0|lt:' . $price,
                 'supplier' => ['required','in:gulf,saudi'],
                 'status' => 'required',
-                'is_new' => ['required'],
-                'show_in_home_page' => ['required', 'in:0,1'],
+                 'show_in_home_page' => ['required', 'in:0,1'],
                 'kilometers' => ['required_if:is_new,0', 'numeric', 'nullable', 'min:0'],
                 'colors'      => ['required','array','min:1'],                'city_id'=>['required'],
                 'fuel_tank_capacity' => 'required|string|max:255' ,
@@ -141,7 +161,7 @@ class CarController extends Controller
 
              if( $car )
             {
-                
+
                 if ( ! $request['is_duplicate'] )
                 {
 
@@ -159,11 +179,11 @@ class CarController extends Controller
 
                 $this->store( $request );
             }
-        
-          } 
+
+          }
 
      public function store(Request $request)
-        { 
+        {
              $this->authorize('create_cars');
               if(!$request['is_duplicate']){
                   $request->validate([
@@ -172,10 +192,10 @@ class CarController extends Controller
                   ]);
               }
               else{
-      
+
               }
             $isVendor = Auth::guard('vendor')->check();
-            
+
             $userPhone = Auth::user()->phone;
             $vendor = Vendor::where('phone', $userPhone)->first();
                  if( $userPhone !== ($vendor?$vendor->phone:null) && !$isVendor){
@@ -183,7 +203,7 @@ class CarController extends Controller
                     $name = $user->name;
                     $email = $user->email;
                     $phone = $user->phone;
-        
+
                 $dataa = [
                     'name' => $name,
                     'phone' => $user->phone,
@@ -194,9 +214,9 @@ class CarController extends Controller
                     'identity_no' => 0,
                     'password' => 112233,
                     ];
-                    $vendor= Vendor::create($dataa); 
+                    $vendor= Vendor::create($dataa);
                 }
-            
+
                         $isVendor = Auth::guard('vendor')->check();
 
                 $request['vendor_id'] = Auth::check() && $isVendor ? Auth::user()->id : ($vendor->id ?? null);
@@ -207,7 +227,7 @@ class CarController extends Controller
                     $images=$this->uploadCarImages($request->file('car_Images'));
                     // $data['images'] =  uploadImage( $request->file('images') , "Cars");
                 }
-        
+
                 $data['video_url']=$this->getYoutubeVideoId($request['video_url']);
 
                 //   $this->setCarName($data);
@@ -217,7 +237,7 @@ class CarController extends Controller
                 $car->tags()->attach( $request['tags'] ?? [] );
                 $car->color()->attach( $request['colors'] ?? [] );
 
-        
+
                 if ($request->file('car_Images')){
                     foreach( $images as $image){
                     $imageData=[
@@ -238,18 +258,18 @@ class CarController extends Controller
                 $countcarimages=count($oldImages);
                 if($request->car_Images){
                     $newcarsimages=count($request->car_Images);
-        
+
                 }else{
                     $newcarsimages=0;
                 }
                 $result=$countcarimages-count($deletedImages);
-        
+
                 if((count($deletedImages)==$countcarimages || ($countcarimages==0&&$newcarsimages==1))||$countcarimages==0){
                     $request->validate([
                         'car_Images'    => ['required','array','max:15',new ValidateMaxImages($carold,$deletedImages)],
                         'car_Images.*' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048', // Adjust allowed image types and size as neede
                     ]);
-        
+
                     }
                 foreach ($oldImages as $imageEntry) {
                     $imageNames[] = $imageEntry["image"];
@@ -266,7 +286,7 @@ class CarController extends Controller
                     $fileContent=file_get_contents($file);
                     $tempFilePath = tempnam(sys_get_temp_dir(), 'temp_file');
                     $rr=file_put_contents($tempFilePath, $fileContent);
-        
+
                     $uploadedFile = UploadedFile::createFromBase(
                         new \Symfony\Component\HttpFoundation\File\UploadedFile(
                             $tempFilePath,
@@ -277,9 +297,9 @@ class CarController extends Controller
                         )
                     );
                     $allnewfiles['car_Images']=$uploadedFile;
-        
+
                     $originalName =  $uploadedFile->getClientOriginalName(); // Get file Original Name
-        
+
                     $imageData=[
                         'car_id'=>$car->id,
                         'image'=>$originalName,
@@ -289,13 +309,13 @@ class CarController extends Controller
                 $car->main_image=$car->images[0]->image;
                 $car->save();
                 $images=$this->uploadCarImages($allnewfiles);
-        
-            }  
+
+            }
       }
     public function update(Request $request , Car $car)
     {
           $this->authorize('update_cars');
- 
+
          $data                      = $request->except('car_Images','deleted_images','car_id','tags','colors');
          $data['have_discount']     = $request['have_discount'] === "on";
 
@@ -303,7 +323,7 @@ class CarController extends Controller
         if($request->car_Images){
             $newcarsimages=count($request->car_Images);
         }
-          
+
           $countcarimages=CarImage::where('car_id',$car->id)->count();
           $request->validate([
             'car_Images'    => [new ValidateMaxImages($car,$deletedImages)],
@@ -316,14 +336,14 @@ class CarController extends Controller
                 'car_Images.*' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048', // Adjust allowed image types and size as neede
             ]);
           }
-         
+
           $data['video_url']=$this->getYoutubeVideoId($request['video_url']);
 
         // $this->setCarName($data);
 
         $carOldType = $car['is_new'];
         $carOldBrandId = $car['brand_id'];
- 
+
         $car->update($data);
          CarImage::handleProductImages($car->id);
          $car->tags()->sync( $request['tags'] ?? [] );
@@ -337,8 +357,8 @@ class CarController extends Controller
             $car->main_image="";
             $car->save();
             }
-            
-            
+
+
         if( $carOldBrandId == $data['brand_id'] )
         {
             $this->updateBrandCarsTypeCount(action: 'update', oldCarType:$carOldType, currentBrandId: $data['brand_id'], newCarType: $data['is_new']);
@@ -359,7 +379,7 @@ public function show(Car $car){
 
 
     $colors = Color::select('id','image','name_' . getLocale(),'hex_code')->get();
-    
+
     $relatedImages = $car->images;
     return view('dashboard.cars.show',compact('brands','colors','car','models','cities','categories','relatedImages','tags','selectedtagsIds','selectedcolorssIds'));
 }
@@ -372,9 +392,9 @@ public function show(Car $car){
     public function images(Car $car){
         $carImages = $car->images->toArray();
         $images =  scandir(public_path('/storage/Images/Cars'));
- 
+
         foreach ( $carImages as $imageName )
-        {          
+        {
             $imageName = $imageName['image'];
             if (in_array($imageName, $images)) {
                 $image['image'] = $imageName;
@@ -398,14 +418,14 @@ public function show(Car $car){
     {
           $models = CarModel::where('brand_id', $brandId)->get();
          return response()->json($models);
-    }  
+    }
 
     public function getCategories($modelId)
     {
         $categories = Category::where('car_model_id', $modelId)->get();
-        
+
          return response()->json($categories);
-    }  
+    }
 
     private function uploadCarImages( $images )
     {
@@ -425,7 +445,7 @@ public function show(Car $car){
         <h6 class='price-now'> <span class='price-word' ></span>". $data['discount_price'] ."<span class='currency-value' ></span> </h6>";
         else $value =  "<h6 class='price-before'></h6>
         <h6 class='price-now'> <span class='price-word' > </span>". $data['price'] ."<span class='currency-value' ></span> </h6>";
-      
+
         return $value;
 
     }
@@ -652,13 +672,13 @@ public function show(Car $car){
     {
         // Use a regular expression to extract the video ID from the YouTube URL
         $pattern = '/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
-        
+
         // Check if the URL matches the pattern
         if (preg_match($pattern, $url, $matches)) {
             // Return the extracted video ID
             return $matches[1];
         }
-    
+
         // Return null if no match is found
         return null;
     }
@@ -667,10 +687,10 @@ public function show(Car $car){
     // Use a regular expression to extract the video ID from the YouTube URL
     $pattern = '/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
      // Check if the URL matches the pattern
-   
+
         // Return the full YouTube URL
         return 'https://www.youtube.com/watch?v=' .$videoId;
-    
+
 
     // Return null if no match is found
 
