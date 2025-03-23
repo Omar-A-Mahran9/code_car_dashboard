@@ -430,8 +430,8 @@ class FinanceController extends Controller
         'car_count' => $request->car_count,
         'type_of_order' => $request->type_of_order
       ];
-      dd($data);
-      $order = [];
+     
+      $order = Order::create($data);
       $this->distribute($order->id);
       $data['type']     = $request['type'];
       $data['order_id'] = $order->id;
@@ -463,7 +463,6 @@ class FinanceController extends Controller
         'type_of_order' => $request->type_of_order,
 
       ];
-      dd($data);
 
       $order         = Order::create($data);
       $employeeOrder = $this->distribute($order->id);
