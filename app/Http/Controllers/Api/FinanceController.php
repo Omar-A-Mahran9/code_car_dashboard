@@ -405,7 +405,7 @@ class FinanceController extends Controller
   // create order cash or finance
   public function store($request)
   {
-
+return $request->type_of_order;
     $car = $this->car->findOrFail($request->id);
     if ($request->type == 'organization')
     {
@@ -429,9 +429,7 @@ class FinanceController extends Controller
         'status_id' => 1,
         'client_id' => $car->vendor_id,
         'car_count' => $request->car_count,
-        'type_of_order' => $request->type_of_order,
-
-
+        'type_of_order' => $request->type_of_order
       ];
       $order = Order::create($data);
       $this->distribute($order->id);
