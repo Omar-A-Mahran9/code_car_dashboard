@@ -82,7 +82,8 @@ class OrderController extends Controller
             $ordersTableData['order_id'] = $order->id;
             $ordersTableData['type'] = 'individual';
 
-            CarOrder::create($ordersTableData);
+            $carorder=CarOrder::create($ordersTableData);
+            $order->update(['car_order_id' => $carorder->id]);
             DB::commit();
             $this->sendEmailToAdmin($order);
 
@@ -125,7 +126,8 @@ class OrderController extends Controller
             $carOrdersTableData['payment_type'] = 'cash';
             $carOrdersTableData['order_id'] = $order->id;
 
-            CarOrder::create($carOrdersTableData);
+            $carorder=CarOrder::create($carOrdersTableData);
+             $order->update(['car_order_id' => $carorder->id]);
             DB::commit();
             $this->sendEmailToAdmin($order);
 
@@ -165,7 +167,8 @@ class OrderController extends Controller
             $carOrdersTableData['order_id'] = $order->id;
 
             $carOrdersTableData['cars'] = json_encode($request['cars']);
-            CarOrder::create($carOrdersTableData);
+            $carorder= CarOrder::create($carOrdersTableData);
+             $order->update(['car_order_id' => $carorder->id]);
             DB::commit();
             $this->sendEmailToAdmin($order);
 
@@ -202,7 +205,10 @@ class OrderController extends Controller
             $carOrdersTableData['order_id'] = $order->id;
 
             $carOrdersTableData['cars'] = json_encode($request['cars']);
-            CarOrder::create($carOrdersTableData);
+
+            $carorder=   CarOrder::create($carOrdersTableData);
+            $order->update(['car_order_id' => $carorder->id]);
+
             DB::commit();
             $this->sendEmailToAdmin($order);
 

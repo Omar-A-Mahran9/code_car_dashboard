@@ -118,7 +118,7 @@
                         <th>{{ __('created date') }}</th>
                         <th>{{ __('opened by') }}</th>
                         <th>{{ __('opened at') }}</th>
-                        <th>{{ __('type of order') }}</th>
+                        {{-- <th>{{ __('type of order') }}</th> --}}
                         <th class="min-w-100px">{{ __('actions') }}</th>
 
                     </tr>

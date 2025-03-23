@@ -296,7 +296,9 @@ class FinanceController extends Controller
         $ordersTableData['finance_amount'] = str_replace(',', '', $view_selected_Offer['fundingAmount']);
         $ordersTableData['Adminstrative_fees'] = str_replace(',', '', $view_selected_Offer['sectorAdministrative_fees']);
         $ordersTableData['Monthly_installment'] = str_replace(',', '', $view_selected_Offer['monthly_installment']);
-          CarOrder::create($ordersTableData);
+
+          $carorder=   CarOrder::create($ordersTableData);
+          $order->update(['car_order_id' => $carorder->id]);
           $notify = [
             'vendor_id' => Auth::id() ?? null,
             'order_id' => $order->id,
@@ -371,7 +373,9 @@ class FinanceController extends Controller
             $carOrdersTableData['order_id']     = $order->id;
             $carOrdersTableData['car_count']    = $carOrdersTableData['car_count'];
             // $carOrdersTableData['cars'] = json_encode($uniqueCars);
-            $CarOrder = CarOrder::create($carOrdersTableData);
+
+            $carorder=   CarOrder::create($carOrdersTableData);
+            $order->update(['car_order_id' => $carorder->id]);
             $notify   = [
               'vendor_id' => Auth::id() ?? null,
               'order_id' => $order->id,
@@ -430,7 +434,7 @@ class FinanceController extends Controller
         'car_count' => $request->car_count,
         'type_of_order' => $request->type_of_order
       ];
-     
+
       $order = Order::create($data);
       $this->distribute($order->id);
       $data['type']     = $request['type'];
@@ -697,7 +701,9 @@ class FinanceController extends Controller
 
           $ordersTableData['order_id'] = $order->id;
           $ordersTableData['type'] = $request->type;
-          CarOrder::create($ordersTableData);
+
+          $carorder=    CarOrder::create($ordersTableData);
+          $order->update(['car_order_id' => $carorder->id]);
           $notify = [
             'vendor_id' => Auth::id() ?? null,
             'order_id' => $order->id,
@@ -780,7 +786,8 @@ class FinanceController extends Controller
             $carOrdersTableData['payment_type'] = 'finance';
             $carOrdersTableData['order_id']     = $order->id;
             $carOrdersTableData['cars']         = json_encode($cars);
-            $CarOrder                           = CarOrder::create($carOrdersTableData);
+             $carorder = CarOrder::create($carOrdersTableData);
+            $order->update(['car_order_id' => $carorder->id]);
             $notify                             = [
               'vendor_id' => Auth::id() ?? null,
               'order_id' => $order->id,
@@ -1018,8 +1025,8 @@ class FinanceController extends Controller
 
           $ordersTableData['order_id'] = $order->id;
           $ordersTableData['type'] = $request->type;
-          $ff=CarOrder::create($ordersTableData);
-
+           $carorder = CarOrder::create($ordersTableData);
+          $order->update(['car_order_id' => $carorder->id]);
 
           $notify = [
             'vendor_id' => Auth::id() ?? null,
@@ -1107,7 +1114,9 @@ class FinanceController extends Controller
             $carOrdersTableData['payment_type'] = 'finance';
             $carOrdersTableData['order_id']     = $order->id;
             $carOrdersTableData['cars']         = json_encode($cars);
-            $CarOrder                           = CarOrder::create($carOrdersTableData);
+             $carorder = CarOrder::create($carOrdersTableData);
+             $order->update(['car_order_id' => $carorder->id]);
+
             $notify                             = [
               'vendor_id' => Auth::id() ?? null,
               'order_id' => $order->id,
