@@ -405,8 +405,7 @@ class FinanceController extends Controller
   // create order cash or finance
   public function store($request)
   {
-return $request->type_of_order;
-    $car = $this->car->findOrFail($request->id);
+dd($request);    $car = $this->car->findOrFail($request->id);
     if ($request->type == 'organization')
     {
       $totalcarprice = $car->getPriceAfterVatAttribute() * $request->car_count;
