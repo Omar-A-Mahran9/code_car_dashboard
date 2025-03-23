@@ -429,6 +429,8 @@ class FinanceController extends Controller
         'status_id' => 1,
         'client_id' => $car->vendor_id,
         'car_count' => $request->car_count,
+        'type_of_order' => $request->type_of_order,
+
 
       ];
       $order = Order::create($data);
@@ -460,6 +462,7 @@ class FinanceController extends Controller
         'status_id' => 1,
         'client_id' => $car->vendor_id,
         'city_id' => $car->city_id,
+        'type_of_order' => $request->type_of_order,
 
       ];
 
