@@ -34,7 +34,7 @@ class FinanceController extends Controller
 
   public function validationcash(Request $request)
   {
-
+dd($request);
     if ($request['type'] == 'organization')
     {
       $data = $request->validate([
@@ -49,6 +49,8 @@ class FinanceController extends Controller
         'bank_id' => ['bail', 'required', 'nullable', Rule::exists('banks', 'id')],
         'color_id' => ['bail', 'required', 'nullable'],
         'car_count' => ['required', 'numeric', 'max:255'],
+        'type_of_order' => ['required', 'string', 'in:cash,finance'],
+
       ]);
       $request->merge([
         'phone' => convertArabicNumbers($request->phone),
@@ -72,6 +74,8 @@ class FinanceController extends Controller
         'color_id' => ['bail', 'required', 'nullable'],
         'name' => ['required' , 'string',new NotNumbersOnly],
         'phone' => ['bail', 'required', 'regex:/^((\+|00)966|0)?5[0-9]{8}$/'],
+        'type_of_order' => ['required', 'string', 'in:cash,finance'],
+
       ]);
 
       $request->merge([
