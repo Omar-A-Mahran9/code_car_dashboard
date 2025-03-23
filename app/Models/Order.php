@@ -18,8 +18,9 @@ class Order extends Model
     ];
     public function orderDetailsCar()
     {
-        return $this->hasOne(CarOrder::class, 'order_id','id'); // Ensure 'order_id' is the correct foreign key
+        return $this->hasOne(CarOrder::class, 'order_id', 'id'); // Ensure 'order_id' is the correct foreign key
     }
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);

@@ -47,10 +47,10 @@ class OrderController extends Controller
 
             if ($user->roles->contains('id', 1))
             {
-                $data = getModelData(model:$model , andsFilters: [['verified', '=', 1],['status_id', '!=', 7]], relations: ['orderDetailsCar' => ['id', 'payment_type']]);
+                $data = getModelData(model:$model , andsFilters: [['verified', '=', 1],['status_id', '!=', 7]], relations: ['orderDetailsCar' => ['id', 'payment_type'],'employee' => ['id', 'name']]);
             } else
             {
-                 $data = getModelData(model: $model, andsFilters: [['employee_id', '=', $user->id], ['verified', '=', 1],['status_id', '!=', 7]], relations: ['orderDetailsCar' => ['id', 'payment_type']]);
+                 $data = getModelData(model: $model, andsFilters: [['employee_id', '=', $user->id], ['verified', '=', 1],['status_id', '!=', 7]], relations: ['orderDetailsCar' => ['id', 'payment_type'],'employee' => ['id', 'name']]);
 
             }
             return response()->json($data);

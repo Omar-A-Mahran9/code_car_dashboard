@@ -13,7 +13,8 @@ let translations = {
     "Yes, Delete !": "نعــم, أحذف !",
     "No, Cancel": "لا , ألغي",
     "Request is submitted successfully": "تم تسجيل الطلب بنجاح",
-
+    finance: "تمويل",
+    cash: "كاش",
     "something went wrong": "حدث خطأ ما",
     "Error !": "خطـأ !",
     "Deleted successfully!": "تم الحذف بنجاح !",

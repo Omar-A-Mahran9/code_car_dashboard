@@ -86,7 +86,7 @@
                     </div>
 
                     <select class="form-select form-select-solid w-200px ms-4 border-gray-300 border-1 filter-datatable-inp"
-                     data-filter-index="7" data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}"
+                     data-filter-index="6" data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}"
                         data-control="select2" data-placeholder="{{ __('Payment Type') }}">
                         <option></option>
                         <option value="all" selected>{{ __('All') }}</option>
