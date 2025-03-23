@@ -463,6 +463,7 @@ class FinanceController extends Controller
         'type_of_order' => $request->type_of_order,
 
       ];
+      dd($data);
 
       $order         = Order::create($data);
       $employeeOrder = $this->distribute($order->id);
