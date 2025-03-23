@@ -86,6 +86,7 @@ class FinanceController extends Controller
       //         Rule::unique('orders', 'phone'),
       //    ]
       //    ]);
+      return $request;
       $data = $this->store($request);
       $data->sendOTP();
       // OtpLink($data->phone,$data->verification_code);
