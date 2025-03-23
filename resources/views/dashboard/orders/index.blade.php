@@ -115,7 +115,6 @@
                         <th>{{ __('type') }}</th>
                         <th>{{ __('status') }}</th>
                         <th>{{ __('type of order') }}</th>
-
                         <th>{{ __('created date') }}</th>
                         <th>{{ __('opened by') }}</th>
                         <th>{{ __('opened at') }}</th>
