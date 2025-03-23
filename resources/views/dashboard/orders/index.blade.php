@@ -90,8 +90,8 @@
                         data-control="select2" data-placeholder="{{ __('Payment Type') }}">
                         <option></option>
                         <option value="all" selected>{{ __('All') }}</option>
-                        <option value="cash">{{ __('Cash') }}</option>
-                        <option value="finance">{{ __('Finance') }}</option>
+                        <option value="cash">{{ __('Order Request') }}</option>
+                        <option value="finance">{{ __('Finance calculator') }}</option>
                     </select>
 
 
@@ -115,9 +115,12 @@
                         <th>{{ __('type') }}</th>
                         <th>{{ __('status') }}</th>
                         <th>{{ __('type of order') }}</th>
+
                         <th>{{ __('created date') }}</th>
                         <th>{{ __('opened by') }}</th>
                         <th>{{ __('opened at') }}</th>
+                        <th>{{ __('type of order') }}</th>
+
                         {{-- <th>{{ __('type of order') }}</th> --}}
                         <th class="min-w-100px">{{ __('actions') }}</th>
 

@@ -45,6 +45,7 @@ let KTDatatable = (function () {
         { data: "employee.name" },
         { data: "opened_at" },
         // { data: "employee_id" },
+        { data: "orderDetailsCarselect.id" },
 
         { data: null },
       ],
