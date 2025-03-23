@@ -34,8 +34,7 @@ class FinanceController extends Controller
 
   public function validationcash(Request $request)
   {
-dd($request);
-    if ($request['type'] == 'organization')
+     if ($request['type'] == 'organization')
     {
       $data = $request->validate([
         'organization_name' => ['required' , 'string',new NotNumbersOnly],
