@@ -2,90 +2,99 @@
 
 // Class definition
 let KTDatatable = (function () {
-    // Shared variables
-    let table;
-    let datatable;
-    let filter;
+  // Shared variables
+  let table;
+  let datatable;
+  let filter;
 
-    // Private functions
-    let initDatatable = function () {
-        datatable = $("#kt_datatable").DataTable({
-            orderable: false,
-            searchDelay: 500,
-            processing: true,
-            serverSide: true,
-            order: [[6, "desc"]], // display records number and ordering type
-            stateSave: false,
-            select: {
-                style: "os",
-                selector: "td:first-child",
-                className: "row-selected",
+  // Private functions
+  let initDatatable = function () {
+    datatable = $("#kt_datatable").DataTable({
+      orderable: false,
+      searchDelay: 500,
+      processing: true,
+      serverSide: true,
+      order: [[6, "desc"]], // display records number and ordering type
+      stateSave: false,
+      select: {
+        style: "os",
+        selector: "td:first-child",
+        className: "row-selected",
+      },
+      ajax: {
+        data: function () {
+          let datatable = $("#kt_datatable");
+          let info = datatable.DataTable().page.info();
+          datatable
+            .DataTable()
+            .ajax.url(
+              `/dashboard/orders?page=${info.page + 1}&per_page=${info.length}`
+            );
+        },
+      },
+      columns: [
+        { data: "id" },
+        { data: "name" },
+        { data: "phone" },
+        { data: "price" },
+        { data: "type" },
+        { data: "status_id", name: "status_id" },
+        { data: "type_of_order" },
+        { data: "created_at", name: "created_at" },
+        { data: "employee.name" },
+ 
+        { data: "opened_at" },
+
+
+        { data: null },
+      ],
+      columnDefs: [
+        {
+          targets: 3,
+          render: function (data, type, row) {
+            if (data) return data + " " + __(currency);
+            return "<h1>-</h1>";
+          },
+        },
+        {
+            targets: 4,
+            render: function (data, type, row) {
+              return __(data.replace("_", " "));
             },
-            ajax: {
-                data: function () {
-                    let datatable = $("#kt_datatable");
-                    let info = datatable.DataTable().page.info();
-                    datatable
-                        .DataTable()
-                        .ajax.url(
-                            `/dashboard/orders?page=${info.page + 1}&per_page=${
-                                info.length
-                            }`
-                        );
-                },
+          },
+        {
+            targets: 5,
+            render: function (data, type, row) {
+              return getStatusObject(data)["name_" + locale];
             },
-            columns: [
-                { data: "id" },
-                { data: "name" },
-                { data: "phone" },
-                { data: "price" },
-                { data: "type" },
-                { data: "status_id", name: "status_id" },
-                { data: "created_at", name: "created_at" },
-                { data: "employee.name" },
-                { data: "opened_at" },
-                // { data: "employee_id" },
-                { data: null },
-            ],
-            columnDefs: [
-                {
-                    targets: 3,
-                    render: function (data, type, row) {
-                        if (data) return data + " " + __(currency);
-                        return "<h1>-</h1>";
-                    },
-                },
-                {
-                    targets: 5,
-                    render: function (data, type, row) {
-                        return getStatusObject(data)["name_" + locale];
-                    },
-                },
-                {
-                    targets: 4,
-                    render: function (data, type, row) {
-                        return __(data.replace("_", " "));
-                    },
-                },
-                {
-                    targets: -2,
-                    render: function (data, type, row) {
-                        if (data) return data;
-                        return "<h1>-</h1>";
-                    },
-                },
-                {
-                    targets: -3,
-                    render: function (data, type, row) {
-                        if (data) return data;
-                        return "<h1>-</h1>";
-                    },
-                },
-                {
-                    targets: -1,
-                    data: null,
-                    render: function (data, type, row) {
-                        return `
+          },
+        {
+          targets: 6,
+          render: function (data, type, row) {
+            if (data) return data;
+            return "<h1>-</h1>";
+          },
+        },
+        {
+          targets: 7,
+          render: function (data, type, row) {
+            if (data) return data;
+            return "<h1>-</h1>";
+          },
+        },
+        {
+          targets: 8,
+          render: function (data, type, row) {
+            if (data) return data;
+            return "<h1>-</h1>";
+          },
+        },
+
+        {
+          targets: -1,
+          data: null,
+          render: function (data, type, row) {
+            return `
                             <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                                 ${__("Actions")}
                                 <span class="svg-icon svg-icon-5 m-0">
@@ -99,7 +108,7 @@ let KTDatatable = (function () {
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="/dashboard/orders/${
-                                        row.id
+                                      row.id
                                     }" class="menu-link px-3 d-flex justify-content-between" >
                                        <span> ${__("Show")} </span>
                                        <span>  <i class="fa fa-eye text-black-50"></i> </span>
@@ -110,7 +119,7 @@ let KTDatatable = (function () {
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3 d-flex justify-content-between delete-row" data-row-id="${
-                                        row.id
+                                      row.id
                                     }" data-type="${__("order")}">
                                        <span> ${__("Delete")} </span>
                                        <span>  <i class="fa fa-trash text-danger"></i> </span>
@@ -121,97 +130,93 @@ let KTDatatable = (function () {
                             </div>
                             <!--end::Menu-->
                         `;
-                    },
-                },
-            ],
-        });
-
-        table = datatable.$;
-
-        datatable.on("draw", function () {
-            handleDeleteRows();
-            handleFilterDatatable();
-            KTMenu.createInstances();
-        });
-    };
-
-    // general search in datatable
-    let handleSearchDatatable = () => {
-        $("#general-search-inp").keyup(function () {
-            datatable.search($(this).val()).draw();
-        });
-    };
-
-    // Filter Datatable
-    let handleFilterDatatable = () => {
-        $(".filter-datatable-inp").each((index, element) => {
-            $(element).change(function () {
-                let columnIndex = $(this).data("filter-index"); // index of the searching column
-                datatable.column(columnIndex).search($(this).val()).draw();
-            });
-        });
-    };
-
-    // Delete record
-    let handleDeleteRows = () => {
-        $(".delete-row").click(function () {
-            let rowId = $(this).data("row-id");
-            let type = $(this).data("type");
-
-            deleteAlert(type).then(function (result) {
-                if (result.value) {
-                    loadingAlert(__("deleting now ..."));
-
-                    $.ajax({
-                        method: "delete",
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                                "content"
-                            ),
-                        },
-                        url: "/dashboard/orders/" + rowId,
-                        success: () => {
-                            setTimeout(() => {
-                                successAlert(
-                                    `${
-                                        __("You have deleted the") +
-                                        " " +
-                                        type +
-                                        " " +
-                                        __("successfully !")
-                                    } `
-                                ).then(function () {
-                                    datatable.draw();
-                                });
-                            }, 1000);
-                        },
-                        error: (err) => {
-                            if (err.hasOwnProperty("responseJSON")) {
-                                if (
-                                    err.responseJSON.hasOwnProperty("message")
-                                ) {
-                                    errorAlert(err.responseJSON.message);
-                                }
-                            }
-                        },
-                    });
-                } else if (result.dismiss === "cancel") {
-                    errorAlert(__("was not deleted !"));
-                }
-            });
-        });
-    };
-
-    // Public methods
-    return {
-        init: function () {
-            initDatatable();
-            handleSearchDatatable();
+          },
         },
-    };
+      ],
+    });
+
+    table = datatable.$;
+
+    datatable.on("draw", function () {
+      handleDeleteRows();
+      handleFilterDatatable();
+      KTMenu.createInstances();
+    });
+  };
+
+  // general search in datatable
+  let handleSearchDatatable = () => {
+    $("#general-search-inp").keyup(function () {
+      datatable.search($(this).val()).draw();
+    });
+  };
+
+  // Filter Datatable
+  let handleFilterDatatable = () => {
+    $(".filter-datatable-inp").each((index, element) => {
+      $(element).change(function () {
+        let columnIndex = $(this).data("filter-index"); // index of the searching column
+        datatable.column(columnIndex).search($(this).val()).draw();
+      });
+    });
+  };
+
+  // Delete record
+  let handleDeleteRows = () => {
+    $(".delete-row").click(function () {
+      let rowId = $(this).data("row-id");
+      let type = $(this).data("type");
+
+      deleteAlert(type).then(function (result) {
+        if (result.value) {
+          loadingAlert(__("deleting now ..."));
+
+          $.ajax({
+            method: "delete",
+            headers: {
+              "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: "/dashboard/orders/" + rowId,
+            success: () => {
+              setTimeout(() => {
+                successAlert(
+                  `${
+                    __("You have deleted the") +
+                    " " +
+                    type +
+                    " " +
+                    __("successfully !")
+                  } `
+                ).then(function () {
+                  datatable.draw();
+                });
+              }, 1000);
+            },
+            error: (err) => {
+              if (err.hasOwnProperty("responseJSON")) {
+                if (err.responseJSON.hasOwnProperty("message")) {
+                  errorAlert(err.responseJSON.message);
+                }
+              }
+            },
+          });
+        } else if (result.dismiss === "cancel") {
+          errorAlert(__("was not deleted !"));
+        }
+      });
+    });
+  };
+
+  // Public methods
+  return {
+    init: function () {
+      initDatatable();
+      handleSearchDatatable();
+    },
+  };
 })();
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    KTDatatable.init();
+  KTDatatable.init();
 });

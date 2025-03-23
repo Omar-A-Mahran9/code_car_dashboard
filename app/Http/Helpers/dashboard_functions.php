@@ -76,7 +76,7 @@ if(!function_exists('getImagePathFromDirectory')){
     function getImagePathFromDirectory( $imageName , $directory = null , $defaultImage = 'default.svg'  ): string
     {
         $imagePath = public_path('/storage/Images'.'/' . $directory . '/' . $imageName);
- 
+
         if ( $imageName && $directory && file_exists( $imagePath ) ) // check if the directory is null or the image doesn't exist
             return asset('/storage/Images') .'/' . $directory . '/' . $imageName;
         else
@@ -118,13 +118,13 @@ if(!function_exists('generateWhatsAppLink')){
         // Format the phone number to include the country code
         $formattedPhone = preg_replace('/[^0-9]/', '', $phone); // Remove non-numeric characters
         $formattedPhone = '+966' . $formattedPhone; // Replace YourCountryCode with the actual country code
-    
+
         // Encode the vendor's name for the URL
         $encodedName = urlencode($name);
-    
+
         // Construct the WhatsApp dynamic link
         $whatsappLink = "https://wa.me/{$formattedPhone}?text=Hello%20{$encodedName},%20";
-    
+
         return $whatsappLink;
     }
 }
@@ -449,7 +449,7 @@ if (!function_exists('OtpLink')) {
 
 }
 
-    
+
 
 
 /**
@@ -496,7 +496,7 @@ if(!function_exists('storeAndPushNotificationBasedEmployee')) {
     if(!function_exists('OtpLink')){
 
         function OtpLink($phone,$otp)
-        { 
+        {
         $apiUrl = "https://api.oursms.com/api-a/msgs";
         $token = " ";
         $src = 'CODE CAR';
@@ -507,7 +507,7 @@ if(!function_exists('storeAndPushNotificationBasedEmployee')) {
                 مرحبًا بك في $appName ! رمز التسجيل: $otp
                 شكرًا لك!
              msg;
-                
+
         $response = \Illuminate\Support\Facades\Http::asForm()->post($apiUrl, [
             'token' => $token,
             'src' => $src,
@@ -515,7 +515,7 @@ if(!function_exists('storeAndPushNotificationBasedEmployee')) {
             'body' => $body,
         ]);
 
-        
+
 
         if ($response->successful()) {
             // Request successful
@@ -525,9 +525,9 @@ if(!function_exists('storeAndPushNotificationBasedEmployee')) {
             echo "Failed to send SMS. Error: " . $response->body();
         }
         }
-    
+
     }
-    
+
 }
 
 /** favourite functions **/
