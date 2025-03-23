@@ -73,7 +73,7 @@ class CarResourse extends JsonResource
             'have_discount'=>$this->have_discount,
             'video_url'=>$this->video_url,
             'discount_price'=>number_format($this->discount_price, 2, '.', ','),
-            'discount_percentage' => $this->discount_price != 0 ? round(($this->price - $this->discount_price) / $this->price * 100, 2): 0,
+            'discount_percentage' => $this->discount_price != 0 && $this->price !=0 ? round(($this->price - $this->discount_price) / $this->price * 100, 2): 0,
             'selling_price'=>number_format($this->getSellingPriceAttribute(), 2, '.', ','),
             'tax'=>settings()->getSettings('maintenance_mode') == 1 ? settings()->getSettings('tax') : 0,
             'price_after_tax' =>number_format($priceaftervat, 2, '.', ',') ,
