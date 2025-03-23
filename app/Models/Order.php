@@ -16,9 +16,9 @@ class Order extends Model
         'created_at' => 'date:Y-m-d',
         'updated_at' => 'date:Y-m-d'
     ];
-public function orderDetailsCar()
+    public function orderDetailsCar()
     {
-        return $this->hasMany(CarOrder::class, 'order_id');
+        return $this->hasOne(CarOrder::class, 'order_id','id'); // Ensure 'order_id' is the correct foreign key
     }
     public function vendor()
     {
