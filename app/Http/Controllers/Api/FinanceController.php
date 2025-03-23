@@ -440,6 +440,8 @@ class FinanceController extends Controller
       $data['type']     = $request['type'];
       $data['order_id'] = $order->id;
       $carorder         = CarOrder::create($data);
+      $order->update(['car_order_id' => $carorder->id]);
+
       $notify           = [
         'vendor_id' => Auth::id() ?? null,
         'order_id' => $order->id,
@@ -475,6 +477,8 @@ class FinanceController extends Controller
         'type' => $request['type'],
       ];
       $carorder      = CarOrder::create($data);
+      $order->update(['car_order_id' => $carorder->id]);
+
       $notify        = [
         'vendor_id' => Auth::id() ?? null,
         'order_id' => $order->id,
