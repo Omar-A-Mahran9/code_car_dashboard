@@ -43,13 +43,10 @@ let KTDatatable = (function () {
           data: "order_details_carselect.payment_type",
           name: "payment_type",
         }, // Make sure this is correct
-
         { data: "created_at", name: "created_at" },
         { data: "employee.name" },
         { data: "opened_at" },
-
         // { data: "employee_id" },
-
         { data: null },
       ],
       columnDefs: [
