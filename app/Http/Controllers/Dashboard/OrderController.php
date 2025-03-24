@@ -47,10 +47,10 @@ class OrderController extends Controller
 
             if ($user->roles->contains('id', 1))
             {
-                $data = getModelData(model:$model , andsFilters: [['verified', '=', 1],['status_id', '!=', 7]]);
+                $data = getModelData(model:$model , andsFilters: [['verified', '=', 1],['status_id', '!=', 7]], relations: ['orderDetailsCarselect' => ['id', 'payment_type'],'employee' => ['id', 'name']]);
             } else
             {
-                 $data = getModelData(model: $model, andsFilters: [['employee_id', '=', $user->id], ['verified', '=', 1],['status_id', '!=', 7]]);
+                 $data = getModelData(model: $model, andsFilters: [['employee_id', '=', $user->id], ['verified', '=', 1],['status_id', '!=', 7]], relations: ['orderDetailsCarselect' => ['id', 'payment_type'],'employee' => ['id', 'name']]);
 
             }
             return response()->json($data);
@@ -501,6 +501,7 @@ public function orders_not_approval(Request $request)
           $ordersTableData['old_order_id'] =  $old_order['id'];
           $ordersTableData['edited'] =  1;
           $ordersTableData['edited_by'] =  auth()->id();
+          $ordersTableData['payment_type'] = $old_order['order_details_car']['payment_type'];
 
           if ($finalapproval) {
             // Update the existing order

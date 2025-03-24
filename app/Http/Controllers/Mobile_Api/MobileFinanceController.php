@@ -335,6 +335,7 @@ class MobileFinanceController extends Controller
           $ordersTableData['city_id'] = $carOrdersTableData['city_id'];
           $ordersTableData['car_name'] = $car->name;
           $ordersTableData['clint_id'] = Auth::user()->id ?? null;
+          $ordersTableData['payment_type'] = 'finance';
 
           DB::beginTransaction();
 
@@ -749,6 +750,8 @@ class MobileFinanceController extends Controller
           //          Rule::unique('orders', 'phone'),
           //     ]
           //     ]);
+          $ordersTableData['payment_type'] = 'finance';
+
           $ordersTableData['name'] = $carOrdersTableData['name'];
           $ordersTableData['status_id'] = 1;
           $ordersTableData['city_id'] = $carOrdersTableData['city_id'];
@@ -1084,6 +1087,8 @@ class MobileFinanceController extends Controller
           $ordersTableData['city_id'] = $carOrdersTableData['city_id'];
           $ordersTableData['bank_id'] = $carOrdersTableData['bank_id'];
           $ordersTableData['clint_id'] = Auth::user()->id ?? null;
+          $ordersTableData['payment_type'] = 'finance';
+
           DB::beginTransaction();
           try
           {

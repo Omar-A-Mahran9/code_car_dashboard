@@ -40,12 +40,16 @@ let KTDatatable = (function () {
         { data: "type" },
         { data: "status_id", name: "status_id" },
         { data: "type_of_order", name: "type_of_order" },
+        {
+          data: "order_details_carselect.payment_type",
+          name: "payment_type",
+        }, // Make sure this is correct
 
         { data: "created_at", name: "created_at" },
         { data: "employee.name" },
         { data: "opened_at" },
+
         // { data: "employee_id" },
-        { data: "orderDetailsCarselect.id" },
 
         { data: null },
       ],
@@ -55,6 +59,12 @@ let KTDatatable = (function () {
           render: function (data, type, row) {
             if (data) return data + " " + __(currency);
             return "<h1>-</h1>";
+          },
+        },
+        {
+          targets: 4,
+          render: function (data, type, row) {
+            return __(data.replace("_", " "));
           },
         },
         {
@@ -69,31 +79,23 @@ let KTDatatable = (function () {
             return row.type_of_order ? __(row.type_of_order) : "<h1>-</h1>";
           },
         },
+
         {
-          targets: 4,
+          targets: 7, // Adjust index based on actual order
           render: function (data, type, row) {
-            return __(data.replace("_", " "));
+            console.log(row);
+            return row.order_details_carselect &&
+              row.order_details_carselect.payment_type
+              ? __(row.order_details_carselect.payment_type)
+              : "<h1>-</h1>";
           },
         },
         {
-          targets: -2,
+          targets: 9, // Adjust the column index to match the actual column number
           render: function (data, type, row) {
-            if (data) return data;
-            return "<h1>-</h1>";
-          },
-        },
-        {
-          targets: -3,
-          render: function (data, type, row) {
-            if (data) return data;
-            return "<h1>-</h1>";
-          },
-        },
-        {
-          targets: -4,
-          render: function (data, type, row) {
-            if (data) return data;
-            return "<h1>-</h1>";
+            return row.employee && row.employee.name
+              ? row.employee.name
+              : "<h1>-</h1>";
           },
         },
         {

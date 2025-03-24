@@ -357,6 +357,7 @@ class FinanceController extends Controller
           $ordersTableData['city_id'] = $carOrdersTableData['city_id'];
           $ordersTableData['car_name'] = $car->name;
           $ordersTableData['clint_id'] = Auth::user()->id ?? null;
+          $ordersTableData['payment_type'] = 'finance';
 
           DB::beginTransaction();
 
@@ -780,6 +781,8 @@ class FinanceController extends Controller
           $ordersTableData['city_id'] = $carOrdersTableData['city_id'];
           $ordersTableData['bank_id'] = $carOrdersTableData['bank_id'];
           $ordersTableData['clint_id'] = Auth::user()->id ?? null;
+          $ordersTableData['payment_type'] = 'finance';
+
           DB::beginTransaction();
           try
           {
@@ -1108,6 +1111,8 @@ class FinanceController extends Controller
           $ordersTableData['city_id'] = $carOrdersTableData['city_id'];
           $ordersTableData['bank_id'] = $carOrdersTableData['bank_id'];
           $ordersTableData['clint_id'] = Auth::user()->id ?? null;
+          $ordersTableData['payment_type'] = 'finance';
+
           DB::beginTransaction();
           try
           {

@@ -81,13 +81,13 @@
                         <!--begin::Select2-->
                         <input
                             class="form-control form-control-solid border-gray-300 border-1 px-4 text-center filter-datatable-inp"
-                            data-filter-index="6" placeholder="{{ __('Pick date range') }}" id="from_to_dp" />
+                            data-filter-index="4" placeholder="{{ __('Pick date range') }}" id="from_to_dp" />
                         <!--end::Select2-->
                     </div>
 
                     <select class="form-select form-select-solid w-200px ms-4 border-gray-300 border-1 filter-datatable-inp"
-                     data-filter-index="6" data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}"
-                        data-control="select2" data-placeholder="{{ __('Payment Type') }}">
+                        data-filter-index="7" data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}" data-control="select2"
+                        data-placeholder="{{ __('Payment Type') }}">
                         <option></option>
                         <option value="all" selected>{{ __('All') }}</option>
                         <option value="cash">{{ __('Order Request') }}</option>
@@ -114,12 +114,12 @@
                         <th>{{ __('price') }}</th>
                         <th>{{ __('type') }}</th>
                         <th>{{ __('status') }}</th>
+                        <th>{{ __('type of cash order') }}</th>
                         <th>{{ __('type of order') }}</th>
 
                         <th>{{ __('created date') }}</th>
                         <th>{{ __('opened by') }}</th>
                         <th>{{ __('opened at') }}</th>
-                        <th>{{ __('type of order') }}</th>
 
                         {{-- <th>{{ __('type of order') }}</th> --}}
                         <th class="min-w-100px">{{ __('actions') }}</th>

@@ -116,6 +116,7 @@ class OrderController extends Controller
         $ordersTableData['price'] = $car->price_after_vat;
         $ordersTableData['car_name'] = $car->name;
         $ordersTableData['phone'] = convertArabicNumbers($ordersTableData['phone']);
+        $ordersTableData['payment_type'] = 'cash';
 
         DB::beginTransaction();
         try {
@@ -156,6 +157,7 @@ class OrderController extends Controller
         $ordersTableData['type'] = 'car';
         $ordersTableData['phone'] = convertArabicNumbers($carOrdersTableData['phone']);
         $ordersTableData['name'] = $carOrdersTableData['organization_ceo'];
+        $ordersTableData['payment_type'] = 'finance';
 
         DB::beginTransaction();
         try {
@@ -194,6 +196,7 @@ class OrderController extends Controller
         $ordersTableData['type'] = 'car';
         $ordersTableData['phone'] = convertArabicNumbers($carOrdersTableData['phone']);
         $ordersTableData['name'] = $carOrdersTableData['organization_ceo'];
+        $ordersTableData['payment_type'] = 'cash';
 
         DB::beginTransaction();
         try {
