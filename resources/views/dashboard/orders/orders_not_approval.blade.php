@@ -161,6 +161,5 @@
 
 
 
-        $('li[data-range-key="Custom Range"]').html(translate('Custom Range')) // translate 'Custom Range'
-    </script>
+     </script>
 @endpush
