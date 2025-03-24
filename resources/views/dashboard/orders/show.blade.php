@@ -463,11 +463,24 @@
                                                         {{ $order['price'] . ' ' . currency() }}</td>
                                                 </tr>
                                                 <tr>
+                                                                    <td class="fw-boldest">{{ __('Order Type') }}</td>
+                                                                    <td class="text-end fw-boldest" colspan="4">
+                                                                        @if(optional($order['orderDetailsCar'])->payment_type === 'cash')
+                                                                            {{ __('Cash Order') }}
+                                                                        @else
+                                                                            {{ __('Finance Calculator') }}
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                @if ($order['orderDetailsCar']['payment_type'] == 'cash')
+
+                                                <tr>
                                                     <td class="fw-boldest">{{ __('Payment Type') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                        {{ __(ucfirst($order['orderDetailsCar']['payment_type'])) }}
+                                                             {{ __($order['type_of_order']) }}
                                                     </td>
                                                 </tr>
+                                                @endif
                                                 @if ($order['orderDetailsCar']['payment_type'] == 'finance')
                                                     @if ($order['orderDetailsCar']['work'])
                                                         <tr>

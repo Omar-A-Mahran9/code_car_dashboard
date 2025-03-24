@@ -39,7 +39,6 @@ let KTDatatable = (function () {
         { data: "price" },
         { data: "type" },
         { data: "status_id", name: "status_id" },
-        { data: "type_of_order", name: "type_of_order" },
         {
           data: "order_details_carselect.payment_type",
           name: "payment_type",
@@ -73,25 +72,29 @@ let KTDatatable = (function () {
             return getStatusObject(data)["name_" + locale];
           },
         },
-        {
-          targets: 6,
-          render: function (data, type, row) {
-            return row.type_of_order ? __(row.type_of_order) : "<h1>-</h1>";
-          },
-        },
 
         {
-          targets: 7, // Adjust index based on actual order
+          targets: 6, // Adjust index based on actual order
           render: function (data, type, row) {
-            console.log(row);
-            return row.order_details_carselect &&
+            console.log("Row Data:", row); // Debugging
+
+            if (
+              row.order_details_carselect &&
               row.order_details_carselect.payment_type
-              ? __(row.order_details_carselect.payment_type)
-              : "<h1>-</h1>";
+            ) {
+              let paymentType = row.order_details_carselect.payment_type;
+              console.log("Payment Type:", paymentType); // Debugging
+
+              return paymentType === "cash"
+                ? __("cash order")
+                : __("finance calculator");
+            }
+
+            return "<h1>-</h1>";
           },
         },
         {
-          targets: 9, // Adjust the column index to match the actual column number
+          targets: 8, // Adjust the column index to match the actual column number
           render: function (data, type, row) {
             return row.employee && row.employee.name
               ? row.employee.name
