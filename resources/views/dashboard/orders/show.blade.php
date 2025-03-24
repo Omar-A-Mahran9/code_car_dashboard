@@ -736,12 +736,26 @@
                                                         </tr>
                                                     @endif
                                                 @endif
+                                        
                                                 <tr>
-                                                    <td class="fw-boldest">{{ __('Payment Type') }}</td>
+                                                    <td class="fw-boldest">{{ __('Order Type') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                        {{ __(ucfirst($order['orderDetailsCar']['payment_type'])) }}
+                                                        @if(optional($order['orderDetailsCar'])->payment_type === 'cash')
+                                                            {{ __('Cash Order') }}
+                                                        @else
+                                                            {{ __('Finance Calculator') }}
+                                                        @endif
                                                     </td>
                                                 </tr>
+                                @if ($order['orderDetailsCar']['payment_type'] == 'cash')
+
+                                <tr>
+                                    <td class="fw-boldest">{{ __('Payment Type') }}</td>
+                                    <td class="text-end fw-boldest" colspan="4">
+                                             {{ __($order['type_of_order']) }}
+                                    </td>
+                                </tr>
+                                @endif
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Organization Name') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
