@@ -19,7 +19,7 @@ let translations = {
     "Error !": "خطـأ !",
     "Deleted successfully!": "تم الحذف بنجاح !",
     "cash order": "طلب شراء",
-    "finance calculator": "طلب تمويلية",
+    "finance calculator": "حاسبة تمويلية",
 
     "Operation done successfully": "تمت العملية بنجاح",
     "This action is unauthorized.": "ليس لديك صلاحية لهذا الاجراء",
