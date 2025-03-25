@@ -175,7 +175,7 @@
                 <!-- end   :: cars section -->
 
 
-                <!-- start   :: orders section -->
+                <!-- start x  :: orders section -->
 
                 @canany(['view_orders'])
                     <div class="menu-item">
