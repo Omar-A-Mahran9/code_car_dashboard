@@ -64,12 +64,14 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5">
-                         @if (auth()->user()->image)
-                            <img src="{{ getImagePathFromDirectory(auth()->user()->image, 'Employees') }}"
-                                alt="User" />
-                        @else
-                            <img src="{{ asset('dashboard-assets/media/avatars/blank.png') }}" alt="User" />
-                        @endif                                </div>
+                                    @if (auth()->user()->image)
+                                        <img src="{{ getImagePathFromDirectory(auth()->user()->image, 'Employees') }}"
+                                            alt="User" />
+                                    @else
+                                        <img src="{{ asset('dashboard-assets/media/avatars/blank.png') }}"
+                                            alt="User" />
+                                    @endif
+                                </div>
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
@@ -181,7 +183,7 @@
                 <!--begin::Notifications-->
                 <div class="d-flex align-items-center ms-3 ms-lg-4">
                     <!--begin::Drawer wrapper-->
-                    <div class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px position-relative"
+                    {{-- <div class="btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px position-relative"
                         data-kt-menu-trigger="{default: 'click', lg: 'click'}" data-kt-menu-attach="parent"
                         data-kt-menu-placement="bottom-end">
                         <!--begin::Svg Icon | path: icons/duotune/communication/com003.svg-->
@@ -203,7 +205,7 @@
                             class="bullet bullet-dot bg-danger h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink  {{ $unreadNotifications->count() == 0 ? 'd-none' : '' }}"></span>
                         <!--end::Bullet-->
                     </div>
-                    <!--end::Drawer wrapper-->
+                    <!--end::Drawer wrapper--> --}}
 
                     <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px" id="kt_menu"
                         data-kt-menu="true" style="">
