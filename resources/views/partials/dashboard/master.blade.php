@@ -60,7 +60,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!--end::Main-->
 
 
-    {{-- <!-- begin :: Global Scroll top -->
+    <!-- begin :: Global Scroll top -->
     <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
         <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
         <span class="svg-icon">
@@ -74,7 +74,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </span>
         <!--end::Svg Icon-->
     </div>
-    <!-- end   :: Global Scroll top --> --}}
+    <!-- end   :: Global Scroll top -->
 
 
 
