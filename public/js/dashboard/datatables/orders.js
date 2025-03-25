@@ -69,27 +69,7 @@ let KTDatatable = (function () {
             return getStatusObject(data)["name_" + locale];
           },
         },
-
-        {
-          targets: 6, // Adjust index based on actual order
-          render: function (data, type, row) {
-            console.log("Row Data:", row); // Debugging
-
-            if (
-              row.order_details_carselect &&
-              row.order_details_carselect.payment_type
-            ) {
-              let paymentType = row.order_details_carselect.payment_type;
-              console.log("Payment Type:", paymentType); // Debugging
-
-              return paymentType === "cash"
-                ? __("cash order")
-                : __("finance calculator");
-            }
-
-            return "<h1>-</h1>";
-          },
-        },
+ 
         {
           targets: 8, // Adjust the column index to match the actual column number
           render: function (data, type, row) {
