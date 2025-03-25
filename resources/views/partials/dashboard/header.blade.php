@@ -1,7 +1,18 @@
 <div id="kt_header" style="" class="header align-items-stretch">
     <!--begin::Container-->
     <div class="container-fluid d-flex align-items-stretch justify-content-between">
-   
+        <!--begin::Aside mobile toggle-->
+        <div class="d-flex align-items-center d-lg-none ms-n2 me-2" title="Show aside menu">
+            <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
+                id="kt_aside_mobile_toggle">
+                <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+                <span class="svg-icon svg-icon-1">
+                    <i class="fa fa-hamburger"></i>
+                </span>
+                <!--end::Svg Icon-->
+            </div>
+        </div>
+        <!--end::Aside mobile toggle-->
         <!--begin::Mobile logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
             <a href="{{ route('dashboard.index') }}" class="d-lg-none">
@@ -53,12 +64,14 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5">
-                         @if (auth()->user()->image)
-                            <img src="{{ getImagePathFromDirectory(auth()->user()->image, 'Employees') }}"
-                                alt="User" />
-                        @else
-                            <img src="{{ asset('dashboard-assets/media/avatars/blank.png') }}" alt="User" />
-                        @endif                                </div>
+                                    @if (auth()->user()->image)
+                                        <img src="{{ getImagePathFromDirectory(auth()->user()->image, 'Employees') }}"
+                                            alt="User" />
+                                    @else
+                                        <img src="{{ asset('dashboard-assets/media/avatars/blank.png') }}"
+                                            alt="User" />
+                                    @endif
+                                </div>
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
@@ -434,7 +447,7 @@
                     </div>
                 </div>
                 <!--end::Notifications-->
-                <!--begin::Header menu toggle-->
+                {{-- <!--begin::Header menu toggle-->
                 <div class="d-flex align-items-center d-lg-none ms-2 me-n3" title="Show header menu">
                     <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
                         id="kt_header_menu_mobile_toggle">
@@ -453,7 +466,7 @@
                         <!--end::Svg Icon-->
                     </div>
                 </div>
-                <!--end::Header menu toggle-->
+                <!--end::Header menu toggle--> --}}
             </div>
             <!--end::Toolbar wrapper-->
         </div>
