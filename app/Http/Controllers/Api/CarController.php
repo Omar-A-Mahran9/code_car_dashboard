@@ -114,6 +114,18 @@ class CarController extends Controller
          }
         // Return the results as JSON
     }
+    public function tags(){
+        $tags=Tag::get();
+        $tagss = $tags->map(function ($tags) {
+            return [
+                'id' => $tags->id,
+                'title' => $tags->name,
+            ];
+        })->toArray();
+
+        $data = ['tags'=> $tagss ];
+        return $data;
+    }
 
     public function CarOption(){
         $organizationTypes = OrganizationType::get();

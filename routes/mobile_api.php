@@ -122,6 +122,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/cars', [CarController::class, 'carsdetails']);
 
     Route::get('/car-option', [CarController::class, 'CarOption']);
+    Route::get('/tags', [CarController::class, 'tags']);
 
     Route::get('/car/{id}', [CarController::class, 'cardetails']);
 

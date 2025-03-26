@@ -109,6 +109,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::get('/careers', 'Api\CareerController@index');
     Route::get('/cars', [CarController::class, 'carsdetails']);
     Route::get('/car-option', [CarController::class, 'CarOption']);
+    Route::get('/tags', [CarController::class, 'tags']);
 
     Route::get('/car/{id}', [CarController::class, 'cardetails']);
 
@@ -126,10 +127,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
 
     Route::get('/cities', [citiyController::class, 'index']);
-
-
-
-
     // ----------------------- Offer ----------------------
     Route::get('/offer/show/{id}', 'Api\OfferController@show');
     // --------------------------------

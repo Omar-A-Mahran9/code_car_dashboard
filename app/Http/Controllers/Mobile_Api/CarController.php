@@ -37,6 +37,19 @@ class CarController extends Controller
         return $this->success(data: $data);
 
     }
+    public function tags(){
+        $tags=Tag::get();
+        $tagss = $tags->map(function ($tags) {
+            return [
+                'id' => $tags->id,
+                'title' => $tags->name,
+            ];
+        })->toArray();
+
+        $data = ['tags'=> $tagss ];
+        return $data;
+    }
+
     public function cardetails($id){
         $car=Car::findOrFail($id);
         $car->increment('viewers');
