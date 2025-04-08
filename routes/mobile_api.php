@@ -43,8 +43,8 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::group(['middleware' => 'auth:sanctum'], function () {
         // Route::post('/resend-otp', 'Api\Auth\VerificationController@resendOtp');
         Route::post('/logout', 'Api\Auth\AuthController@logout');
-        Route::post('/delete_account', 'Api\Auth\AuthController@deleteAccount');
-     
+        Route::post('/delete-account', 'Api\Auth\AuthController@deleteAccount');
+
 
         Route::post('/add-Your-addss', [AdsController::class, 'store']);
         Route::delete('/addss/delete/{id}', 'Api\UserController@destroy');
