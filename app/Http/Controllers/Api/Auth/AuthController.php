@@ -40,8 +40,8 @@ class AuthController extends Controller
                      ValidationRule::unique('vendors', 'phone'),
                 ]
                 ]);
-                $data['phone'] = convertArabicNumbers($data['phone']);           
-            
+                $data['phone'] = convertArabicNumbers($data['phone']);
+
             $user = Vendor::create($data);
              $notify=[
                 'vendor_id'=>$user->id??null,
@@ -84,10 +84,10 @@ class AuthController extends Controller
 
         $user->sendOTP();
         // OtpLink($user->phone,$user->verification_code??'-');
-        
+
         $userWithoutVerificationCode = new User($user->toArray());
         // unset($userWithoutVerificationCode->verification_code);
-       
+
         return $this->success(data: ['token' => $user->createToken("API TOKEN")->plainTextToken, 'vendor' => $userWithoutVerificationCode]);
     }
 
@@ -101,11 +101,11 @@ class AuthController extends Controller
                 'login' => [__('Invalid credentials')],
                 // 'another_key' => ['Another error message'],
             ];
-         
+
             return $this->validationFailure(errors:  $errors);
         }
         if( Auth::guard('vendor')->user()->verification_code!=Null){
- 
+
             $token=Null;
             $massage = __('Hello') . ' ' . Auth::guard('vendor')->user()->name . ' ' . __('Please verify Your Phone');
             $otp=Auth::guard('vendor')->user()->id;
@@ -128,7 +128,7 @@ class AuthController extends Controller
                 elseif(Auth::guard('vendor')->user()->status==3){
                     return $this->validationFailure(errors:['message'=>__('this account is rejected please create new account or contact with admin')]);
                 }
- 
+
             }
             else{
                  $token=Auth::guard('vendor')->user()->createToken("API TOKEN")->plainTextToken;
@@ -138,13 +138,13 @@ class AuthController extends Controller
                     foreach($favorites as $favorite){
                         $user_id=Auth::guard('vendor')->user()->id;
                         $favorite->update(['vendor_id'=>$user_id]);
-         
+
                         }
                 }
-         
+
                 return $this->success(data: ['token' => $token, 'massage'=>"Thank You for verified",'user' => Auth::guard('vendor')->user()]);
             }
-           
+
 
         }
     }
@@ -156,6 +156,19 @@ class AuthController extends Controller
             return $this->success();
         } else {
             return $this->failure(message: __('You have to log in'));
+        }
+    }
+
+    public function deleteAccount()
+    {
+        if (Auth::check()) {
+            $user = Auth::user(); // Get the authenticated user
+            Auth::logout();       // Log out the user
+            $user->delete();      // Delete the user from the database
+
+            return $this->success(message: __('Your account has been deleted.'));
+        } else {
+            return $this->failure(message: __('You have to log in.'));
         }
     }
 }

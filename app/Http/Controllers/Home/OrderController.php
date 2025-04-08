@@ -117,7 +117,6 @@ class OrderController extends Controller
         $ordersTableData['price'] = $car->price_after_vat;
         $ordersTableData['car_name'] = $car->name;
         $ordersTableData['phone'] = convertArabicNumbers($ordersTableData['phone']);
-        $ordersTableData['payment_type'] = 'cash';
 
         DB::beginTransaction();
         try {
