@@ -161,6 +161,7 @@ class AuthController extends Controller
 
     public function deleteAccount()
     {
+        dd('dddd');
         $user = Auth::user();
 
         if (!$user) {
