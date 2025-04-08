@@ -162,6 +162,7 @@ class AuthController extends Controller
     public function deleteAccount()
     {
         if (Auth::check()) {
+            dd('dd');
             $user = Auth::user(); // Get the authenticated user
             Auth::logout();       // Log out the user
             $user->delete();      // Delete the user from the database
