@@ -159,17 +159,22 @@ class AuthController extends Controller
         }
     }
 
-    public function deleteAccount()
-    {
-        dd('dddd');
+    public function deleteAccount(){
+
         $user = Auth::user();
 
         if (!$user) {
             return $this->failure(message: __('You have to log in.'));
         }
+
         try {
-            Auth::logout();
-            $user->delete();
+            // Optional: delete related records here
+            // $user->posts()->delete();
+         
+
+            $user->delete(); // delete first
+
+
             return $this->success(message: __('Your account has been deleted.'));
         } catch (\Exception $e) {
             \Log::error('Account deletion failed: '.$e->getMessage());
