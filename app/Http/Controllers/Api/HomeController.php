@@ -145,15 +145,23 @@ class HomeController extends Controller
 
              $splash = Splash::get();
 
+             $tags=Tag::get();
+             $tagss = $tags->map(function ($tags) {
+                 return [
+                     'id' => $tags->id,
+                     'title' => $tags->name,
+                 ];
+             })->toArray();
 
 
 
             return $this->success(data: [
                 'banners'=>SplashResourse::collection( $splash ),
                 'brands' => $brandsData,
-                'modern_cars' => CarResourse::collection($modernCars),
-                'exclusive_cars' => CarResourse::collection($exclusiveCars),
-                'agencies_cars' => CarResourse::collection($agenciesCars),
+                'tags'=> $tagss
+                // 'modern_cars' => CarResourse::collection($modernCars),
+                // 'exclusive_cars' => CarResourse::collection($exclusiveCars),
+                // 'agencies_cars' => CarResourse::collection($agenciesCars),
             ]);
 
         } catch (\Exception $e) {
