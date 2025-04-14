@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Brand;
 use App\Models\Bank;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BrandResourse;
 use App\Http\Resources\BranResourse;
 use App\Http\Resources\CarResourse;
 use App\Http\Resources\SplashResourse;
@@ -233,7 +234,7 @@ class HomeController extends Controller
 {
     try {
         $brands = Brand::withCount('countCars')->with('models')->get();
-        $brandsData = BranResourse::collection($brands);
+        $brandsData = BrandResourse::collection($brands);
 
         $tag = request('tag');
         $query = Car::query();
