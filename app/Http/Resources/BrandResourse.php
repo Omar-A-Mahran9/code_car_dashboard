@@ -18,8 +18,6 @@ class BrandResourse extends JsonResource
             'id' => $this->id,
             'title'=> $this->name,
             'image' => getImagePathFromDirectory($this->image, 'Brands'),
-            'cover' => getImagePathFromDirectory($this->cover, 'Brands'),
-            'description_of_page' => settings()->getSettings('brand_text_in_home_page_' . getLocale()),
             'cars_count' => $this->countCars->count(), // Directly count the related cars
 
          ];
