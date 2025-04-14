@@ -20,134 +20,134 @@ class RequestController extends Controller
     use Calculations;
 
     public function index(){
-       try
+      try
         {
             $type=request()->type;
 
             $allOrders=[];
 
-            if (auth()->check()) {
+      if (auth()->check()) {
 
-                        if(Auth::user()){
+                if(Auth::user()){
 
-                            if(request('filter')=='complete'){
-                                $orders = Order::where('phone', Auth::user()->phone)->where('verified',1)->whereIn('status_id',[6,7,8])->with('car','orderDetailsCar')->whereNull('deleted_at')->get();
-                            }
-                            elseif(request('filter')=='processing'){
-                                $orders = Order::where('phone', Auth::user()->phone)->where('verified',1)->whereIn('status_id', [1, 2, 3, 4, 5])
-                                ->with('car','orderDetailsCar')->whereNull('deleted_at')->get();
+                     if(request('filter')=='complete'){
+                        $orders = Order::where('phone', Auth::user()->phone)->where('verified',1)->whereIn('status_id',[6,7,8])->with('car','orderDetailsCar')->whereNull('deleted_at')->get();
+                      }
+                      elseif(request('filter')=='processing'){
+                        $orders = Order::where('phone', Auth::user()->phone)->where('verified',1)->whereIn('status_id', [1, 2, 3, 4, 5])
+                        ->with('car','orderDetailsCar')->whereNull('deleted_at')->get();
 
-                            }else{
-                                $orders = Order::where('phone', Auth::user()->phone)->where('verified',1)->with('car','orderDetailsCar')->whereNull('deleted_at')->get();
-                            }
-                            foreach ($orders as $order) {
-                                $orderDetails=$order->orderDetailsCar;
-                                if ($orderDetails->type == 'organization'&& $orderDetails->cars !== null) {
-                                    $cars=$order['orderDetailsCar']['cars'];
-                                    $carsArray = json_decode($cars);
-                                    $cars_in_orders=[];
+                      }else{
+                        $orders = Order::where('phone', Auth::user()->phone)->where('verified',1)->with('car','orderDetailsCar')->whereNull('deleted_at')->get();
+                      }
+                      foreach ($orders as $order) {
+                         $orderDetails=$order->orderDetailsCar;
+                         if ($orderDetails->type == 'organization'&& $orderDetails->cars !== null) {
+                            $cars=$order['orderDetailsCar']['cars'];
+                               $carsArray = json_decode($cars);
+                               $cars_in_orders=[];
 
-                                    foreach($carsArray as $car){
-                                        $carconvert=Car::find($car->car_id);
-                                        $carDetails=CarResourse::make($carconvert)->resolve();
-                                        $carData=[
-                                            "car_id"=>$carDetails['id'],
-                                            'car_title'=>$carDetails['main_title'],
-                                            "carimage"=>$carDetails['main_image'],
-                                            'options' => $carDetails['fuel_type'] . " - " . $carDetails['gear_shifter'] . " - " . $carDetails['year'],
-                                            'carcount'=>$car->count
-                                                ];
-                                        $cars_in_orders[]=$carData;
-                                                    }
-                                        $allOrders[]=['cars'=>$cars_in_orders,'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),'OrderPaymentType'=>$orderDetails->payment_type,'OrderType'=>$orderDetails->type];
+                               foreach($carsArray as $car){
+                                  $carconvert=Car::find($car->car_id);
+                                  $carDetails=CarResourse::make($carconvert)->resolve();
+                                  $carData=[
+                                     "car_id"=>$carDetails['id'],
+                                     'car_title'=>$carDetails['main_title'],
+                                     "carimage"=>$carDetails['main_image'],
+                                     'options' => $carDetails['fuel_type'] . " - " . $carDetails['gear_shifter'] . " - " . $carDetails['year'],
+                                     'carcount'=>$car->count
+                                           ];
+                                  $cars_in_orders[]=$carData;
+                                            }
+                                  $allOrders[]=['cars'=>$cars_in_orders,'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),'OrderPaymentType'=>$orderDetails->payment_type,'OrderType'=>$orderDetails->type];
 
-                                        }
-                                elseif($orderDetails->type == 'organization'&& $orderDetails->cars == null &&$order->car_id!=null){
-                                        $cars_in_orders=[];
-                                        $car=Car::find($order->car_id);
-                                        $carDetails=CarResourse::make($car)->resolve();
-                                        $carData=[
-                                            "car_id"=>$carDetails['id'],
-                                            'car_title'=>$carDetails['main_title'],
-                                            "carimage"=>$carDetails['main_image'],
-                                            'options' => $carDetails['fuel_type'] . " - " . $carDetails['gear_shifter'] . " - " . $carDetails['year'],
-                                            'carcount'=>$orderDetails->car_count
-                                                ];
-                                                $cars_in_orders[]=$carData;
-                                        $allOrders[] =['cars'=>$cars_in_orders,'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),'OrderPaymentType'=>$orderDetails->payment_type,'OrderType'=>$orderDetails->type];
                                 }
-                                elseif($orderDetails->type == 'individual'&& $orderDetails->cars == null &&$order->car_id!=null){
-                                    $carDetails=CarResourse::make($order->car)->resolve();
-
-                                    if($orderDetails->payment_type == 'finance'){
-                                    $bankOffer=BankOffer::with('sectors')->find($order['orderDetailsCar']['bank_offer_id']);
-
-                                    $fundingAmount = $order['orderDetailsCar']['finance_amount'];;
-                                    $installment_years=$order['orderDetailsCar']['installment'];
-                                    $last_installment=$order['orderDetailsCar']['last_payment_value'];
-                                    $first_installment=$order['orderDetailsCar']['last_payment_value'];
-                                    $monthlyInstallment=$order['orderDetailsCar']['Monthly_installment'];
-                                    $adminstrativefees=$order['orderDetailsCar']['Adminstrative_fees'];
-
-
-
-
-
-
-                                    $order=[
-                                        'order_id'=>$order['id'],
-                                        'car_title'=>$carDetails['main_title'],
-                                        'options' => $carDetails['fuel_type'] . " - " . $carDetails['gear_shifter'] . " - " . $carDetails['year'],
-                                        'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),
-                                        'offer_name'=>$bankOffer->title,
-                                        'funding_amount'=>$fundingAmount,
-                                        'adminstrative_fields'=>$adminstrativefees,
-                                        'order_Date' => optional($order['orderDetailsCar']['created_at'])->format('Y-m-d'),
-                                        'first_installment'=>$first_installment,
-                                        'last_installment'=>$last_installment,
-                                        'monthly_installment'=>$monthlyInstallment,
-                                        'installment'=>$installment_years,
-                                        'car_id'=>$carDetails['id'],
-                                        "carimage"=>$carDetails['main_image'],
-                                        'OrderPaymentType'=>$orderDetails->payment_type,
-                                        'OrderType'=>$orderDetails->type
-                                    ];
-
-                                    }
-                                    else{
-                                        $order=[
-                                            'order_id'=>$order['id'],
-                                            'car_title'=>$carDetails['main_title'],
-                                            'cash_order'=>$carDetails['price_after_tax'],
-                                            'options' => $carDetails['fuel_type'] . " - " . $carDetails['gear_shifter'] . " - " . $carDetails['year'],
-                                            'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),
-                                            'order_Date' => optional($order['orderDetailsCar']['created_at'])->format('Y-m-d'),
-                                            'car_id'=>$carDetails['id'],
-                                            "carimage"=>$carDetails['main_image'],
-
-                                            'OrderPaymentType'=>$orderDetails->payment_type,
-                                            'OrderType'=>$orderDetails->type
+                         elseif($orderDetails->type == 'organization'&& $orderDetails->cars == null &&$order->car_id!=null){
+                                $cars_in_orders=[];
+                                $car=Car::find($order->car_id);
+                                $carDetails=CarResourse::make($car)->resolve();
+                                $carData=[
+                                    "car_id"=>$carDetails['id'],
+                                    'car_title'=>$carDetails['main_title'],
+                                    "carimage"=>$carDetails['main_image'],
+                                    'options' => $carDetails['fuel_type'] . " - " . $carDetails['gear_shifter'] . " - " . $carDetails['year'],
+                                    'carcount'=>$orderDetails->car_count
                                         ];
-                                    }
+                                        $cars_in_orders[]=$carData;
+                                $allOrders[] =['cars'=>$cars_in_orders,'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),'OrderPaymentType'=>$orderDetails->payment_type,'OrderType'=>$orderDetails->type];
+                         }
+                         elseif($orderDetails->type == 'individual'&& $orderDetails->cars == null &&$order->car_id!=null){
+                            $carDetails=CarResourse::make($order->car)->resolve();
+
+                            if($orderDetails->payment_type == 'finance'){
+                            $bankOffer=BankOffer::with('sectors')->find($order['orderDetailsCar']['bank_offer_id']);
+
+                            $fundingAmount = $order['orderDetailsCar']['finance_amount'];;
+                            $installment_years=$order['orderDetailsCar']['installment'];
+                            $last_installment=$order['orderDetailsCar']['last_payment_value'];
+                            $first_installment=$order['orderDetailsCar']['last_payment_value'];
+                            $monthlyInstallment=$order['orderDetailsCar']['Monthly_installment'];
+                            $adminstrativefees=$order['orderDetailsCar']['Adminstrative_fees'];
 
 
-                                    $allOrders[] =$order;
+
+
+
+
+                            $order=[
+                                'order_id'=>$order['id'],
+                                'car_title'=>$carDetails['main_title'],
+                                'options' => $carDetails['fuel_type'] . " - " . $carDetails['gear_shifter'] . " - " . $carDetails['year'],
+                                'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),
+                                'offer_name'=>$bankOffer->title,
+                                'funding_amount'=>$fundingAmount,
+                                'adminstrative_fields'=>$adminstrativefees,
+                                'order_Date' => optional($order['orderDetailsCar']['created_at'])->format('Y-m-d'),
+                                'first_installment'=>$first_installment,
+                                'last_installment'=>$last_installment,
+                                'monthly_installment'=>$monthlyInstallment,
+                                'installment'=>$installment_years,
+                                'car_id'=>$carDetails['id'],
+                                "carimage"=>$carDetails['main_image'],
+                                'OrderPaymentType'=>$orderDetails->payment_type,
+                                'OrderType'=>$orderDetails->type
+                            ];
 
                             }
-                                }
-                                }
+                            else{
+                                $order=[
+                                    'order_id'=>$order['id'],
+                                    'car_title'=>$carDetails['main_title'],
+                                    'cash_order'=>$carDetails['price_after_tax'],
+                                    'options' => $carDetails['fuel_type'] . " - " . $carDetails['gear_shifter'] . " - " . $carDetails['year'],
+                                     'orderStatue' => SettingOrderStatus::find($order->status_id)->only(['name', 'color']),
+                                    'order_Date' => optional($order['orderDetailsCar']['created_at'])->format('Y-m-d'),
+                                    'car_id'=>$carDetails['id'],
+                                    "carimage"=>$carDetails['main_image'],
 
-                        return $this->success(data:$allOrders);
+                                    'OrderPaymentType'=>$orderDetails->payment_type,
+                                    'OrderType'=>$orderDetails->type
+                                ];
+                            }
 
-            }
-            else{
 
-                        $order_number=request('order_number');
+                            $allOrders[] =$order;
 
-                        $allOrders=$this->search($order_number);
-                        return $this->success(data:[$allOrders]);
+                    }
+                        }
+                        }
 
-            }
+                   return $this->success(data:$allOrders);
+
+     }
+      else{
+
+                $order_number=request('order_number');
+
+                $allOrders=$this->search($order_number);
+                return $this->success(data:[$allOrders]);
+
+     }
 
 
         } catch (\Exception $e)
