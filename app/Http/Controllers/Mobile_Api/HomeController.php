@@ -234,21 +234,26 @@ class HomeController extends Controller
 {
     try {
         try {
-            // Fetch brands with car count and sort by the count (descending)
+            // Fetch brands with car count, filter out 0, sort by count descending, and paginate (5 per page)
             $brands = Brand::withCount('cars')
-            ->having('cars_count', '>', 0)
-            ->orderBy('cars_count', 'desc')
-            ->get();
+                ->having('cars_count', '>', 0)
+                ->orderBy('cars_count', 'desc')
+                ->paginate(5);
 
             $brandsData = BrandResourse::collection($brands);
 
             return $this->success(data: [
-                'brands' => $brandsData
+                'brands' => $brandsData,
+                'pagination' => [
+                    'current_page' => $brands->currentPage(),
+                    'last_page' => $brands->lastPage(),
+                    'per_page' => $brands->perPage(),
+                    'total' => $brands->total(),
+                ]
             ]);
         } catch (\Exception $e) {
             return $this->failure(message: $e->getMessage());
         }
-
 
         $tag = request('tag');
         $query = Car::query();
