@@ -12,7 +12,7 @@ use App\Http\Controllers\Mobile_Api\DataController;
 use App\Http\Controllers\Mobile_api\UserController;
 use App\Http\Controllers\Mobile_api\MobileFinanceController as Mobile_ApiFinanceController;
 use App\Http\Controllers\Mobile_api\GlobalController as Mobile_ApiGlobalController;
-use App\Http\Controllers\Mobile_api\RequestController;
+use App\Http\Controllers\Mobile_Api\RequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SetLocale;
@@ -63,7 +63,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
         Route::post('/add-array-favorite', 'Api\FavoriteController@storeFavArray');
 
-        Route::get('/requests_auth', 'Mobile_api\RequestController@index')->name('get-requests');
+        Route::get('/requests_auth', [RequestController::class,'index'])->name('get-requests');
 
 
         Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order');
