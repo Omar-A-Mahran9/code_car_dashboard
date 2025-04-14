@@ -235,9 +235,10 @@ class HomeController extends Controller
     try {
         try {
             // Fetch brands with car count and sort by the count (descending)
-            $brands = Brand::withCount('countCars')
-                           ->orderBy('count_cars_count', 'desc')
-                           ->get();
+            $brands = Brand::withCount('cars')
+            ->having('cars_count', '>', 0)
+            ->orderBy('cars_count', 'desc')
+            ->get();
 
             $brandsData = BrandResourse::collection($brands);
 
