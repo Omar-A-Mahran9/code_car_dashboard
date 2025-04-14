@@ -233,8 +233,21 @@ class HomeController extends Controller
     public function newhome()
 {
     try {
-        $brands = Brand::withCount('countCars')->with('models')->get();
-        $brandsData = BrandResourse::collection($brands);
+        try {
+            // Fetch brands with car count and sort by the count (descending)
+            $brands = Brand::withCount('countCars')
+                           ->orderBy('count_cars_count', 'desc')
+                           ->get();
+
+            $brandsData = BrandResourse::collection($brands);
+
+            return $this->success(data: [
+                'brands' => $brandsData
+            ]);
+        } catch (\Exception $e) {
+            return $this->failure(message: $e->getMessage());
+        }
+
 
         $tag = request('tag');
         $query = Car::query();
