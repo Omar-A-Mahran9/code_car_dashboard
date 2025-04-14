@@ -32,7 +32,7 @@ class GlobalController extends Controller
 
     public function bankData(){
         $banks =Bank::where('type','bank')->get();
-
+        $banks['image']= getImagePathFromDirectory($banks->image,'Banks');
         return $this->success(data: $banks);
 
     }
