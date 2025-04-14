@@ -91,6 +91,7 @@ class HomeController extends Controller
 
     public function allhome()
     {
+        dd('fdf');
         try {
             // Fetch brands with related models and car count
             $brands = Brand::withCount('countCars')->with('models')->get();
