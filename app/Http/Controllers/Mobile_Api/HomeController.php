@@ -256,12 +256,19 @@ class HomeController extends Controller
 
         // PAGINATED TAGS
         $tagsPaginated = Tag::paginate(2);
+
         $tagss = $tagsPaginated->getCollection()->map(function ($tag) {
+            $carsPaginated = $tag->cars()->paginate(3);
             return [
                 'id' => $tag->id,
                 'title' => $tag->name,
-                'cars' => $tag->cars,
-
+                'cars' => [
+                    'data' => CarResourse::collection($carsPaginated->items()),
+                    'current_page' => $carsPaginated->currentPage(),
+                    'last_page' => $carsPaginated->lastPage(),
+                    'per_page' => $carsPaginated->perPage(),
+                    'total' => $carsPaginated->total(),
+                ],
             ];
         });
 
