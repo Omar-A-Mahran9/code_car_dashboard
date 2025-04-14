@@ -78,6 +78,7 @@ Route::group(['middleware' => ['json.response']], function () {
     // ------------------------- Home ---------------------------------------
     Route::get('/brand', 'Api\HomeController@brand');
     Route::get('/home', 'Api\HomeController@allhome');
+    Route::get('/newhome', 'Api\HomeController@newhome');
 
     Route::get('/brands', 'Api\HomeController@brands');
     Route::get('/splash_screen', [SplashController::class, 'index']);
