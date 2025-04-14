@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Mobile_Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CarResourse;
@@ -20,8 +20,7 @@ class RequestController extends Controller
     use Calculations;
 
     public function index(){
-        dd('ffff');
-      try
+       try
         {
             $type=request()->type;
 

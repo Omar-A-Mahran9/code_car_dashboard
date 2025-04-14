@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\citiyController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\GlobalController;
-use App\Http\Controllers\Api\RequestController as ApiRequestController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SplashController;
 use App\Http\Controllers\Mobile_Api\DataController;
@@ -64,7 +63,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
         Route::post('/add-array-favorite', 'Api\FavoriteController@storeFavArray');
 
-        Route::get('/requests_auth', [ApiRequestController::class,'index'])->name('get-requests');
+        Route::get('/requests_auth', [RequestController::class,'index'])->name('get-requests');
 
 
         Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order');
