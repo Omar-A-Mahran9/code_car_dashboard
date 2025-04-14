@@ -216,10 +216,10 @@ class HomeController extends Controller
             return $this->success(data: [
                 'banners'=>SplashResourse::collection( $splash ),
                 'brands' => $brandsData,
-                'tags'=> $tagss
-                // 'modern_cars' => CarResourse::collection($modernCars),
-                // 'exclusive_cars' => CarResourse::collection($exclusiveCars),
-                // 'agencies_cars' => CarResourse::collection($agenciesCars),
+                // 'tags'=> $tagss
+                'modern_cars' => CarResourse::collection($modernCars),
+                'exclusive_cars' => CarResourse::collection($exclusiveCars),
+                'agencies_cars' => CarResourse::collection($agenciesCars),
             ]);
 
 
