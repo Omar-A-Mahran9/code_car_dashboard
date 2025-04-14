@@ -20,6 +20,7 @@ class RequestController extends Controller
     use Calculations;
 
     public function index(){
+        dd('fdf');
       try
         {
             $type=request()->type;
