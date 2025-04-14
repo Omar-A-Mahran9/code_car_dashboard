@@ -63,7 +63,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('/add-favorite-withauth', 'Api\FavoriteController@store');
         Route::post('/add-array-favorite', 'Api\FavoriteController@storeFavArray');
 
-        Route::get('/requests_auth', [RequestController::class,'index'])->name('get-requests');
+        Route::get('/requests_auth', 'Mobile_api\RequestController@index')->name('get-requests');
 
 
         Route::post('/finance-Order', [Mobile_ApiFinanceController::class, 'financeOrder'])->name('finance.order');
