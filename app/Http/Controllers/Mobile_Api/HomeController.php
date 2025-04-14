@@ -231,10 +231,9 @@ class HomeController extends Controller
     }
 
     public function newhome()
-{
-    try {
+    {
         try {
-            // Fetch brands with car count, filter out 0, sort by count descending, and paginate (5 per page)
+            // Fetch brands with car count, sort, and paginate (5 per page)
             $brands = Brand::withCount('cars')
                 ->having('cars_count', '>', 0)
                 ->orderBy('cars_count', 'desc')
@@ -242,72 +241,69 @@ class HomeController extends Controller
 
             $brandsData = BrandResourse::collection($brands);
 
+            $tag = request('tag');
+            $query = Car::query();
+
+            if ($tag) {
+                $tagModel = Tag::with('cars')->find($tag);
+                if ($tagModel) {
+                    $carIds = $tagModel->cars->pluck('id')->toArray();
+                    $query->whereIn('id', $carIds);
+                }
+            }
+
+            $orderDirection = request('order', 'desc');
+            $query->orderBy('created_at', $orderDirection);
+            $perPage = 9;
+            $carsPaginated = $query->paginate($perPage);
+            $carsData = CarResourse::collection($carsPaginated);
+
+            $splash = Splash::get();
+
+            // PAGINATED TAGS (2 per page)
+            $tagsPaginated = Tag::paginate(2);
+
+            $tagss = $tagsPaginated->map(function ($tag) {
+                $carsPaginated = $tag->cars()->paginate(3);
+                return [
+                    'id' => $tag->id,
+                    'title' => $tag->name,
+                    'cars' => [
+                        'data' => CarResourse::collection($carsPaginated),
+                        'current_page' => $carsPaginated->currentPage(),
+                        'last_page' => $carsPaginated->lastPage(),
+                        'per_page' => $carsPaginated->perPage(),
+                        'total' => $carsPaginated->total(),
+                    ],
+                ];
+            });
+
             return $this->success(data: [
-                'brands' => $brandsData,
-                'pagination' => [
+                'banners' => SplashResourse::collection($splash),
+
+                // Paginated brands data with pagination info
+                'brands' => [
+                    'data' => $brandsData,
                     'current_page' => $brands->currentPage(),
                     'last_page' => $brands->lastPage(),
                     'per_page' => $brands->perPage(),
                     'total' => $brands->total(),
-                ]
+                ],
+
+                // Paginated tags data with paginated cars inside each tag
+                'tags' => [
+                    'data' => $tagss,
+                    'current_page' => $tagsPaginated->currentPage(),
+                    'last_page' => $tagsPaginated->lastPage(),
+                    'per_page' => $tagsPaginated->perPage(),
+                    'total' => $tagsPaginated->total(),
+                ],
             ]);
+
         } catch (\Exception $e) {
             return $this->failure(message: $e->getMessage());
         }
-
-        $tag = request('tag');
-        $query = Car::query();
-
-        if ($tag) {
-            $tagModel = Tag::with('cars')->find($tag);
-            if ($tagModel) {
-                $carIds = $tagModel->cars->pluck('id')->toArray();
-                $query->whereIn('id', $carIds);
-            }
-        }
-
-        $orderDirection = request('order', 'desc');
-        $query->orderBy('created_at', $orderDirection);
-        $perPage = 9;
-        $carsPaginated = $query->paginate($perPage);
-        $carsData = CarResourse::collection($carsPaginated);
-
-        $splash = Splash::get();
-
-        // PAGINATED TAGS
-        $tagsPaginated = Tag::paginate(2);
-
-        $tagss = $tagsPaginated->getCollection()->map(function ($tag) {
-            $carsPaginated = $tag->cars()->paginate(3);
-            return [
-                'id' => $tag->id,
-                'title' => $tag->name,
-                'cars' => [
-                    'data' => CarResourse::collection($carsPaginated->items()),
-                    'current_page' => $carsPaginated->currentPage(),
-                    'last_page' => $carsPaginated->lastPage(),
-                    'per_page' => $carsPaginated->perPage(),
-                    'total' => $carsPaginated->total(),
-                ],
-            ];
-        });
-
-        return $this->success(data: [
-            'banners' => SplashResourse::collection($splash),
-            'brands' => $brandsData,
-            'tags' => [
-                'data' => $tagss,
-                'current_page' => $tagsPaginated->currentPage(),
-                'last_page' => $tagsPaginated->lastPage(),
-                'per_page' => $tagsPaginated->perPage(),
-                'total' => $tagsPaginated->total(),
-            ],
-        ]);
-
-    } catch (\Exception $e) {
-        return $this->failure(message: $e->getMessage());
     }
-}
 
 
     public function financing_bodies()
