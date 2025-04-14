@@ -30,12 +30,15 @@ class GlobalController extends Controller
 
     }
 
-    public function bankData(){
-        $banks =Bank::where('type','bank')->get();
-        $banks['image']= getImagePathFromDirectory($banks->image,'Banks');
-        return $this->success(data: $banks);
+    public function bankData() {
+        $banks = Bank::where('type', 'bank')->get()->map(function ($bank) {
+            $bank->image = getImagePathFromDirectory($bank->image, 'Banks');
+            return $bank;
+        });
 
+        return $this->success(data: $banks);
     }
+
 
     public function colorsData(){
         $color=Color::get();
