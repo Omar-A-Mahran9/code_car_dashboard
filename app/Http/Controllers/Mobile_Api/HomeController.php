@@ -260,6 +260,8 @@ class HomeController extends Controller
             return [
                 'id' => $tag->id,
                 'title' => $tag->name,
+                'cars' => $tag->cars,
+
             ];
         });
 
