@@ -281,7 +281,7 @@ class HomeController extends Controller
             $tags=Tag::get();
             return $this->success(data: [
                 'banners' => SplashResourse::collection($splash),
-                'tags'=> $tags->map(function ($tags) {
+                'tagsData'=> $tags->map(function ($tags) {
                                         return [
                                             'id' => $tags->id,
                                             'title' => $tags->name,
