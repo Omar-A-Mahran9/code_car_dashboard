@@ -260,14 +260,21 @@ class HomeController extends Controller
 
             $splash = Splash::get();
 
-            // PAGINATED TAGS (2 per page)
-            $tagsPaginated = Tag::paginate(2);
+             $tagsPaginated = Tag::paginate(2);
 
             $tagss = $tagsPaginated->map(function ($tag) {
                 $carsPaginated = $tag->cars()->paginate(3);
+                $tags=Tag::get();
+
                 return [
                     'id' => $tag->id,
                     'title' => $tag->name,
+                    'tags'=> $tags->map(function ($tags) {
+                        return [
+                            'id' => $tags->id,
+                            'title' => $tags->name,
+                        ];
+                    })->toArray(),
                     'cars' => [
                         'data' => CarResourse::collection($carsPaginated),
                         'current_page' => $carsPaginated->currentPage(),
