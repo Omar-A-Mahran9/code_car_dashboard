@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Enums\VendorStatus;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
