@@ -105,8 +105,8 @@ class CarController extends Controller
                         Rule::when($request->is_new == 1, 'gte:0', 'not_in:0'), // Allow 0 when is_new = 0
                         'gt:' . $discountPrice,
                     ],                'discount_price' => 'required_with:have_discount|nullable|numeric|not_in:0|lt:' . $price,
-                'supplier' => ['required','in:gulf,saudi'],
-                'status' => 'required',
+                    'supplier' => ['required', 'in:gulf,saudi,china,korea'],
+                    'status' => 'required',
                 'is_new' => ['required', 'string', Rule::in(['0', '1'])], // Ensures it's a string "0" or "1"
 
                 'price' => [
@@ -147,7 +147,7 @@ class CarController extends Controller
                     Rule::when(fn () => $request->is_new === '0', ['gte:0']), // Can be 0 or more when is_new = "0"
                 ],
                 'discount_price' => 'required_with:have_discount|nullable|numeric|not_in:0|lt:' . $price,
-                'supplier' => ['required','in:gulf,saudi'],
+                'supplier' => ['required', 'in:gulf,saudi,china,korea'],
                 'status' => 'required',
                  'show_in_home_page' => ['required', 'in:0,1'],
                 'kilometers' => ['required_if:is_new,0', 'numeric', 'nullable', 'min:0'],

@@ -34,7 +34,7 @@ class CreateCarsTable extends Migration
             $table->integer('fuel_tank_capacity')->default(0);
             $table->enum('gear_shifter', ['manual', 'automatic']);
             $table->enum('car_body', ['hatchback', 'sedan', 'four-wheel-drive', 'commercial', 'family']);
-            $table->enum('supplier', ['gulf', 'saudi']);
+            $table->enum('supplier', ['gulf', 'saudi', 'korea', 'china']);
             $table->tinyInteger('is_new')->default(1);
             $table->text('description_ar');
             $table->text('description_en')->nullable();

@@ -265,11 +265,17 @@ class CarController extends Controller
             'fuel_type'=>[
                 'gasoline', 'diesel', 'electric', 'hybrid'
             ],
-            'supplier'=>[
-                'gulf', 'saudi'
+            'supplier' => [
+                'gulf',
+                'saudi',
+                'china',
+                'korea'
             ],
-            'supplier_english'=>[
-                'gulf', 'saudi'
+            'supplier_english' => [
+                'gulf',
+                'saudi',
+                'china',
+                'korea'
             ],
             'tags'=> $tagss ,
             'Slider'=>[
