@@ -477,29 +477,25 @@
                                                     'value' => 'gulf',
                                                     'id' => 'supplier_gulf',
                                                     'checked' => $car['supplier'] == 'gulf',
-                                                    'disabled' => 'disabled',
-                                                ],
+                                                 ],
                                                 [
                                                     'label' => 'Saudi',
                                                     'value' => 'saudi',
                                                     'id' => 'supplier_saudi',
                                                     'checked' => $car['supplier'] == 'saudi',
-                                                    'disabled' => 'disabled',
-                                                ],
+                                                 ],
                                                 [
                                                     'label' => 'Korea',
                                                     'value' => 'korea',
                                                     'id' => 'supplier_korea',
                                                     'checked' => $car['supplier'] == 'korea',
-                                                    'disabled' => 'disabled',
-                                                ],
+                                                 ],
                                                 [
                                                     'label' => 'China',
                                                     'value' => 'china',
                                                     'id' => 'supplier_china',
                                                     'checked' => $car['supplier'] == 'china',
-                                                    'disabled' => 'disabled',
-                                                ],
+                                                 ],
                                             ]" />
 
 
