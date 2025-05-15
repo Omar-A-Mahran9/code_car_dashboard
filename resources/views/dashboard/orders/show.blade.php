@@ -819,7 +819,8 @@
                                                             {{ $order['orderDetailsCar']['bank']['name'] ?? ' ' }}</td>
                                                     </tr>
                                                 @endif
-                                                @if ($order['orderDetailsCar']['payment_type'] == 'finance')
+                                                @if (($order['orderDetailsCar']['payment_type'] ?? null) === 'finance')
+
                                                     @if ($order['orderDetailsCar']['organization_location'])
                                                         <tr>
                                                             <td class="fw-boldest">
