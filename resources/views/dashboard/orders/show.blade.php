@@ -133,8 +133,7 @@
                                 <table class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
                                     <!--begin::Table body-->
                                     <tbody class="fw-bold text-gray-600">
-                                        @if ($order['orderDetailsCar']['bank_offer_id'])
-                                            <tr>
+        @if (isset($order['orderDetailsCar']) && $order['orderDetailsCar']['bank_offer_id'])                                            <tr>
 
                                                 <td class="text-muted">
                                                     <div class="d-flex align-items-center">
