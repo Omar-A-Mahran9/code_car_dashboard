@@ -2670,7 +2670,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if ($order['orderDetailsCar']['type'] == 'organization')
+                        @if ($order['orderDetailsCar']['type'] ?? null == 'organization')
                             <div class="card-body pt-0">
                                 <div class="row justify-content-center">
                                     <div class="col-xl-12">
