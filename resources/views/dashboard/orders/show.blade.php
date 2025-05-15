@@ -133,7 +133,8 @@
                                 <table class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
                                     <!--begin::Table body-->
                                     <tbody class="fw-bold text-gray-600">
-        @if (isset($order['orderDetailsCar']) && $order['orderDetailsCar']['bank_offer_id'])                                            <tr>
+                                        @if (isset($order['orderDetailsCar']) && $order['orderDetailsCar']['bank_offer_id'])
+                                            <tr>
 
                                                 <td class="text-muted">
                                                     <div class="d-flex align-items-center">
@@ -151,7 +152,7 @@
 
                                             </tr>
                                         @endif
-        @if (isset($order['orderDetailsCar']['sector_id']) && $order['orderDetailsCar']['sector_id'])
+                                        @if (isset($order['orderDetailsCar']['sector_id']) && $order['orderDetailsCar']['sector_id'])
                                             <tr>
                                                 <td class="text-muted">
                                                     <div class="d-flex align-items-center">
@@ -238,7 +239,7 @@
 
                             </div>
 
-        @if (isset($order['orderDetailsCar']['type']) && $order['orderDetailsCar']['type'] === 'individual')
+                            @if (isset($order['orderDetailsCar']['type']) && $order['orderDetailsCar']['type'] === 'individual')
                                 <div class="ps-4">
                                     <a href="https://wa.me/{{ $order['phone'] }}?text={{ urlencode(__('السلام عليكم. موقع كود كار للسيارات يرحب بكم ويسعدنا التواصل معك بخصوص طلبك رقم ' . $order['id'] . ' لسيارة: ' . $order['car_name'] . '')) }}"
                                         target="_blank" title="Chat on WhatsApp" class="whatsapp-icon">
@@ -248,7 +249,7 @@
                                     </a>
                                 </div>
                             @else
-                                @if ($order['orderDetailsCar']['cars'])
+                        @if (isset($order['orderDetailsCar']['cars']) && $order['orderDetailsCar']['cars'])
                                     @php
                                         $carCount = 0;
                                     @endphp
