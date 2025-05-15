@@ -276,7 +276,7 @@
              alt="WhatsApp Logo"
              style="width:50px; height:50px; margin-left:23px; margin-right:23px;">
     </a>
-@endif      
+@endif
 
                             @endif
 
@@ -408,7 +408,8 @@
                 <!--begin::Orders-->
 
                 @if ($order['type'] == 'car')
-                    @if ($order['orderDetailsCar']['type'] == 'individual')
+                    @if (($order['orderDetailsCar']['type'] ?? null) === 'individual')
+
                         <div class="d-flex flex-column gap-7 gap-lg-10 mt-5">
 
                             <!--begin::Product List-->
