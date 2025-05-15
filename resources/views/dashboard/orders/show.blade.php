@@ -790,7 +790,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($organization_type->title)
+                                                @if ($organization_type->title ?? ' ')
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Type') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
