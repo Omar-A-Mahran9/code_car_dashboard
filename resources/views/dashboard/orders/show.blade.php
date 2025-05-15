@@ -151,7 +151,7 @@
 
                                             </tr>
                                         @endif
-                                        @if ($order['orderDetailsCar']['sector_id'])
+        @if (isset($order['orderDetailsCar']['sector_id']) && $order['orderDetailsCar']['sector_id'])
                                             <tr>
                                                 <td class="text-muted">
                                                     <div class="d-flex align-items-center">
