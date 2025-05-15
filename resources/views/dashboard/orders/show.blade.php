@@ -55,7 +55,7 @@
                 <!--end:::Tab item-->
                 <!--begin:::Tab item-->
                 @can('update_orders')
-@if ($order && isset($order['orderDetailsCar']) && $order['orderDetailsCar']['cars'] === null)
+                    @if ($order && isset($order['orderDetailsCar']) && $order['orderDetailsCar']['cars'] === null)
                         <li class="nav-item">
                             <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
                                 href="#kt_ecommerceـfinal_approval">{{ __('Fianl Approval') }}</a>
