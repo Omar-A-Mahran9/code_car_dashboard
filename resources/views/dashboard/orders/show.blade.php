@@ -725,7 +725,11 @@
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Price') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $order->car->getPriceAfterVatAttribute() . ' ' . currency() }}
+                                                            @if ($order->car)
+                                                                {{ $order->car->getPriceAfterVatAttribute() . ' ' . currency() }}
+                                                            @else
+                                                                {{ __('No car price available') }}
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                     @if ($order['orderDetailsCar']['car_count'])
