@@ -271,7 +271,8 @@ public function orders_not_approval(Request $request)
         $nationality = Nationality::get();
         $organizationTypes = OrganizationType::get();
         $organizationactivities = Organizationactive::get();
-        $salary             = $order['orderDetailsCar']['salary'];
+        $salary             = $order['orderDetailsCar']['salary'] ?? null;
+
 
          if (isset($order['orderDetailsCar']['bank']['min_salary'], $order['orderDetailsCar']['bank']['max_salary']) &&
             $salary >= $order['orderDetailsCar']['bank']['min_salary'] &&
