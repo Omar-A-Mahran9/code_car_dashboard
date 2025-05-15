@@ -820,7 +820,6 @@
                                                     </tr>
                                                 @endif
                                                 @if (($order['orderDetailsCar']['payment_type'] ?? null) === 'finance')
-
                                                     @if ($order['orderDetailsCar']['organization_location'])
                                                         <tr>
                                                             <td class="fw-boldest">
@@ -986,7 +985,7 @@
 
                                             </tr>
                                         @endif
-                                        @if ($order['orderDetailsCar']['sector_id'])
+                                        @if ($order['orderDetailsCar']['sector_id'] ?? null)
                                             <tr>
                                                 <td class="text-muted">
                                                     <div class="d-flex align-items-center">
