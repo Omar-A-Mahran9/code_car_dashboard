@@ -249,7 +249,7 @@
                                     </a>
                                 </div>
                             @else
-                        @if (isset($order['orderDetailsCar']['cars']) && $order['orderDetailsCar']['cars'])
+                                @if (isset($order['orderDetailsCar']['cars']) && $order['orderDetailsCar']['cars'])
                                     @php
                                         $carCount = 0;
                                     @endphp
@@ -269,14 +269,14 @@
                                                 style="width:50px; height: 50px; margin-left: 23px; margin-right: 23px;">
                                         </a>
                                     </div>
-                              @else
-    <a href="https://wa.me/{{ $order['phone'] }}?text={{ urlencode(__('السلام عليكم. موقع كود كار للسيارات يرحب بكم ويسعدنا التواصل معك بخصوص طلبك رقم ') . $order['id']) }}"
-       target="_blank" title="Chat on WhatsApp" class="whatsapp-icon">
-        <img src="{{ asset('dashboard-assets/media/svg/social-logos/whatsapp.svg') }}"
-             alt="WhatsApp Logo"
-             style="width:50px; height:50px; margin-left:23px; margin-right:23px;">
-    </a>
-@endif
+                                @else
+                                    <a href="https://wa.me/{{ $order['phone'] }}?text={{ urlencode(__('السلام عليكم. موقع كود كار للسيارات يرحب بكم ويسعدنا التواصل معك بخصوص طلبك رقم ') . $order['id']) }}"
+                                        target="_blank" title="Chat on WhatsApp" class="whatsapp-icon">
+                                        <img src="{{ asset('dashboard-assets/media/svg/social-logos/whatsapp.svg') }}"
+                                            alt="WhatsApp Logo"
+                                            style="width:50px; height:50px; margin-left:23px; margin-right:23px;">
+                                    </a>
+                                @endif
 
                             @endif
 
@@ -655,7 +655,7 @@
                                     </div>
                                     <div class="card-title">
                                         <h2>{{ __('Order Type') . ' : ' }}
-                                        {{ __(ucfirst($order['orderDetailsCar']['type'] ?? '')) . ' ' }}
+                                            {{ __(ucfirst($order['orderDetailsCar']['type'] ?? '')) . ' ' }}
                                     </div>
                                 </div>
                                 <!--end::Card header-->
@@ -668,7 +668,7 @@
                                             <!--begin::Table body-->
                                             <tbody class="fw-bold text-gray-600">
                                                 <!--begin::Cars-->
-                                            @if (!empty($order['orderDetailsCar']['cars']))
+                                                @if (!empty($order['orderDetailsCar']['cars']))
                                                     <!--begin::Table head-->
                                                     <thead>
                                                         <tr
@@ -721,7 +721,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                        @if (empty($order['orderDetailsCar']['cars']))
+                                                @if (empty($order['orderDetailsCar']['cars']))
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Price') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
@@ -732,7 +732,7 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                    @if (!empty($order['orderDetailsCar']['car_count']))
+                                                    @if (!empty($order['orderDetailsCar']['car_count']))
                                                         <tr>
                                                             <td class="fw-boldest">{{ __('Total Price') }}</td>
                                                             <td class="text-end fw-boldest" colspan="4">
@@ -763,16 +763,16 @@
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Organization Name') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                        {{ $order['orderDetailsCar']['organization_name'] }}</td>
+                                                        {{ $order['orderDetailsCar']['organization_name']??null }}</td>
                                                 </tr>
-                                                @if ($order['orderDetailsCar']['organization_email']??null)
+                                                @if ($order['orderDetailsCar']['organization_email'] ?? null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Email') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
                                                             {{ $order['orderDetailsCar']['organization_email'] }}</td>
                                                     </tr>
                                                 @endif
-                                                @if ($order['orderDetailsCar']['commercial_registration_no'])
+                                                @if ($order['orderDetailsCar']['commercial_registration_no']??)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('commercial registration no') }}
                                                         </td>
