@@ -1330,10 +1330,9 @@
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
-@if (
-    ($order['orderDetailsCar']['type'] ?? null) === 'individual' &&
-    ($order['orderDetailsCar']['payment_type'] ?? null) === 'finance'
-)
+                        @if (
+                            ($order['orderDetailsCar']['type'] ?? null) === 'individual' &&
+                                ($order['orderDetailsCar']['payment_type'] ?? null) === 'finance')
                             <div class="card-body pt-0">
                                 <div class="row justify-content-center">
                                     <div class="col-xl-12">
@@ -2151,11 +2150,9 @@
                                 </div>
                             </div>
                         @endif
-@if (
-    isset($order['orderDetailsCar']['type'], $order['orderDetailsCar']['payment_type']) &&
-    $order['orderDetailsCar']['type'] === 'individual' &&
-    $order['orderDetailsCar']['payment_type'] === 'cash'
-)
+                        @if (isset($order['orderDetailsCar']['type'], $order['orderDetailsCar']['payment_type']) &&
+                                $order['orderDetailsCar']['type'] === 'individual' &&
+                                $order['orderDetailsCar']['payment_type'] === 'cash')
                             <div class="card-body pt-0">
                                 <div class="row justify-content-center">
                                     <div class="col-xl-12">
