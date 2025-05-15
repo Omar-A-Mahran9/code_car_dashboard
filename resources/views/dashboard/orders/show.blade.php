@@ -732,7 +732,7 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                    @if ($order['orderDetailsCar']['car_count'])
+                                    @if (!empty($order['orderDetailsCar']['car_count']))
                                                         <tr>
                                                             <td class="fw-boldest">{{ __('Total Price') }}</td>
                                                             <td class="text-end fw-boldest" colspan="4">
