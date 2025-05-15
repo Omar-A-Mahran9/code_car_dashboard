@@ -668,7 +668,7 @@
                                             <!--begin::Table body-->
                                             <tbody class="fw-bold text-gray-600">
                                                 <!--begin::Cars-->
-                                                @if ($order['orderDetailsCar']['cars'])
+                                            @if (!empty($order['orderDetailsCar']['cars']))
                                                     <!--begin::Table head-->
                                                     <thead>
                                                         <tr
