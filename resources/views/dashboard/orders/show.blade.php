@@ -752,7 +752,7 @@
                                                         @endif
                                                     </td>
                                                 </tr>
-                                                @if ($order['orderDetailsCar']['payment_type'] == 'cash')
+                                                @if (($order['orderDetailsCar']['payment_type'] ?? null) === 'cash')
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Payment Type') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
@@ -765,7 +765,7 @@
                                                     <td class="text-end fw-boldest" colspan="4">
                                                         {{ $order['orderDetailsCar']['organization_name'] }}</td>
                                                 </tr>
-                                                @if ($order['orderDetailsCar']['organization_email'])
+                                                @if ($order['orderDetailsCar']['organization_email']??)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Email') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
