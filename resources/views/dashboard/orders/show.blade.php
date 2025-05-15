@@ -794,7 +794,7 @@
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Type') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $organization_type->title }}
+                                                            {{ $organization_type->title ?? " " }}
                                                         </td>
                                                     </tr>
                                                 @endif
