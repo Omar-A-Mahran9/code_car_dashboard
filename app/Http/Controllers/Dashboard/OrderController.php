@@ -256,7 +256,7 @@ public function orders_not_approval(Request $request)
         $offerSelected = BankOffer::with(['sectors' => function($query) use ($order) {
             $query->where('id', $order['orderDetailsCar']['sector_id']);
         }])
-        ->where('id', $order['orderDetailsCar']['bank_offer_id'])
+        ->where('id', $order['orderDetailsCar']['bank_offer_id'] ?? null)
         ->first();
 
 
