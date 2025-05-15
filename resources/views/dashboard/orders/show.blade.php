@@ -801,14 +801,14 @@
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Organization Age') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                        {{ $order['orderDetailsCar']['organization_age'] . ' ' . __('Years') }}
+                                                        {{ $order['orderDetailsCar']['organization_age']?? ' ' . ' ' . __('Years') }}
                                                     </td>
                                                 </tr>
                                                 @if ($order['orderDetailsCar']['car_count'])
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Cars Count') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $order['orderDetailsCar']['car_count'] . ' ' . __('Cars') }}
+                                                            {{ $order['orderDetailsCar']['car_count']?? ' ' . ' ' . __('Cars') }}
                                                         </td>
                                                     </tr>
                                                 @endif
