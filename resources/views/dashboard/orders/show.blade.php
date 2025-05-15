@@ -238,7 +238,7 @@
 
                             </div>
 
-                            @if ($order['orderDetailsCar']['type'] == 'individual')
+        @if (isset($order['orderDetailsCar']['type']) && $order['orderDetailsCar']['type'] === 'individual')
                                 <div class="ps-4">
                                     <a href="https://wa.me/{{ $order['phone'] }}?text={{ urlencode(__('السلام عليكم. موقع كود كار للسيارات يرحب بكم ويسعدنا التواصل معك بخصوص طلبك رقم ' . $order['id'] . ' لسيارة: ' . $order['car_name'] . '')) }}"
                                         target="_blank" title="Chat on WhatsApp" class="whatsapp-icon">
