@@ -296,7 +296,7 @@ public function orders_not_approval(Request $request)
             $precentage_approve = 0;
         }
 
-        $commitment         = $order['orderDetailsCar']['commitments'];
+        $commitment         = $order['orderDetailsCar']['commitments']??null;
         if ($commitment > $salary)
         {
             $approve_amount = 0;
