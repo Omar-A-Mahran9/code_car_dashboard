@@ -794,21 +794,21 @@
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Type') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $organization_type->title ?? " " }}
+                                                            {{ $organization_type->title ?? ' ' }}
                                                         </td>
                                                     </tr>
                                                 @endif
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Organization Age') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                        {{ $order['orderDetailsCar']['organization_age']?? ' ' . ' ' . __('Years') }}
+                                                        {{ $order['orderDetailsCar']['organization_age'] ?? ' ' . ' ' . __('Years') }}
                                                     </td>
                                                 </tr>
                                                 @if ($order['orderDetailsCar']['car_count'])
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Cars Count') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $order['orderDetailsCar']['car_count']?? ' ' . ' ' . __('Cars') }}
+                                                            {{ $order['orderDetailsCar']['car_count'] ?? ' ' . ' ' . __('Cars') }}
                                                         </td>
                                                     </tr>
                                                 @endif
@@ -816,7 +816,7 @@
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Bank') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
-                                                            {{ $order['orderDetailsCar']['bank']['name'] }}</td>
+                                                            {{ $order['orderDetailsCar']['bank']['name'] ?? ' ' }}</td>
                                                     </tr>
                                                 @endif
                                                 @if ($order['orderDetailsCar']['payment_type'] == 'finance')
