@@ -1274,7 +1274,7 @@ class MobileFinanceController extends Controller
               'car_details' => $request->car_details,
               'more_details' => $request->more_details,
               'city_id' => $request->city_id,
-
+              'status_id'=>1,
               'type' => 'car',
           ];
 
