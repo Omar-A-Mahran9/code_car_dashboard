@@ -1330,7 +1330,10 @@
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
-                        @if ($order['orderDetailsCar']['type'] == 'individual' && $order['orderDetailsCar']['payment_type'] == 'finance')
+@if (
+    ($order['orderDetailsCar']['type'] ?? null) === 'individual' &&
+    ($order['orderDetailsCar']['payment_type'] ?? null) === 'finance'
+)
                             <div class="card-body pt-0">
                                 <div class="row justify-content-center">
                                     <div class="col-xl-12">
