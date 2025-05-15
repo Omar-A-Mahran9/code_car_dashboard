@@ -269,14 +269,15 @@
                                                 style="width:50px; height: 50px; margin-left: 23px; margin-right: 23px;">
                                         </a>
                                     </div>
-                                @else
-                                    <a href="https://wa.me/{{ $order['phone'] }}?text={{ urlencode(__('السلام عليكم. موقع كود كار للسيارات يرحب بكم ويسعدنا التواصل معك بخصوص طلبك رقم ' . $order['id'] . ' لسيارة: ' . ' ' . $order['car_name'] . ' ' . 'عدد' . ' ' . $order['orderDetailsCar']['car_count'])) }}"
-                                        target="_blank" title="Chat on WhatsApp" class="whatsapp-icon">
-                                        <img src="{{ asset('dashboard-assets/media/svg/social-logos/whatsapp.svg') }}"
-                                            alt="WhatsApp Logo"
-                                            style="width:50px; height: 50px; margin-left: 23px; margin-right: 23px;">
-                                    </a>
-                                @endif
+                              @else
+    <a href="https://wa.me/{{ $order['phone'] }}?text={{ urlencode('السلام عليكم. موقع كود كار للسيارات يرحب بكم ويسعدنا التواصل معك بخصوص طلبك رقم ' . $order['id']) }}"
+       target="_blank" title="Chat on WhatsApp" class="whatsapp-icon">
+        <img src="{{ asset('dashboard-assets/media/svg/social-logos/whatsapp.svg') }}"
+             alt="WhatsApp Logo"
+             style="width:50px; height:50px; margin-left:23px; margin-right:23px;">
+    </a>
+@endif
+
                             @endif
 
 
