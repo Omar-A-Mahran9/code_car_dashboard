@@ -804,7 +804,7 @@
                                                         {{ $order['orderDetailsCar']['organization_age'] ?? ' ' . ' ' . __('Years') }}
                                                     </td>
                                                 </tr>
-                                                @if ($order['orderDetailsCar']['car_count'])
+                                                @if ($order['orderDetailsCar']['car_count'] ?? null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Cars Count') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
@@ -812,7 +812,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($order['orderDetailsCar']['bank'])
+                                                @if ($order['orderDetailsCar']['bank'] ?? null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Bank') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
