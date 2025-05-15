@@ -1072,7 +1072,7 @@
 
                             </div>
 
-                    @if (($order['orderDetailsCar']['type'] ?? null) === 'individual')
+                            @if (($order['orderDetailsCar']['type'] ?? null) === 'individual')
                                 <div class="ps-4">
                                     <a href="https://wa.me/{{ $order['phone'] }}?text={{ urlencode(__('السلام عليكم. موقع كود كار للسيارات يرحب بكم ويسعدنا التواصل معك بخصوص طلبك رقم ' . $order['id'] . ' لسيارة: ' . $order['car_name'] . '')) }}"
                                         target="_blank" title="Chat on WhatsApp" class="whatsapp-icon">
@@ -1082,7 +1082,7 @@
                                     </a>
                                 </div>
                             @else
-                                @if ($order['orderDetailsCar']['cars'])
+                                @if ($order['orderDetailsCar']['cars'] ?? null)
                                     @php
                                         $carCount = 0;
                                     @endphp
