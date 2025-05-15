@@ -765,7 +765,7 @@
                                                     <td class="text-end fw-boldest" colspan="4">
                                                         {{ $order['orderDetailsCar']['organization_name'] }}</td>
                                                 </tr>
-                                                @if ($order['orderDetailsCar']['organization_email']??)
+                                                @if ($order['orderDetailsCar']['organization_email']??null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Email') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
