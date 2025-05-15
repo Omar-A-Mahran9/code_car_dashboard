@@ -655,7 +655,7 @@
                                     </div>
                                     <div class="card-title">
                                         <h2>{{ __('Order Type') . ' : ' }}
-                                            {{ __(ucfirst($order['orderDetailsCar']['type'])) . ' ' }} </h2>
+                                        {{ __(ucfirst($order['orderDetailsCar']['type'] ?? '')) . ' ' }}
                                     </div>
                                 </div>
                                 <!--end::Card header-->
