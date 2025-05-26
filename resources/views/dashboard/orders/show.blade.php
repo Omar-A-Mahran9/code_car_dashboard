@@ -694,7 +694,7 @@
                                                             </tr>
                                                         @endif <!--end::Cars-->
                                                     @endforeach
-                                                @elseif ($order->car)
+                                                 @elseif ($order->car)
                                                     <tr>
                                                         <td class="text-start fw-boldest" colspan="4">
                                                             {{ __('Car') }}
@@ -725,7 +725,6 @@
                                                     </tr>
                                                 @endif
                                                 @if (empty($order['orderDetailsCar']['cars']))
-                                                @if($order->car)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Price') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
@@ -807,7 +806,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if (optional($order['orderDetailsCar'])->organization_age)
+        @if (optional($order['orderDetailsCar'])->organization_age)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Age') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
