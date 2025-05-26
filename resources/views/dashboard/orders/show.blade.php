@@ -765,11 +765,14 @@
                                                         </td>
                                                     </tr>
                                                 @endif
+                                                                                                @if ($order['orderDetailsCar']['organization_name'] ?? null)
+
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Organization Name') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
                                                         {{ $order['orderDetailsCar']['organization_name'] ?? null }}</td>
                                                 </tr>
+                                                     @endif
                                                 @if ($order['orderDetailsCar']['organization_email'] ?? null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Email') }}</td>
