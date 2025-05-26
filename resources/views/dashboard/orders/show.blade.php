@@ -736,7 +736,6 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                    @en
                                                     @if (!empty($order['orderDetailsCar']['car_count']))
                                                         <tr>
                                                             <td class="fw-boldest">{{ __('Total Price') }}</td>
