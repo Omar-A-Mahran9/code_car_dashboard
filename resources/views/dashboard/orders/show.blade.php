@@ -726,12 +726,12 @@
                                                 @endif
                                                 @if ($order->car_details)
                                                     <tr>
-                                                        <td class="fw-boldest">{{ __('Price') }}</td>
+                                                        <td class="fw-boldest">{{ __('car details') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
                                                             @if ($order->car)
                                                                 {{ $order->car_details }}
                                                             @else
-                                                                {{ __('Not f') }}
+                                                                {{ __('Not Available') }}
                                                             @endif
                                                         </td>
                                                     </tr>
