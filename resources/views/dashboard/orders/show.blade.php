@@ -467,11 +467,14 @@
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Order Type') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                        @if (optional($order['orderDetailsCar'])->payment_type === 'cash')
-                                                            {{ __('Cash Order') }}
-                                                        @else
-                                                            {{ __('Finance Calculator') }}
-                                                        @endif
+                                                 @if (optional($order['orderDetailsCar'])->payment_type === 'cash')
+                                                        {{ __('Cash Order') }}
+                                                    @elseif (optional($order['orderDetailsCar'])->payment_type === 'finance')
+                                                        {{ __('Finance Calculator') }}
+                                                    @else
+                                                        {{ __('Order not found car') }}
+                                                    @endif
+
                                                     </td>
                                                 </tr>
                                                 @if ($order['orderDetailsCar']['payment_type'] == 'cash')
@@ -745,11 +748,13 @@
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Order Type') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                        @if (optional($order['orderDetailsCar'])->payment_type === 'cash')
-                                                            {{ __('Cash Order') }}
-                                                        @else
-                                                            {{ __('Finance Calculator') }}
-                                                        @endif
+                                                 @if (optional($order['orderDetailsCar'])->payment_type === 'cash')
+                                                        {{ __('Cash Order') }}
+                                                    @elseif (optional($order['orderDetailsCar'])->payment_type === 'finance')
+                                                        {{ __('Finance Calculator') }}
+                                                    @else
+                                                        {{ __('Order not found car') }}
+                                                    @endif
                                                     </td>
                                                 </tr>
                                                 @if (($order['orderDetailsCar']['payment_type'] ?? null) === 'cash')

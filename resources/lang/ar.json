@@ -322,7 +322,7 @@
   "Car condition": "حالة السيارة",
   "Yes": "نـعـم",
   "No": "لا",
-"gulf": "خـليجي",
+  "gulf": "خـليجي",
   "Gulf": "خـليجي",
   "saudi": "سـعودي",
   "Saudi": "سـعودي",
@@ -674,6 +674,7 @@
   "finance calculator": "حاسبة تمويلية",
   "Finance Calculator": "حاسبة تمويلية",
   "Cash Order": "طلب شراء",
+  "Order not found car": "طلب سيارة غير متوفرة",
 
   "cash": "كاش",
   "Work": "العمل",
