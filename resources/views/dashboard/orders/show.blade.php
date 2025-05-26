@@ -798,7 +798,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($organization_type)
+                                                @if ($organization_type != null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Type') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
@@ -806,7 +806,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($order['orderDetailsCar']['organization_age'])
+@if (optional($order['orderDetailsCar'])->organization_age)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Age') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
