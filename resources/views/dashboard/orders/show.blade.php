@@ -467,13 +467,13 @@
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Order Type') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                 @if (optional($order['orderDetailsCar'])->payment_type === 'cash')
-                                                        {{ __('Cash Order') }}
-                                                    @elseif (optional($order['orderDetailsCar'])->payment_type === 'finance')
-                                                        {{ __('Finance Calculator') }}
-                                                    @else
-                                                        {{ __('Order not found car') }}
-                                                    @endif
+                                                        @if (optional($order['orderDetailsCar'])->payment_type === 'cash')
+                                                            {{ __('Cash Order') }}
+                                                        @elseif (optional($order['orderDetailsCar'])->payment_type === 'finance')
+                                                            {{ __('Finance Calculator') }}
+                                                        @else
+                                                            {{ __('Order not found car') }}
+                                                        @endif
 
                                                     </td>
                                                 </tr>
@@ -748,13 +748,13 @@
                                                 <tr>
                                                     <td class="fw-boldest">{{ __('Order Type') }}</td>
                                                     <td class="text-end fw-boldest" colspan="4">
-                                                 @if (optional($order['orderDetailsCar'])->payment_type === 'cash')
-                                                        {{ __('Cash Order') }}
-                                                    @elseif (optional($order['orderDetailsCar'])->payment_type === 'finance')
-                                                        {{ __('Finance Calculator') }}
-                                                    @else
-                                                        {{ __('Order not found car') }}
-                                                    @endif
+                                                        @if (optional($order['orderDetailsCar'])->payment_type === 'cash')
+                                                            {{ __('Cash Order') }}
+                                                        @elseif (optional($order['orderDetailsCar'])->payment_type === 'finance')
+                                                            {{ __('Finance Calculator') }}
+                                                        @else
+                                                            {{ __('Order not found car') }}
+                                                        @endif
                                                     </td>
                                                 </tr>
                                                 @if (($order['orderDetailsCar']['payment_type'] ?? null) === 'cash')
@@ -765,14 +765,14 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                                                                @if ($order['orderDetailsCar']['organization_name'] ?? null)
-
-                                                <tr>
-                                                    <td class="fw-boldest">{{ __('Organization Name') }}</td>
-                                                    <td class="text-end fw-boldest" colspan="4">
-                                                        {{ $order['orderDetailsCar']['organization_name'] ?? null }}</td>
-                                                </tr>
-                                                     @endif
+                                                @if ($order['orderDetailsCar']['organization_name'] ?? null)
+                                                    <tr>
+                                                        <td class="fw-boldest">{{ __('Organization Name') }}</td>
+                                                        <td class="text-end fw-boldest" colspan="4">
+                                                            {{ $order['orderDetailsCar']['organization_name'] ?? null }}
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                                 @if ($order['orderDetailsCar']['organization_email'] ?? null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Email') }}</td>
@@ -789,7 +789,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($organization_activity)
+                                                @if ($organization_activity != null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Activity') }}
                                                         </td>
@@ -798,7 +798,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($organization_type->title ?? ' ')
+                                                @if ($organization_type)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Type') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
@@ -806,12 +806,15 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                <tr>
-                                                    <td class="fw-boldest">{{ __('Organization Age') }}</td>
-                                                    <td class="text-end fw-boldest" colspan="4">
-                                                        {{ $order['orderDetailsCar']['organization_age'] ?? ' ' . ' ' . __('Years') }}
-                                                    </td>
-                                                </tr>
+                                                @if ($order['orderDetailsCar']['organization_age'])
+                                                    <tr>
+                                                        <td class="fw-boldest">{{ __('Organization Age') }}</td>
+                                                        <td class="text-end fw-boldest" colspan="4">
+                                                            {{ $order['orderDetailsCar']['organization_age'] ?? ' ' . ' ' . __('Years') }}
+                                                        </td>
+                                                    </tr>
+                                                @endif
+
                                                 @if ($order['orderDetailsCar']['car_count'] ?? null)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Cars Count') }}</td>
