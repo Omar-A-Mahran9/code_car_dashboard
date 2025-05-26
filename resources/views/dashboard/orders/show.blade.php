@@ -727,7 +727,7 @@
                                                 @if ($order->car_details)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('car details') }}</td>
-                                                        <td class="text-end fw-boldest" colspan="4">
+                                                        <td class="text-end fw-boldest">
                                                             @if ($order->car)
                                                                 {{ $order->car_details }}
                                                             @else
