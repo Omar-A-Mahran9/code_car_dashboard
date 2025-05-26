@@ -730,7 +730,28 @@
                                                         <td class="text-end fw-boldest">
 
                                                                 {{ $order->car_details }}
-                                                          
+
+                                                        </td>
+                                                    </tr>
+                                                @endif
+
+                                                @if ($order->car_details)
+                                                    <tr>
+                                                        <td class="fw-boldest">{{ __('car details') }}</td>
+                                                        <td class="text-end fw-boldest">
+
+                                                                {{ $order->car_details }}
+
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($order->more_details)
+                                                    <tr>
+                                                        <td class="fw-boldest">{{ __('more details') }}</td>
+                                                        <td class="text-end fw-boldest">
+
+                                                                {{ $order->more_details }}
+
                                                         </td>
                                                     </tr>
                                                 @endif
