@@ -724,6 +724,18 @@
                                                         </td>
                                                     </tr>
                                                 @endif
+                                                @if ($order->car_details)
+                                                    <tr>
+                                                        <td class="fw-boldest">{{ __('Price') }}</td>
+                                                        <td class="text-end fw-boldest" colspan="4">
+                                                            @if ($order->car)
+                                                                {{ $order->car_details }}
+                                                            @else
+                                                                {{ __('Not f') }}
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                                 @if (empty($order['orderDetailsCar']['cars']))
                                                     @if ($order->car)
                                                         <tr>
