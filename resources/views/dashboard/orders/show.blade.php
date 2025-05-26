@@ -694,7 +694,7 @@
                                                             </tr>
                                                         @endif <!--end::Cars-->
                                                     @endforeach
-                                                 @elseif ($order->car)
+                                                @elseif ($order->car)
                                                     <tr>
                                                         <td class="text-start fw-boldest" colspan="4">
                                                             {{ __('Car') }}
@@ -725,16 +725,18 @@
                                                     </tr>
                                                 @endif
                                                 @if (empty($order['orderDetailsCar']['cars']))
-                                                    <tr>
-                                                        <td class="fw-boldest">{{ __('Price') }}</td>
-                                                        <td class="text-end fw-boldest" colspan="4">
-                                                            @if ($order->car)
-                                                                {{ $order->car->getPriceAfterVatAttribute() . ' ' . currency() }}
-                                                            @else
-                                                                {{ __('No car price available') }}
-                                                            @endif
-                                                        </td>
-                                                    </tr>
+                                                    @if ($order->car)
+                                                        <tr>
+                                                            <td class="fw-boldest">{{ __('Price') }}</td>
+                                                            <td class="text-end fw-boldest" colspan="4">
+                                                                @if ($order->car)
+                                                                    {{ $order->car->getPriceAfterVatAttribute() . ' ' . currency() }}
+                                                                @else
+                                                                    {{ __('No car price available') }}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                     @if (!empty($order['orderDetailsCar']['car_count']))
                                                         <tr>
                                                             <td class="fw-boldest">{{ __('Total Price') }}</td>
@@ -806,7 +808,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-        @if (optional($order['orderDetailsCar'])->organization_age)
+                                                @if (optional($order['orderDetailsCar'])->organization_age)
                                                     <tr>
                                                         <td class="fw-boldest">{{ __('Organization Age') }}</td>
                                                         <td class="text-end fw-boldest" colspan="4">
