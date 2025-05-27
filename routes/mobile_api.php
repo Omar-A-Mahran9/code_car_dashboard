@@ -31,6 +31,8 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
+        Route::get('/finance_data', 'Api\HomeController@finance_data');
+
     Route::post('/register', 'Api\Auth\AuthController@register');
     Route::post('/login', 'Api\Auth\AuthController@login');
     Route::post('/send-otp', 'Api\Auth\ForgetPasswordController@sendOtp');
