@@ -18,16 +18,16 @@ use Storage;
 
 class HomeController extends Controller
 {
-public function finance_data()
-{
-    return $this->success([
-        'data' => [
-            'first_patch' => settings()->getSettings('first_patch'),
-            'last_patch' => settings()->getSettings('last_patch'),
-            'installments' => settings()->getSettings('installments'),
-        ]
-    ]);
-}
+    public function finance_data()
+    {
+        return $this->success([
+            'data' => [
+                'first_patch' => settings()->getSettings('first_patch'),
+                'last_patch' => settings()->getSettings('last_patch'),
+                'installments' => settings()->getSettings('installments'),
+            ]
+        ]);
+    }
 
 
     public function brand()
