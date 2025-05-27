@@ -27,10 +27,9 @@ class StoreSettingRequest extends FormRequest
     {
         return [
             'website_name_ar' => ['required_if:setting_type,general', 'nullable', 'string', 'max:255'],
-            'first_patch' => ['required_if:setting_type,general', 'nullable', 'numeric' ],
-            'last_patch' => ['required_if:setting_type,general', 'nullable', 'numeric' ],
-            'installments' => ['required_if:setting_type,general', 'nullable', 'numeric' ],
-
+       'first_patch' => ['required_if:setting_type,general', 'numeric', 'between:0,100'],
+        'last_patch' => ['required_if:setting_type,general', 'numeric', 'between:0,100'],
+        'installments' => ['required_if:setting_type,general', 'numeric'],
             'website_name_en' => ['required_if:setting_type,general', 'nullable', 'string', 'max:255'],
             // 'logo'                                             => ['required_if:setting_type,general', 'nullable', 'mimes:webp', 'max:2048'],
             // 'favicon'                                          => ['required_if:setting_type,general', 'nullable', 'mimes:webp', 'max:2048'],

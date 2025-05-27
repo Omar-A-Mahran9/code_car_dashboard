@@ -151,7 +151,7 @@
                 <div class="row mb-5">
                     <!-- First Patch -->
                     <div class="col-md-4">
-                        <label class="form-label">{{ __('First Patch') }}</label>
+                        <label class="form-label">{{ __('First Patch') }}%</label>
                         <input type="text" class="form-control" name="first_patch"
                             value="{{ settings()->getSettings('first_patch') ?? '' }}" id="first_patch_inp"
                             placeholder="{{ __('Enter the first patch') }}">
@@ -160,7 +160,7 @@
 
                     <!-- Last Patch -->
                     <div class="col-md-4">
-                        <label class="form-label">{{ __('Last Patch') }}</label>
+                        <label class="form-label">{{ __('Last Patch') }}%</label>
                         <input type="text" class="form-control" name="last_patch"
                             value="{{ settings()->getSettings('last_patch') ?? '' }}" id="last_patch_inp"
                             placeholder="{{ __('Enter the last patch') }}">
