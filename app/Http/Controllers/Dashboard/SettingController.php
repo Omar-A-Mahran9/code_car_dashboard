@@ -30,18 +30,18 @@ class SettingController extends Controller
             // Use a regular expression to extract the video ID from the YouTube URL
             $pattern = '/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
              // Check if the URL matches the pattern
-           
+
                 // Return the full YouTube URL
                 return 'https://www.youtube.com/watch?v=' .$videoId;
-            
+
 
             // Return null if no match is found
-       
+
             }
 
     public function store(StoreSettingRequest $request)
     {
-           $this->authorize('create_settings');
+            $this->authorize('create_settings');
         $data = $request->validated();
         $data['phone']    = convertArabicNumbers($request['phone']);
         $data['whatsapp'] = convertArabicNumbers($request['whatsapp']);
@@ -73,7 +73,7 @@ class SettingController extends Controller
         }
           foreach ($data['orders_statuses'] as $order)
         {
-            
+
          $orderitem=SettingOrderStatus::find($order['id']);
          if($orderitem){
              $orderitem->update($order);
@@ -94,13 +94,13 @@ class SettingController extends Controller
     {
         // Use a regular expression to extract the video ID from the YouTube URL
         $pattern = '/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
-        
+
         // Check if the URL matches the pattern
         if (preg_match($pattern, $url, $matches)) {
             // Return the extracted video ID
             return $matches[1];
         }
-    
+
         // Return null if no match is found
         return null;
     }

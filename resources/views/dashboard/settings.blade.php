@@ -108,7 +108,7 @@
             <!-- Begin :: Card body -->
             <div class="card-body">
                 <!-- Begin :: Input group -->
-                <div class="fv-row row mb-15">
+                <div class=" row  mb-5">
 
                     <!-- Begin :: Col -->
                     <div class="col-md-4">
@@ -146,6 +146,38 @@
                     </div>
 
                 </div>
+
+                <!-- Begin :: Col -->
+                <div class="row mb-5">
+                    <!-- First Patch -->
+                    <div class="col-md-4">
+                        <label class="form-label">{{ __('First Patch') }}</label>
+                        <input type="text" class="form-control" name="first_patch"
+                            value="{{ settings()->getSettings('first_patch') ?? '' }}" id="first_patch_inp"
+                            placeholder="{{ __('Enter the first patch') }}">
+                        <p class="invalid-feedback" id="first_patch"></p>
+                    </div>
+
+                    <!-- Last Patch -->
+                    <div class="col-md-4">
+                        <label class="form-label">{{ __('Last Patch') }}</label>
+                        <input type="text" class="form-control" name="last_patch"
+                            value="{{ settings()->getSettings('last_patch') ?? '' }}" id="last_patch_inp"
+                            placeholder="{{ __('Enter the last patch') }}">
+                        <p class="invalid-feedback" id="last_patch"></p>
+                    </div>
+
+                    <!-- Installments -->
+                    <div class="col-md-4">
+                        <label class="form-label">{{ __('Installments') }}</label>
+                        <input type="text" class="form-control" name="installments"
+                            value="{{ settings()->getSettings('installments') ?? '' }}" id="installments_inp"
+                            placeholder="{{ __('Enter the number of installments') }}">
+                        <p class="invalid-feedback" id="installments"></p>
+                    </div>
+
+                </div>
+                <!-- End   :: Col -->
                 <!-- End   :: Input group -->
                 <div class="fv-row row mb-15">
 
@@ -1649,7 +1681,8 @@
                     <div class="col-md-6">
 
                         <label class="form-label">{{ __('Why CodeCar card 1 in arabic') }}</label>
-                        <textarea class="form-control form-control form-control" name="why_code_car_cars_card_1_ar" data-kt-autosize="true">{!! settings()->getSettings('why_code_car_cars_card_1_ar') ?? '' !!}</textarea>
+                        <textarea class="form-control form-control form-control" name="why_code_car_cars_card_1_ar"
+                            data-kt-autosize="true">{!! settings()->getSettings('why_code_car_cars_card_1_ar') ?? '' !!}</textarea>
                         <p class="text-danger error-element" id="why_code_car_cars_card_1_ar"></p>
 
                     </div>
@@ -1808,7 +1841,7 @@
                 <!--</div>-->
                 <!-- End   :: Input group --
 
-                                                                                                                                                                                                                                                                                                             Begin   :: Input group -->
+                                                                                                                                                                                                                                                                                                                         Begin   :: Input group -->
                 <div class="fv-row row mb-15">
 
                     <!-- Begin :: Col -->
