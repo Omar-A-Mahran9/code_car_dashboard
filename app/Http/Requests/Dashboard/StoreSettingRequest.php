@@ -29,7 +29,7 @@ class StoreSettingRequest extends FormRequest
             'website_name_ar' => ['required_if:setting_type,general', 'nullable', 'string', 'max:255'],
        'first_patch' => ['required_if:setting_type,general', 'numeric', 'between:0,100'],
         'last_patch' => ['required_if:setting_type,general', 'numeric', 'between:0,100'],
-        'installments' => ['required_if:setting_type,general', 'numeric'],
+        'installments' => ['required_if:setting_type,general', 'numeric', 'between:0,5'],
             'website_name_en' => ['required_if:setting_type,general', 'nullable', 'string', 'max:255'],
             // 'logo'                                             => ['required_if:setting_type,general', 'nullable', 'mimes:webp', 'max:2048'],
             // 'favicon'                                          => ['required_if:setting_type,general', 'nullable', 'mimes:webp', 'max:2048'],
