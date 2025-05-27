@@ -732,7 +732,12 @@
   "years": "سنوات",
   "installment years": "سنوات القسط ",
   "responspality person": "الشخص المسوؤل",
-
+  "First Patch": "الدفعة الأولى",
+  "Enter the first patch": "أدخل الدفعة الأولى",
+  "Last Patch": "الدفعة الأخيرة",
+  "Enter the last patch": "أدخل الدفعة الأخيرة",
+  "Installments": "مدة الأقساط",
+  "Enter the number of installments": "أدخل مدة الأقساط",
   "Invalid credentials": "البيانات المدخلة غير صحيحة",
   "Orders list": "قائمة الطلبات",
   "Organization Name": "اسم المنشأة",
