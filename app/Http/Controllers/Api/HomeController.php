@@ -11,34 +11,24 @@ use App\Http\Resources\SplashResourse;
 use App\Models\Car;
 use App\Models\Splash;
 use App\Models\Tag;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 
 use Storage;
 
 class HomeController extends Controller
 {
-    //  public function oldbrand()
-    // {
-    //     try
-    //     {
-    //      $perPage = 18;
-    //         $brands = Brand::withCount('countCars')->paginate($perPage);
-    //         $brands->map(function ($brand) {
-    //             $brand['image'] = getImagePathFromDirectory($brand['image'], 'Brands');
-    //             $brand['cover'] = getImagePathFromDirectory($brand['cover'], 'Brands');
-    //         });
-    //         $data = [
-    //             'description' => settings()->getSettings('brand_text_in_home_page_' . getLocale()),
-    //             'brands' => $this->successWithPagination(message:"All Pagination brand",data: $brands)
-    //         ];
+public function finance_data()
+{
+    return $this->success([
+        'data' => [
+            'first_patch' => settings()->getSettings('first_patch'),
+            'last_patch' => settings()->getSettings('last_patch'),
+            'installments' => settings()->getSettings('installments'),
+        ]
+    ]);
+}
 
-    //         return $this->success(data: $data);
-    //     } catch (\Exception $e)
-    //     {
-    //         return $this->failure(message: $e->getMessage());
-    //     }
-
-    // }
 
     public function brand()
     {

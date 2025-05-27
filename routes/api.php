@@ -66,6 +66,7 @@ Route::group(['middleware' => ['json.response']], function () {
     // ------------------------- Home ---------------------------------------
     Route::get('/brand', 'Api\HomeController@brand');
     Route::get('/brands', 'Api\HomeController@brands');
+    Route::get('/finance_data', 'Api\HomeController@finance_data');
 
     Route::get('/brand/{id}', 'Api\HomeController@carsbrand');
     Route::get('/why-code-car', 'Api\HomeController@why_code_car');
