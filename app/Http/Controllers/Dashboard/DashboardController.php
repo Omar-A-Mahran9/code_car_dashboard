@@ -29,7 +29,7 @@ class DashboardController extends Controller
                 return $type;
             })
             ->map(function ($orders) {
-          
+
             $type = $orders[0];
 
             return
@@ -41,26 +41,30 @@ class DashboardController extends Controller
 
         })->values()->toArray();
 
-        $carBrandsPercentage = Car::select('brand_id')->get()->groupBy('brand_id')->map(function ($cars) {
+        $carBrandsPercentage = Car::with('brand:id,name')->get()->groupBy('brand_id')->map(function ($cars) {
+            // Check if brand exists for safety
+            $brandName = optional($cars[0]->brand)->name ?? 'Unknown Brand';
 
-            return
-                [
-                    'label' => $cars[0]['brand']['name'],
-                    'data' => count($cars),
-                    'color' => $this->getUniqueColor(),
-                ];
+            return [
+                'label' => $brandName,
+                'data' => count($cars),
+                'color' => $this->getUniqueColor(),
+            ];
         })->values();
 
-        $carOrdersBrandsPercentage = Order::with('car:id,brand_id')->whereNotNull('car_id')->select('car_id')->get()->groupBy('car.brand_id')->map(function ($orders) {
 
-            return
-                [
-                    'label' => $orders[0]['car']['brand']['name'] ,
-                    'data' => count($orders),
-                    'color' => $this->getUniqueColor(),
-                ];
+    $carOrdersBrandsPercentage = Order::with('car.brand:id,name')->whereNotNull('car_id')->get()->groupBy(function($order) {
+    return $order->car->brand_id ?? null;
+        })->map(function ($orders) {
+            $brandName = optional($orders[0]->car->brand)->name ?? 'Unknown Brand';
 
+            return [
+                'label' => $brandName,
+                'data' => count($orders),
+                'color' => $this->getUniqueColor(),
+            ];
         })->values();
+
 
 
         if ( count($ordersTypesPercentage) > 1)
