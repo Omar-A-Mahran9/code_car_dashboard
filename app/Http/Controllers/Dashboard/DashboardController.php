@@ -41,12 +41,11 @@ class DashboardController extends Controller
 
         })->values()->toArray();
 
-// First chart: Percentage of Cars per Brand
-$carBrandsPercentage = Car::with('brand:id,title')  // replace 'title' with actual column if different
-    ->get()
+ // Car brand statistics
+$carBrandsPercentage = Car::with('brand:id,name_en')->get()
     ->groupBy('brand_id')
     ->map(function ($cars) {
-        $brandName = optional($cars[0]->brand)->title ?? 'Unknown Brand'; // safely get brand name
+        $brandName = optional($cars[0]->brand)->name_en ?? 'Unknown Brand';
         return [
             'label' => $brandName,
             'data' => count($cars),
@@ -54,15 +53,12 @@ $carBrandsPercentage = Car::with('brand:id,title')  // replace 'title' with actu
         ];
     })->values();
 
-// Second chart: Percentage of Orders per Brand
-$carOrdersBrandsPercentage = Order::with('car.brand:id,title')  // again, replace 'title' if needed
-    ->whereNotNull('car_id')
-    ->get()
+// Order brand statistics
+$carOrdersBrandsPercentage = Order::with('car.brand:id,name_en')->whereNotNull('car_id')->get()
     ->groupBy(function ($order) {
         return optional($order->car)->brand_id;
-    })
-    ->map(function ($orders) {
-        $brandName = optional($orders[0]->car->brand)->title ?? 'Unknown Brand';
+    })->map(function ($orders) {
+        $brandName = optional($orders[0]->car->brand)->name_en ?? 'Unknown Brand';
         return [
             'label' => $brandName,
             'data' => count($orders),
