@@ -41,30 +41,34 @@ class DashboardController extends Controller
 
         })->values()->toArray();
 
-        $carBrandsPercentage = Car::with('brand:id,name')->get()->groupBy('brand_id')->map(function ($cars) {
-            // Check if brand exists for safety
-            $brandName = optional($cars[0]->brand)->name ?? 'Unknown Brand';
+// First chart: Percentage of Cars per Brand
+$carBrandsPercentage = Car::with('brand:id,title')  // replace 'title' with actual column if different
+    ->get()
+    ->groupBy('brand_id')
+    ->map(function ($cars) {
+        $brandName = optional($cars[0]->brand)->title ?? 'Unknown Brand'; // safely get brand name
+        return [
+            'label' => $brandName,
+            'data' => count($cars),
+            'color' => $this->getUniqueColor(),
+        ];
+    })->values();
 
-            return [
-                'label' => $brandName,
-                'data' => count($cars),
-                'color' => $this->getUniqueColor(),
-            ];
-        })->values();
-
-
-    $carOrdersBrandsPercentage = Order::with('car.brand:id,name')->whereNotNull('car_id')->get()->groupBy(function($order) {
-    return $order->car->brand_id ?? null;
-        })->map(function ($orders) {
-            $brandName = optional($orders[0]->car->brand)->name ?? 'Unknown Brand';
-
-            return [
-                'label' => $brandName,
-                'data' => count($orders),
-                'color' => $this->getUniqueColor(),
-            ];
-        })->values();
-
+// Second chart: Percentage of Orders per Brand
+$carOrdersBrandsPercentage = Order::with('car.brand:id,title')  // again, replace 'title' if needed
+    ->whereNotNull('car_id')
+    ->get()
+    ->groupBy(function ($order) {
+        return optional($order->car)->brand_id;
+    })
+    ->map(function ($orders) {
+        $brandName = optional($orders[0]->car->brand)->title ?? 'Unknown Brand';
+        return [
+            'label' => $brandName,
+            'data' => count($orders),
+            'color' => $this->getUniqueColor(),
+        ];
+    })->values();
 
 
         if ( count($ordersTypesPercentage) > 1)
