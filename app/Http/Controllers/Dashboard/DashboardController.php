@@ -54,18 +54,20 @@ $carBrandsPercentage = Car::with('brand:id,name_en')->get()
     })->values();
 
 // Order brand statistics
-$carOrdersBrandsPercentage = Order::with('car.brand:id,name_en')->whereNotNull('car_id')->get()
+$carOrdersBrandsPercentage = Order::with('car.brand:id,name_en')
+    ->whereNotNull('car_id')
+    ->get()
     ->groupBy(function ($order) {
         return optional($order->car)->brand_id;
-    })->map(function ($orders) {
-        $brandName = optional($orders[0]->car->brand)->name_en ?? 'Unknown Brand';
+    })
+    ->map(function ($orders) {
+        $brandName = optional(optional($orders[0]->car)->brand)->name_en ?? 'Unknown Brand';
         return [
             'label' => $brandName,
             'data' => count($orders),
             'color' => $this->getUniqueColor(),
         ];
     })->values();
-
 
         if ( count($ordersTypesPercentage) > 1)
             $this->swapArrayElements($ordersTypesPercentage , 0);
