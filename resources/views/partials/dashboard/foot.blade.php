@@ -27,4 +27,30 @@
 <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-messaging.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-analytics.js"></script>
 <script src="{{ asset('js/dashboard/listen-to-firebase-notification.js') }}"></script>
+<script>
+    function handleImageChange(name) {
+        const input = document.querySelector(`input[name="${name}"]`);
+        const preview = document.querySelector(`.preview-${name}`);
+
+        if (input && input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.style.backgroundImage = `url('${e.target.result}')`;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function resetToOriginalImage(name) {
+        const input = document.querySelector(`input[name="${name}"]`);
+        const preview = document.querySelector(`.preview-${name}`);
+        const originalImage = preview.getAttribute('data-original');
+
+        if (input) input.value = ''; // Clear uploaded file
+        if (preview && originalImage) {
+            preview.style.backgroundImage = `url('${originalImage}')`;
+        }
+    }
+</script>
+
 @stack('scripts')

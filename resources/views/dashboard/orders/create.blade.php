@@ -384,7 +384,7 @@
                                                         <p class="invalid-feedback" id="client_name"></p>
                                                     </div>
 
-                                        
+
                                                     <div class="col-md-6 fv-row">
 
                                                         <label class="fs-5 fw-bold mb-2">{{ __('Phone') }}</label>
@@ -669,70 +669,77 @@
 
                                                 <!-- begin :: Row -->
                                                 <div class="row mt-10">
-
                                                     <!-- begin :: Column -->
                                                     <div class="col-md-12 fv-row d-flex justify-content-evenly gap-5">
 
+                                                        <!-- Upload Identity Card -->
                                                         <div class="d-flex flex-column align-items-center">
-                                                            <!-- begin :: Upload image component -->
                                                             <label
-                                                                class="text-center fw-bold mb-4">{{ __('upload Identity Card') }}</label>
-                                                            <div>
+                                                                class="text-center fw-bold mb-4">{{ __('Upload Identity Card') }}</label>
+                                                            <div id="image-input-identity_Card">
                                                                 <x-dashboard.upload-image-inp name="identity_Card"
                                                                     image="null" :directory="null"
-                                                                    placeholder="default.jpg"
-                                                                    type="editable"></x-dashboard.upload-image-inp>
-
+                                                                    placeholder="default.jpg" type="editable" />
                                                             </div>
                                                             <p class="invalid-feedback" id="identity_Card"></p>
-                                                            <!-- end   :: Upload image component -->
+                                                            <button type="button" class="btn btn-sm btn-secondary mt-2"
+                                                                onclick="resetImageInput('image-input-identity_Card')">
+                                                                {{ __('Reset') }}
+                                                            </button>
                                                         </div>
 
+                                                        <!-- Upload License Card -->
                                                         <div class="d-flex flex-column align-items-center">
-                                                            <!-- begin :: Upload image component -->
                                                             <label
                                                                 class="text-center fw-bold mb-4">{{ __('Upload Identity License Card') }}</label>
-                                                            <div>
+                                                            <div id="image-input-License_Card">
                                                                 <x-dashboard.upload-image-inp name="License_Card"
                                                                     :image="null" :directory="null"
-                                                                    placeholder="default.jpg"
-                                                                    type="editable"></x-dashboard.upload-image-inp>
+                                                                    placeholder="default.jpg" type="editable" />
                                                             </div>
                                                             <p class="invalid-feedback" id="License_Card"></p>
-                                                            <!-- end   :: Upload image component -->
-                                                        </div>
-                                                        <div class="d-flex flex-column align-items-center">
-                                                            <!-- begin :: Upload image component -->
-                                                            <label
-                                                                class="text-center fw-bold mb-4">{{ __('Upload License Hr Letter Image') }}</label>
-                                                            <div>
-                                                                <x-dashboard.upload-image-inp name="Hr_Letter_Image"
-                                                                    :image="null" :directory="null"
-                                                                    placeholder="default.jpg"
-                                                                    type="editable"></x-dashboard.upload-image-inp>
-                                                            </div>
-                                                            <p class="invalid-feedback" id="Hr_Letter_Image"></p>
-                                                            <!-- end   :: Upload image component -->
+                                                            <button type="button" class="btn btn-sm btn-secondary mt-2"
+                                                                onclick="resetImageInput('image-input-License_Card')">
+                                                                {{ __('Reset') }}
+                                                            </button>
                                                         </div>
 
+                                                        <!-- Upload HR Letter Image -->
                                                         <div class="d-flex flex-column align-items-center">
-                                                            <!-- begin :: Upload image component -->
+                                                            <label
+                                                                class="text-center fw-bold mb-4">{{ __('Upload License Hr Letter Image') }}</label>
+                                                            <div id="image-input-Hr_Letter_Image">
+                                                                <x-dashboard.upload-image-inp name="Hr_Letter_Image"
+                                                                    :image="null" :directory="null"
+                                                                    placeholder="default.jpg" type="editable" />
+                                                            </div>
+                                                            <p class="invalid-feedback" id="Hr_Letter_Image"></p>
+                                                            <button type="button" class="btn btn-sm btn-secondary mt-2"
+                                                                onclick="resetImageInput('image-input-Hr_Letter_Image')">
+                                                                {{ __('Reset') }}
+                                                            </button>
+                                                        </div>
+
+                                                        <!-- Upload Insurance Image -->
+                                                        <div class="d-flex flex-column align-items-center">
                                                             <label
                                                                 class="text-center fw-bold mb-4">{{ __('Upload Insurance Image') }}</label>
-                                                            <div>
+                                                            <div id="image-input-Insurance_Image">
                                                                 <x-dashboard.upload-image-inp name="Insurance_Image"
                                                                     :image="null" :directory="null"
-                                                                    placeholder="default.jpg"
-                                                                    type="editable"></x-dashboard.upload-image-inp>
+                                                                    placeholder="default.jpg" type="editable" />
                                                             </div>
                                                             <p class="invalid-feedback" id="Insurance_Image"></p>
-                                                            <!-- end   :: Upload image component -->
+                                                            <button type="button" class="btn btn-sm btn-secondary mt-2"
+                                                                onclick="resetImageInput('image-input-Insurance_Image')">
+                                                                {{ __('Reset') }}
+                                                            </button>
                                                         </div>
 
                                                     </div>
                                                     <!-- end   :: Column -->
-
                                                 </div>
+
                                             </div>
 
                                         </div>
@@ -1446,7 +1453,18 @@
 
 
 
+    <script>
+        function resetImageInput(wrapperId) {
+            const element = document.querySelector(`#${wrapperId} [data-kt-image-input="true"]`);
+            if (!element) return;
 
+            const imageInputInstance = KTImageInput.getInstance(element);
+            if (imageInputInstance && typeof imageInputInstance.clear === 'function') {
+                imageInputInstance.clear(); // Correct method to reset the image
+            }
+
+        }
+    </script>
 
 
 
@@ -1575,4 +1593,25 @@
             });
         });
     </script>
+    <script>
+        function resetImageInput(wrapperId) {
+            const wrapper = document.getElementById(wrapperId);
+            console.log('ddddd')
+            if (!wrapper) return;
+
+            const preview = wrapper.querySelector('[class*="preview-"]');
+            const input = wrapper.querySelector('input[type="file"]');
+
+            const original = preview?.getAttribute('data-original');
+
+            if (preview && original) {
+                preview.style.backgroundImage = `url('${original}')`;
+            }
+
+            if (input) {
+                input.value = '';
+            }
+        }
+    </script>
+    <!-- JavaScript Function to Reset Image -->
 @endpush
