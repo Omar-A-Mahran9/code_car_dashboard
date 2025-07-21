@@ -58,7 +58,7 @@ let KTDatatable = (function () {
           },
         },
         {
-          targets: 3,
+          targets: 2,
           render: function (data, type, row) {
             return `<a class="d-block overlay" style="height:47px;" data-fslightbox="lightbox-basic" href="${getImagePathFromDirectory(
               data,
