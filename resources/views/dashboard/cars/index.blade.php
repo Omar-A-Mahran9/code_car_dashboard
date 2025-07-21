@@ -101,7 +101,7 @@
 
                     </tr>
                     <tr class="text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-
+                        <th></th>
                         <th>#</th>
                         <th>{{ __('images') }}</th>
                         <th>{{ getLocale() == 'ar' ? __('arabic name') : __('english name') }}</th>
