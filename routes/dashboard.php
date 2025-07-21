@@ -46,6 +46,8 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dash
 
     Route::resource('models', 'ModelController');
     Route::resource('cars', 'CarController');
+        Route::post('/cars/delete-selected', [CarController::class, 'deleteSelected'])->name('bankOffers.deleteSelected');
+
     Route::resource('categories', 'CategoriesController');
     Route::resource('colors', 'ColorController');
     Route::resource('tags', 'TagController');

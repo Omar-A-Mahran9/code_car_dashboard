@@ -696,4 +696,33 @@ public function show(Car $car){
 
     }
 
+public function deleteSelected(Request $request)
+{
+    $ids = $request->input('ids');
+
+    // Fetch the Car records
+    $cars = Car::whereIn('id', $ids)->get();
+
+    foreach ($cars as $car) {
+        // Delete all associated images
+        foreach ($car->images as $image) {
+            deleteImage($image->path, "cars"); // تأكد أن لديك access إلى path أو استخدم اسم العمود الصحيح
+        }
+
+        // Detach related brands (if it's many-to-many, otherwise remove this line)
+        // $car->brands()->detach(); // تأكد أن العلاقة brands موجودة ك belongsToMany
+
+        // Detach related sectors (if method exists)
+        if (method_exists($car, 'detachSectors')) {
+            $car->detachSectors();
+        }
+    }
+
+    // Delete the cars
+    Car::whereIn('id', $ids)->delete();
+
+    return response()->json(['message' => 'Selected records deleted successfully']);
+}
+
+
 }

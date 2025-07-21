@@ -62,21 +62,28 @@
                 <!-- end   :: General Search -->
 
                 <!-- begin :: Toolbar -->
-                <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
-
-                    <!-- begin :: Add Button -->
-                    <a href="{{ route('dashboard.cars.create') }}" class="btn btn-primary" data-bs-toggle="tooltip"
-                        title="">
-
-                        <span class="svg-icon svg-icon-2">
-                            <i class="fa fa-plus fa-lg"></i>
-                        </span>
-
-                        {{ __('Add new car') }}
-
-                    </a>
+                <div class="d-flex justify-content-end gap-5" data-kt-docs-table-toolbar="base">
                     <!-- end   :: Add Button -->
+                    <div>
+                        <!-- begin :: Add Button -->
+                        <a href="{{ route('dashboard.cars.create') }}" class="btn btn-primary" data-bs-toggle="tooltip"
+                            title="">
 
+                            <span class="svg-icon svg-icon-2">
+                                <i class="fa fa-plus fa-lg"></i>
+                            </span>
+
+                            {{ __('Add new car') }}
+
+                        </a>
+                    </div>
+                    <!-- end   :: Add Button -->
+                    <div>
+                        <button id="delete-selected" class="btn btn-danger"
+                            style="display: none;">{{ __('Delete Selected') }}</button>
+
+
+                    </div>
                 </div>
                 <!-- end   :: Toolbar -->
 
@@ -89,7 +96,12 @@
             <table id="kt_datatable" class="table text-center table-row-dashed fs-6 gy-5">
 
                 <thead>
+                    <tr>
+                        <th><input class="form-check-input mx-1" type="checkbox" id="select-all" /></th>
+
+                    </tr>
                     <tr class="text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+
                         <th>#</th>
                         <th>{{ __('images') }}</th>
                         <th>{{ getLocale() == 'ar' ? __('arabic name') : __('english name') }}</th>
